@@ -48,6 +48,7 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
         let toSection = self.sections[toIndexPath.section]
         
         guard self.canMoveItem(atIndexPath: fromIndexPath) else { return false }
+        guard toIndexPath.row < toSection.items.count else { return false }
         guard toSection.reorderable && toSection.items[toIndexPath.row].reorderable else { return false }
         
         switch self.reorderingMode {
