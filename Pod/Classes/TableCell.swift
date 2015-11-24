@@ -75,13 +75,29 @@ public class FieldCell: TableCell {
     var titleLabel:UILabel?
     var controlView:UIStackView?
     
-    public var labelPosition:FieldLabelPosition = .Top
+    var contentConstraints:[NSLayoutConstraint] = []
+    
+    public dynamic var contentFont:UIFont = UIFont.systemFontOfSize(17)
+    
+//
+//    dynamic var topTitleTextColor:UIColor? {
+//        get {
+//            
+//        }
+//    }
+    
+    public var labelPosition:FieldLabelPosition = .Left {
+        didSet {
+            self.setupConstraints()
+            self.stylize()
+        }
+    }
     
     public var onChange:(Void -> Void)?
     
     public var title:String? {
         didSet {
-            self.titleLabel?.text = self.title
+            self.titleLabel?.text = self.formattedTitle()
         }
     }
     
@@ -95,6 +111,14 @@ public class FieldCell: TableCell {
 //    public required init?(coder aDecoder: NSCoder) {
 //        super.init(coder: aDecoder)
 //    }
+    
+    private func formattedTitle() -> String? {
+        if self.labelPosition == .Top {
+            return self.title?.uppercaseString
+        } else {
+            return self.title
+        }
+    }
     
     override func buildView() {
         super.buildView()
@@ -114,6 +138,18 @@ public class FieldCell: TableCell {
         self.controlView = controlView
         
         self.setupConstraints()
+        self.stylize()
+    }
+    
+    func stylize() {
+        switch self.labelPosition {
+        case .Left:
+            self.titleLabel?.font = self.contentFont
+            self.titleLabel?.textColor = UIColor.blackColor()
+        case .Top:
+            self.titleLabel?.font = UIFont.boldSystemFontOfSize(11)
+            self.titleLabel?.textColor = UIColor(white: 0.5, alpha: 1)
+        }
     }
     
     func setupConstraints() {
@@ -128,18 +164,27 @@ public class FieldCell: TableCell {
             "controlHeight": 10
         ]
         
+        for constraint in self.contentConstraints {
+            self.contentView.removeConstraint(constraint)
+        }
+        
+        var newConstraints:[NSLayoutConstraint] = []
+        
         switch self.labelPosition {
         case .Left:
-            self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[title]-[controls]-right-|", options: .AlignAllTop, metrics: metrics, views: views))
-            self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-top-[title]-bottom-|", options: .AlignAllTop, metrics: metrics, views: views))
-            self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-top-[controls]-bottom-|", options: .AlignAllTop, metrics: metrics, views: views))
+            newConstraints += NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[title]-[controls]-right-|", options: .AlignAllTop, metrics: metrics, views: views)
+            newConstraints += NSLayoutConstraint.constraintsWithVisualFormat("V:|-top-[title]-bottom-|", options: .AlignAllTop, metrics: metrics, views: views)
+            newConstraints += NSLayoutConstraint.constraintsWithVisualFormat("V:|-top-[controls]-bottom-|", options: .AlignAllTop, metrics: metrics, views: views)
             
         case .Top:
             let options = NSLayoutFormatOptions.AlignAllLeft
-            self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[title]-right-|", options: options, metrics: metrics, views: views))
-            self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[controls]-right-|", options: options, metrics: metrics, views: views))
-            self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-top-[title]-[controls(>=controlHeight)]-bottom-|", options: options, metrics: metrics, views: views))
+            newConstraints += NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[title]-right-|", options: options, metrics: metrics, views: views)
+            newConstraints += NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[controls]-right-|", options: options, metrics: metrics, views: views)
+            newConstraints += NSLayoutConstraint.constraintsWithVisualFormat("V:|-top-[title]-[controls(>=controlHeight)]-bottom-|", options: options, metrics: metrics, views: views)
         }
+        
+        self.contentView.addConstraints(newConstraints)
+        self.contentConstraints = newConstraints
     }
     
     func valueChanged() {
@@ -193,11 +238,16 @@ public class TextFieldCell: FieldCell, UITextFieldDelegate {
         
         self.controlView!.addSubview(textField)
         
-        textField.textAlignment = self.labelPosition == .Left ? .Right : .Left
         textField.addConstraint(NSLayoutConstraint(item: textField, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 30))
         
         textField.delegate = self
         self.textField = textField
+    }
+    
+    override func stylize() {
+        super.stylize()
+        self.textField?.textAlignment = self.labelPosition == .Left ? .Right : .Left
+        self.textField?.font = self.contentFont
     }
     
     public func textFieldDidEndEditing(textField: UITextField) {

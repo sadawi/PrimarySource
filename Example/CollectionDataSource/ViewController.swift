@@ -29,6 +29,7 @@ class ViewController: UITableViewController {
     func loadData() {
         self.dataSource <<< Section(title: "Form") { section in
             section <<< TableViewItem<TextFieldCell>(key: "name") { cell in
+                cell.labelPosition = .Top
                 cell.title = "Name"
                 cell.onChange = { [weak cell] in
                     print("New value: \(cell?.value)")
@@ -64,10 +65,16 @@ class ViewController: UITableViewController {
                     print("New value: \(cell.value)")
                 }
             }
+            section <<< TableViewItem<StepperCell>(key: "problems") { cell in
+                cell.title = "Problems"
+                cell.onChange = { [unowned cell] in
+                    print("New value: \(cell.value)")
+                }
+            }
         }
         
         self.dataSource <<< Section(title: "List") { section in
-            for i in 1...5 {
+            for i in 1...25 {
                 section <<< TableViewItem<UITableViewCell>(reorderable: true) { cell in
                     cell.textLabel?.text = "Value \(i)"
                     }.onDelete { _ in
