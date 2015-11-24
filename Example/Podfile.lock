@@ -1,0 +1,14 @@
+PODS:
+  - CollectionDataSource (0.1.0)
+
+DEPENDENCIES:
+  - CollectionDataSource (from `../`)
+
+EXTERNAL SOURCES:
+  CollectionDataSource:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  CollectionDataSource: 2edfc0ee56eebda18134f506ff70b8dd71a5b869
+
+COCOAPODS: 0.39.0

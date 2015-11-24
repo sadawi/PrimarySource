@@ -7,17 +7,34 @@
 //
 
 import UIKit
+import CollectionDataSource
 
-class ViewController: UIViewController {
-
+class ViewController: UITableViewController {
+    var dataSource = DataSource()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        self.loadData()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func loadData() {
+        self.dataSource <<< Section(title: "Static Rows") { section in
+            section <<< TableViewItem<CustomButtonCell>(storyboardIdentifier: "ButtonCell") { cell in
+                cell.backgroundColor = UIColor.greenColor()
+                cell.button?.setTitle("PRESS ME", forState: .Normal)
+            }
+            section <<< TableViewItem<UITableViewCell> { cell in
+                cell.textLabel?.text = "Hello"
+                }.onTap { _ in
+                    print("hello there")
+                }.onDelete { _ in
+                    print("deleted!")
+            }
+        }
+        
+        self.tableView.delegate = self.dataSource
+        self.tableView.dataSource = self.dataSource
+        self.tableView.reloadData()
     }
 
 }
