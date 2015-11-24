@@ -20,6 +20,9 @@ class ViewController: UITableViewController {
     @IBAction func getValue(sender: AnyObject) {
         // TODO
     }
+    @IBAction func edit(sender: AnyObject) {
+        self.tableView.setEditing(!self.tableView.editing, animated: true)
+    }
     
     func loadData() {
         self.dataSource <<< Section(title: "Manual Rows") { section in
@@ -62,8 +65,15 @@ class ViewController: UITableViewController {
                 }
             }
         }
-
+        
         self.dataSource <<< Section(title: "List") { section in
+            for i in 1...5 {
+                section <<< TableViewItem<UITableViewCell> { cell in
+                    cell.textLabel?.text = "Value \(i)"
+                    }.onDelete { _ in
+                }
+            }
+            
             section <<< TableViewItem<ButtonCell> { cell in
                 cell.title = "Add"
                 cell.onTap = {
@@ -71,11 +81,11 @@ class ViewController: UITableViewController {
                 }
             }
         }
-
+        
         self.tableView.delegate = self.dataSource
         self.tableView.dataSource = self.dataSource
         self.tableView.reloadData()
     }
-
+    
 }
 

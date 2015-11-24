@@ -13,6 +13,7 @@ public typealias ItemAction = (CollectionItem -> Void)
 public protocol CollectionItem {
     var storyboardIdentifier:String? { get set }
     var nibName:String? { get set }
+    var reorderable:Bool { get set }
     
     var reuseIdentifier:String? { get }
     var viewType:AnyClass? { get }
@@ -32,6 +33,9 @@ public class TableViewItem<ViewType:UIView>: CollectionItem {
     var key:String?
     var configure: (ViewType -> Void)?
     
+    
+    public var reorderable:Bool = true
+
     public var onTap:ItemAction?
     public var onDelete:ItemAction?
     

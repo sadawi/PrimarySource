@@ -8,10 +8,14 @@
 
 import Foundation
 
+public typealias ReorderAction = ((NSIndexPath, NSIndexPath) -> Void)
+
 public class Section {
     var key:String?
     var title:String?
     var items:[CollectionItem] = []
+    var reorderable:Bool = false
+    var reorder:ReorderAction?
     
     public init(title:String?=nil, key:String?=nil, configure:(Section -> Void)?=nil) {
         self.title = title
@@ -28,6 +32,18 @@ public class Section {
     
     public func deleteItemAtIndex(index:Int) {
         self.items.removeAtIndex(index)
+    }
+    
+    public func handleReorder(fromIndexPath fromIndexPath:NSIndexPath, toIndexPath:NSIndexPath) {
+        guard self.reorderable else { return }
+        if let reorder = self.reorder {
+            reorder(fromIndexPath, toIndexPath)
+        }
+    }
+    
+    public func onReorder(reorder:ReorderAction) -> Section {
+        self.reorder = reorder
+        return self
     }
 }
 

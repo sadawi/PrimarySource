@@ -46,6 +46,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Demo" id="PkW-zg-ue2">
+                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="7k4-15-GoY">
+                            <connections>
+                                <action selector="edit:" destination="LGT-by-qmq" id="5zf-V0-fWb"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Value" id="WWb-IE-Ak7">
                             <connections>
                                 <action selector="getValue:" destination="LGT-by-qmq" id="rHx-jI-AE3"/>

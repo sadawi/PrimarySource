@@ -3,22 +3,30 @@
 //  CollectionDataSource
 //
 //  Created by Sam Williams on 11/23/15.
-//  Copyright © 2015 CocoaPods. All rights reserved.
+//  Copyright © 2015 Sam Williams. All rights reserved.
 //
 
 import Foundation
 
+public enum ReorderingMode {
+    case None
+    case Any
+    case WithinSections
+}
 
 public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     var sections:[Section] = []
     var didRegisterReuseIdentifiers = false
+
+    public var reorderingMode:ReorderingMode = .WithinSections
+    public var reorder:((NSIndexPath, NSIndexPath) -> Void)?
     
     public override init() {
         
     }
     
     public func serialize() -> [String:AnyObject] {
-        var result:[String:AnyObject] = [:]
+        let result:[String:AnyObject] = [:]
         // TODO
         return result
     }
@@ -27,14 +35,50 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
         self.sections.append(section)
     }
     
-    func itemForIndexPath(indexPath: NSIndexPath) -> CollectionItem {
+    func item(atIndexPath indexPath: NSIndexPath) -> CollectionItem {
         return self.sections[indexPath.section].items[indexPath.row]
+    }
+    
+    func canMoveItem(atIndexPath indexPath:NSIndexPath) -> Bool {
+        let section = self.sections[indexPath.section]
+        return self.reorderingMode != .None && section.reorderable && section.items[indexPath.row].reorderable
+    }
+
+    func canMoveItem(fromIndexPath fromIndexPath:NSIndexPath, toIndexPath:NSIndexPath) -> Bool {
+        let toSection = self.sections[toIndexPath.section]
+        
+        guard self.canMoveItem(atIndexPath: fromIndexPath) else { return false }
+        guard toSection.reorderable && toSection.items[toIndexPath.row].reorderable else { return false }
+        
+        switch self.reorderingMode {
+        case .None: return false
+        case .Any: return true
+        case .WithinSections: return fromIndexPath.section == toIndexPath.section
+        }
     }
     
     // MARK: - UITableViewDataSource methods
     
+    public func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return self.canMoveItem(atIndexPath: indexPath)
+    }
+    
+    public func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+        if self.canMoveItem(fromIndexPath: sourceIndexPath, toIndexPath: destinationIndexPath) {
+            if self.reorderingMode == .WithinSections {
+                self.sections[sourceIndexPath.section].handleReorder(fromIndexPath: sourceIndexPath, toIndexPath: destinationIndexPath)
+            } else if let reorder = self.reorder {
+                reorder(sourceIndexPath, destinationIndexPath)
+            }
+        }
+    }
+    
+    public func tableView(tableView: UITableView, targetIndexPathForMoveFromRowAtIndexPath sourceIndexPath: NSIndexPath, toProposedIndexPath proposedDestinationIndexPath: NSIndexPath) -> NSIndexPath {
+        return self.canMoveItem(fromIndexPath: sourceIndexPath, toIndexPath: proposedDestinationIndexPath) ? proposedDestinationIndexPath : sourceIndexPath
+    }
+    
     public func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return self.itemForIndexPath(indexPath).onTap != nil
+        return self.item(atIndexPath: indexPath).onTap != nil
     }
     
     public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -51,13 +95,13 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        self.itemForIndexPath(indexPath).handleTap()
+        self.item(atIndexPath: indexPath).handleTap()
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         self.registerReuseIdentifiersIfNecessary(tableView)
         
-        let item = self.itemForIndexPath(indexPath)
+        let item = self.item(atIndexPath: indexPath)
         if let identifier = item.reuseIdentifier, cell = tableView.dequeueReusableCellWithIdentifier(identifier) {
             item.configureView(cell)
             return cell
@@ -71,18 +115,21 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     }
    
     public func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        let item = self.itemForIndexPath(indexPath)
-        return item.onDelete != nil
+        return self.canMoveItem(atIndexPath: indexPath) || self.canDeleteItem(atIndexPath: indexPath)
     }
     
-    private func deleteItemAtIndexPath(indexPath:NSIndexPath) {
-        let item = self.itemForIndexPath(indexPath)
+    private func canDeleteItem(atIndexPath indexPath:NSIndexPath) -> Bool {
+        return self.item(atIndexPath: indexPath).onDelete != nil
+    }
+    
+    private func deleteItem(atIndexPath indexPath:NSIndexPath) {
+        let item = self.item(atIndexPath: indexPath)
         item.handleDelete()
     }
     
     public func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            self.deleteItemAtIndexPath(indexPath)
+            self.deleteItem(atIndexPath: indexPath)
 
             let section = self.sections[indexPath.section]
             section.deleteItemAtIndex(indexPath.row)
