@@ -13,7 +13,7 @@ public class TableCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.buildView()
     }
-
+    
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.buildView()
@@ -21,6 +21,39 @@ public class TableCell: UITableViewCell {
     
     func buildView() {
         
+    }
+}
+
+public class ButtonCell: TableCell {
+    public var button:UIButton?
+    public var onTap:(Void -> Void)?
+    
+    public var title:String? {
+        set {
+            self.button?.setTitle(newValue, forState: UIControlState.Normal)
+        }
+        get {
+            return self.button?.titleLabel?.text
+        }
+    }
+    
+    override func buildView() {
+        super.buildView()
+        let button = UIButton(type: .Custom)
+        button.frame = self.contentView.bounds
+        button.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+        button.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        self.contentView.addSubview(button)
+        
+        button.addTarget(self, action: Selector("handleTap"), forControlEvents: .TouchUpInside)
+        
+        self.button = button
+    }
+    
+    func handleTap() {
+        if let onTap = self.onTap {
+            onTap()
+        }
     }
 }
 
@@ -42,24 +75,24 @@ public class FieldCell: TableCell {
         
         let titleLabel = UILabel(frame: CGRect.zero)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-//        titleLabel.backgroundColor = UIColor.greenColor()
+        //        titleLabel.backgroundColor = UIColor.greenColor()
         self.contentView.addSubview(titleLabel)
         self.titleLabel = titleLabel
         
         let controlView = UIView(frame: CGRect.zero)
         controlView.translatesAutoresizingMaskIntoConstraints = false
-//        controlView.backgroundColor = UIColor.redColor()
+        //        controlView.backgroundColor = UIColor.redColor()
         self.contentView.addSubview(controlView)
         self.controlView = controlView
         
         let views = ["title":titleLabel, "controls":controlView]
         let metrics = ["left": self.layoutMargins.left, "right": self.layoutMargins.right, "top": self.layoutMargins.top, "bottom": self.layoutMargins.bottom]
-
+        
         self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-left-[title]-[controls]-right-|",
             options: .AlignAllTop,
             metrics: metrics,
             views: views))
-
+        
         self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[title]|", options: .AlignAllTop, metrics: metrics, views: views))
         self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[controls]|", options: .AlignAllTop, metrics: metrics, views: views))
     }
@@ -110,7 +143,7 @@ public class BooleanCell:FieldCell {
 
 public class SwitchCell:BooleanCell {
     var switchControl:UISwitch?
-
+    
     public override var value:Bool {
         get {
             return self.switchControl?.on ?? false

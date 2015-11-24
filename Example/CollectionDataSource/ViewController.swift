@@ -56,7 +56,16 @@ class ViewController: UITableViewController {
                 }
             }
         }
-        
+
+        self.dataSource <<< Section(title: "List") { section in
+            section <<< TableViewItem<ButtonCell> { cell in
+                cell.title = "Add"
+                cell.onTap = {
+                    print("O!")
+                }
+            }
+        }
+
         self.tableView.delegate = self.dataSource
         self.tableView.dataSource = self.dataSource
         self.tableView.reloadData()
