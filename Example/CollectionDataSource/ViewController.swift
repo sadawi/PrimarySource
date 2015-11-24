@@ -55,6 +55,12 @@ class ViewController: UITableViewController {
                     print("New value: \(cell.value)")
                 }
             }
+            section <<< TableViewItem<PhoneNumberCell>(key: "phone") { cell in
+                cell.title = "Phone number"
+                cell.onChange = { [unowned cell] in
+                    print("New value: \(cell.value)")
+                }
+            }
         }
 
         self.dataSource <<< Section(title: "List") { section in

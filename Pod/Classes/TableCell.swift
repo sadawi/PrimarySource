@@ -120,6 +120,7 @@ public class TextFieldCell: FieldCell, UITextFieldDelegate {
         let textField = UITextField(frame: self.controlView!.bounds)
         textField.textAlignment = .Right
         textField.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+        textField.returnKeyType = UIReturnKeyType.Done
         self.controlView!.addSubview(textField)
         textField.delegate = self
         self.textField = textField
@@ -128,6 +129,11 @@ public class TextFieldCell: FieldCell, UITextFieldDelegate {
     public func textFieldDidEndEditing(textField: UITextField) {
         self.handleChange()
     }
+    
+    public func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }
 
 public class EmailAddressCell: TextFieldCell {
@@ -135,6 +141,57 @@ public class EmailAddressCell: TextFieldCell {
         super.buildView()
         self.textField?.keyboardType = .EmailAddress
     }
+}
+
+public class PhoneNumberCell: TextFieldCell {
+    override func buildView() {
+        super.buildView()
+        self.textField?.keyboardType = .PhonePad
+    }
+    
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
+    {
+        if let text = textField.text {
+            let newString = (text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            let components = newString.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet)
+            
+            let decimalString = components.joinWithSeparator("") as NSString
+            let length = decimalString.length
+            let hasLeadingOne = length > 0 && decimalString.characterAtIndex(0) == (1 as unichar)
+            
+            if length == 0 || (length > 10 && !hasLeadingOne) || length > 11 {
+                let newLength = (text as NSString).length + (string as NSString).length - range.length as Int
+                
+                return (newLength > 10) ? false : true
+            }
+            var index = 0 as Int
+            let formattedString = NSMutableString()
+            
+            if hasLeadingOne {
+                formattedString.appendString("1 ")
+                index += 1
+            }
+            if (length - index) > 3 {
+                let areaCode = decimalString.substringWithRange(NSMakeRange(index, 3))
+                formattedString.appendFormat("(%@)", areaCode)
+                index += 3
+            }
+            if length - index > 3 {
+                let prefix = decimalString.substringWithRange(NSMakeRange(index, 3))
+                formattedString.appendFormat("%@-", prefix)
+                index += 3
+            }
+            
+            let remainder = decimalString.substringFromIndex(index)
+            formattedString.appendString(remainder)
+            textField.text = formattedString as String
+            return false
+        } else {
+            return false
+        }
+    }
+    
 }
 
 public class BooleanCell:FieldCell {
