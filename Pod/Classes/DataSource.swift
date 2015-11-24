@@ -79,7 +79,15 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return self.item(atIndexPath: indexPath).onTap != nil
+        if self.item(atIndexPath: indexPath).onTap != nil {
+            return true
+        }
+        
+        if tableView.cellForRowAtIndexPath(indexPath) is TappableTableCell {
+            return true
+        }
+
+        return false
     }
     
     public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -97,6 +105,10 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         self.item(atIndexPath: indexPath).handleTap()
+        
+        if let tappable = tableView.cellForRowAtIndexPath(indexPath) as? TappableTableCell {
+            tappable.handleTap()
+        }
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

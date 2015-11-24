@@ -70,7 +70,7 @@ class ViewController: UITableViewController {
             for i in 1...5 {
                 section <<< TableViewItem<UITableViewCell>(reorderable: true) { cell in
                     cell.textLabel?.text = "Value \(i)"
-//                    }.onDelete { _ in
+                    }.onDelete { _ in
                 }
             }
             

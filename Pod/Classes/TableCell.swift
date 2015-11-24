@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol TappableTableCell {
+    func handleTap()
+}
+
 public class TableCell: UITableViewCell {
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -24,7 +28,7 @@ public class TableCell: UITableViewCell {
     }
 }
 
-public class ButtonCell: TableCell {
+public class ButtonCell: TableCell, TappableTableCell {
     public var button:UIButton?
     public var onTap:(Void -> Void)?
     
@@ -198,7 +202,7 @@ public class BooleanCell:FieldCell {
     public var value:Bool = false
 }
 
-public class SwitchCell:BooleanCell {
+public class SwitchCell:BooleanCell, TappableTableCell  {
     var switchControl:UISwitch?
     
     public override var value:Bool {
@@ -225,5 +229,13 @@ public class SwitchCell:BooleanCell {
     
     func valueChanged() {
         self.handleChange()
+    }
+    
+    public func toggle(animated:Bool=true) {
+        self.switchControl?.setOn(!self.value, animated: animated)
+    }
+    
+    func handleTap() {
+        self.toggle()
     }
 }

@@ -96,6 +96,8 @@ public class TableViewItem<ViewType:UIView>: CollectionItem {
         if let action = self.onDelete { action(self) }
     }
     public func handleTap() {
-        if let action = self.onTap { action(self) }
+        if let action = self.onTap {
+            action(self)
+        }
     }
 }
