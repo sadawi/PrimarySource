@@ -24,7 +24,7 @@ public class TableCell: UITableViewCell {
     }
     
     func buildView() {
-        
+        self.clipsToBounds = true
     }
 }
 
@@ -65,10 +65,17 @@ enum ControlAlignment {
     case Right
 }
 
+public enum FieldLabelPosition {
+    case Top
+    case Left
+}
+
 public class FieldCell: TableCell {
     var showTitleLabel:Bool = true
     var titleLabel:UILabel?
     var controlView:UIView?
+    
+    public var labelPosition:FieldLabelPosition = .Top
     
     public var onChange:(Void -> Void)?
     
@@ -77,6 +84,17 @@ public class FieldCell: TableCell {
             self.titleLabel?.text = self.title
         }
     }
+    
+//    public init(labelPosition:FieldLabelPosition?=nil) {
+//        super.init(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
+//        if let labelPosition = labelPosition {
+//            self.labelPosition = labelPosition
+//        }
+//    }
+//
+//    public required init?(coder aDecoder: NSCoder) {
+//        super.init(coder: aDecoder)
+//    }
     
     override func buildView() {
         super.buildView()
@@ -93,16 +111,33 @@ public class FieldCell: TableCell {
         self.contentView.addSubview(controlView)
         self.controlView = controlView
         
+        self.setupConstraints()
+    }
+    
+    func setupConstraints() {
+        guard let titleLabel=self.titleLabel, controlView=self.controlView else { return }
+        
         let views = ["title":titleLabel, "controls":controlView]
-        let metrics = ["left": self.separatorInset.left, "right": self.layoutMargins.right, "top": self.layoutMargins.top, "bottom": self.layoutMargins.bottom]
+        let metrics = [
+            "left": self.separatorInset.left,
+            "right": self.layoutMargins.right,
+            "top": self.layoutMargins.top,
+            "bottom": self.layoutMargins.bottom,
+            "controlHeight": 10
+        ]
         
-        self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-left-[title]-[controls]-right-|",
-            options: .AlignAllTop,
-            metrics: metrics,
-            views: views))
-        
-        self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[title]|", options: .AlignAllTop, metrics: metrics, views: views))
-        self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[controls]|", options: .AlignAllTop, metrics: metrics, views: views))
+        switch self.labelPosition {
+        case .Left:
+            self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[title]-[controls]-right-|", options: .AlignAllTop, metrics: metrics, views: views))
+            self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[title]|", options: .AlignAllTop, metrics: metrics, views: views))
+            self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[controls]|", options: .AlignAllTop, metrics: metrics, views: views))
+            
+        case .Top:
+            let options = NSLayoutFormatOptions.AlignAllLeft
+            self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[title]-right-|", options: options, metrics: metrics, views: views))
+            self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[controls]-right-|", options: options, metrics: metrics, views: views))
+            self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-top-[title]-[controls(>=controlHeight)]-bottom-|", options: options, metrics: metrics, views: views))
+        }
     }
     
     func valueChanged() {
@@ -279,6 +314,9 @@ public class SwitchCell:BooleanCell, TappableTableCell  {
     override func buildView() {
         super.buildView()
         let control = UISwitch(frame: self.controlView!.bounds)
+        
+//        control.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: UILayoutConstraintAxis.Vertical)
+        
         self.addControl(control, alignment:.Right)
         control.addTarget(self, action: Selector("valueChanged"), forControlEvents: UIControlEvents.ValueChanged)
         self.switchControl = control
