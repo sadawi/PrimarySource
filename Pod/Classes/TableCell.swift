@@ -61,6 +61,10 @@ public class ButtonCell: TableCell, TappableTableCell {
     }
 }
 
+enum ControlAlignment {
+    case Right
+}
+
 public class FieldCell: TableCell {
     var showTitleLabel:Bool = true
     var titleLabel:UILabel?
@@ -101,15 +105,37 @@ public class FieldCell: TableCell {
         self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[controls]|", options: .AlignAllTop, metrics: metrics, views: views))
     }
     
+    func valueChanged() {
+        self.handleChange()
+    }
+    
     func handleChange() {
         if let onChange = self.onChange {
             onChange()
         }
     }
+    
+    private func addControl(control:UIView, alignment:ControlAlignment = .Right) {
+        control.translatesAutoresizingMaskIntoConstraints = false
+        self.controlView!.addSubview(control)
+        
+        self.addConstraint(NSLayoutConstraint(item: control, attribute: .Right, relatedBy: .Equal, toItem: control.superview, attribute: .Right, multiplier: 1, constant: 0))
+        self.addConstraint(NSLayoutConstraint(item: control, attribute: .CenterY, relatedBy: .Equal, toItem: control.superview, attribute: .CenterY, multiplier: 1, constant: 0))
+    }
+}
+
+public class DateFieldCell: FieldCell {
+    public var value:NSDate?
+}
+
+public enum TextEditingMode {
+    case Inline
+    case Push
 }
 
 public class TextFieldCell: FieldCell, UITextFieldDelegate {
     public var textField:UITextField?
+    public var editingMode:TextEditingMode = .Inline
     public var value:String {
         get {
             return self.textField?.text ?? ""
@@ -121,10 +147,14 @@ public class TextFieldCell: FieldCell, UITextFieldDelegate {
     
     override func buildView() {
         super.buildView()
+        
         let textField = UITextField(frame: self.controlView!.bounds)
+        
         textField.textAlignment = .Right
         textField.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         textField.returnKeyType = UIReturnKeyType.Done
+        textField.clearButtonMode = .WhileEditing
+        
         self.controlView!.addSubview(textField)
         textField.delegate = self
         self.textField = textField
@@ -154,8 +184,8 @@ public class PhoneNumberCell: TextFieldCell {
     }
     
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
-    {
+    // TODO: extract this / use a library
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         if let text = textField.text {
             let newString = (text as NSString).stringByReplacingCharactersInRange(range, withString: string)
             let components = newString.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet)
@@ -198,13 +228,45 @@ public class PhoneNumberCell: TextFieldCell {
     
 }
 
+public enum SelectMode {
+    case Push
+    case Alert
+    case Picker
+}
+
+public class SelectCell<ValueType>: FieldCell {
+    public var value:ValueType?
+    public var options:[ValueType] = []
+    public var selectMode:SelectMode = .Push
+}
+
+public class IntegerCell: FieldCell {
+    public var value:Int?
+}
+
+public class StepperCell: IntegerCell {
+    public var stepper:UIStepper?
+
+    override func buildView() {
+        super.buildView()
+        let control = UIStepper(frame: self.controlView!.bounds)
+        self.addControl(control, alignment:.Right)
+        control.addTarget(self, action: Selector("valueChanged"), forControlEvents: UIControlEvents.ValueChanged)
+        self.stepper = control
+    }
+    
+    
+}
+
 public class BooleanCell:FieldCell {
+    // TODO: to be consistent, probably should be (Bool?)
     public var value:Bool = false
 }
 
 public class SwitchCell:BooleanCell, TappableTableCell  {
     var switchControl:UISwitch?
     
+    // TODO: probably want to leave the var alone, and add some overridable methods
     public override var value:Bool {
         get {
             return self.switchControl?.on ?? false
@@ -216,23 +278,15 @@ public class SwitchCell:BooleanCell, TappableTableCell  {
     
     override func buildView() {
         super.buildView()
-        let switchControl = UISwitch(frame: self.controlView!.bounds)
-        switchControl.translatesAutoresizingMaskIntoConstraints = false
-        self.controlView!.addSubview(switchControl)
-        
-        self.addConstraint(NSLayoutConstraint(item: switchControl, attribute: .Right, relatedBy: .Equal, toItem: switchControl.superview, attribute: .Right, multiplier: 1, constant: 0))
-        self.addConstraint(NSLayoutConstraint(item: switchControl, attribute: .CenterY, relatedBy: .Equal, toItem: switchControl.superview, attribute: .CenterY, multiplier: 1, constant: 0))
-        
-        switchControl.addTarget(self, action: Selector("valueChanged"), forControlEvents: UIControlEvents.ValueChanged)
-        self.switchControl = switchControl
-    }
-    
-    func valueChanged() {
-        self.handleChange()
+        let control = UISwitch(frame: self.controlView!.bounds)
+        self.addControl(control, alignment:.Right)
+        control.addTarget(self, action: Selector("valueChanged"), forControlEvents: UIControlEvents.ValueChanged)
+        self.switchControl = control
     }
     
     public func toggle(animated:Bool=true) {
         self.switchControl?.setOn(!self.value, animated: animated)
+        self.valueChanged()
     }
     
     func handleTap() {

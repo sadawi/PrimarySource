@@ -25,21 +25,7 @@ class ViewController: UITableViewController {
     }
     
     func loadData() {
-        self.dataSource <<< Section(title: "Manual Rows") { section in
-            section <<< TableViewItem<CustomButtonCell>(storyboardIdentifier: "ButtonCell") { cell in
-                cell.backgroundColor = UIColor.greenColor()
-                cell.button?.setTitle("PRESS ME", forState: .Normal)
-            }
-            section <<< TableViewItem<UITableViewCell> { cell in
-                cell.textLabel?.text = "Hello"
-                }.onTap { _ in
-                    print("hello there")
-                }.onDelete { _ in
-                    print("deleted!")
-            }
-        }
-        
-        self.dataSource <<< Section(title: "form") { section in
+        self.dataSource <<< Section(title: "Form") { section in
             section <<< TableViewItem<TextFieldCell>(key: "name") { cell in
                 cell.title = "Name"
                 cell.onChange = { [weak cell] in
@@ -64,6 +50,18 @@ class ViewController: UITableViewController {
                     print("New value: \(cell.value)")
                 }
             }
+            section <<< TableViewItem<DateFieldCell>(key: "birthday") { cell in
+                cell.title = "Birthday"
+                cell.onChange = { [unowned cell] in
+                    print("New value: \(cell.value)")
+                }
+            }
+            section <<< TableViewItem<StepperCell>(key: "problems") { cell in
+                cell.title = "Problems"
+                cell.onChange = { [unowned cell] in
+                    print("New value: \(cell.value)")
+                }
+            }
         }
         
         self.dataSource <<< Section(title: "List") { section in
@@ -79,6 +77,20 @@ class ViewController: UITableViewController {
                 cell.onTap = {
                     print("O!")
                 }
+            }
+        }
+        
+        self.dataSource <<< Section(title: "Manual Rows") { section in
+            section <<< TableViewItem<CustomButtonCell>(storyboardIdentifier: "ButtonCell") { cell in
+                cell.backgroundColor = UIColor.greenColor()
+                cell.button?.setTitle("PRESS ME", forState: .Normal)
+            }
+            section <<< TableViewItem<UITableViewCell> { cell in
+                cell.textLabel?.text = "Hello"
+                }.onTap { _ in
+                    print("hello there")
+                }.onDelete { _ in
+                    print("deleted!")
             }
         }
         
