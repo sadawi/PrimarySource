@@ -75,18 +75,18 @@ public class FieldCell: TableCell {
         
         let titleLabel = UILabel(frame: CGRect.zero)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        //        titleLabel.backgroundColor = UIColor.greenColor()
+//                titleLabel.backgroundColor = UIColor.greenColor()
         self.contentView.addSubview(titleLabel)
         self.titleLabel = titleLabel
         
         let controlView = UIView(frame: CGRect.zero)
         controlView.translatesAutoresizingMaskIntoConstraints = false
-        //        controlView.backgroundColor = UIColor.redColor()
+//                controlView.backgroundColor = UIColor.redColor()
         self.contentView.addSubview(controlView)
         self.controlView = controlView
         
         let views = ["title":titleLabel, "controls":controlView]
-        let metrics = ["left": self.layoutMargins.left, "right": self.layoutMargins.right, "top": self.layoutMargins.top, "bottom": self.layoutMargins.bottom]
+        let metrics = ["left": self.separatorInset.left, "right": self.layoutMargins.right, "top": self.layoutMargins.top, "bottom": self.layoutMargins.bottom]
         
         self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-left-[title]-[controls]-right-|",
             options: .AlignAllTop,
