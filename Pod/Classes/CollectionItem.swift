@@ -34,7 +34,7 @@ public class TableViewItem<ViewType:UIView>: CollectionItem {
     var configure: (ViewType -> Void)?
     
     
-    public var reorderable:Bool = true
+    public var reorderable:Bool = false
 
     public var onTap:ItemAction?
     public var onDelete:ItemAction?
@@ -48,11 +48,12 @@ public class TableViewItem<ViewType:UIView>: CollectionItem {
         }
     }
     
-    public init(key:String?=nil, nibName:String?=nil, storyboardIdentifier:String?=nil, configure:(ViewType -> Void)?=nil) {
+    public init(key:String?=nil, nibName:String?=nil, reorderable:Bool=false, storyboardIdentifier:String?=nil, configure:(ViewType -> Void)?=nil) {
         self.key = key
         self.nibName = nibName
         self.storyboardIdentifier = storyboardIdentifier
         self.configure = configure
+        self.reorderable = reorderable
     }
     
     func generateReuseIdentifier() -> String {
