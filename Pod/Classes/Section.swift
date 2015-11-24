@@ -8,20 +8,6 @@
 
 import Foundation
 
-extension Array {
-    mutating func removeObject<U: Equatable>(object: U) -> Bool {
-        for (idx, objectToCompare) in self.enumerate() {
-            if let to = objectToCompare as? U {
-                if object == to {
-                    self.removeAtIndex(idx)
-                    return true
-                }
-            }
-        }
-        return false
-    }
-}
-
 public class Section {
     var key:String?
     var title:String?

@@ -17,8 +17,12 @@ class ViewController: UITableViewController {
         self.loadData()
     }
     
+    @IBAction func getValue(sender: AnyObject) {
+        // TODO
+    }
+    
     func loadData() {
-        self.dataSource <<< Section(title: "Static Rows") { section in
+        self.dataSource <<< Section(title: "Manual Rows") { section in
             section <<< TableViewItem<CustomButtonCell>(storyboardIdentifier: "ButtonCell") { cell in
                 cell.backgroundColor = UIColor.greenColor()
                 cell.button?.setTitle("PRESS ME", forState: .Normal)
@@ -29,6 +33,21 @@ class ViewController: UITableViewController {
                     print("hello there")
                 }.onDelete { _ in
                     print("deleted!")
+            }
+        }
+        
+        self.dataSource <<< Section(title: "form") { section in
+            section <<< TableViewItem<TextFieldCell>(key: "name") { cell in
+                cell.title = "Name"
+                cell.onChange = { [weak cell] in
+                    print("New value: \(cell?.value)")
+                }
+            }
+            section <<< TableViewItem<SwitchCell>(key: "active") { cell in
+                cell.title = "Active"
+                cell.onChange = { [unowned cell] in
+                    print("New value: \(cell.value)")
+                }
             }
         }
         

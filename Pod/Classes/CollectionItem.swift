@@ -44,7 +44,8 @@ public class TableViewItem<ViewType:UIView>: CollectionItem {
         }
     }
     
-    public init(nibName:String?=nil, storyboardIdentifier:String?=nil, configure:(ViewType -> Void)?=nil) {
+    public init(key:String?=nil, nibName:String?=nil, storyboardIdentifier:String?=nil, configure:(ViewType -> Void)?=nil) {
+        self.key = key
         self.nibName = nibName
         self.storyboardIdentifier = storyboardIdentifier
         self.configure = configure

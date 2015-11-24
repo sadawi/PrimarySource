@@ -17,6 +17,12 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
         
     }
     
+    public func serialize() -> [String:AnyObject] {
+        var result:[String:AnyObject] = [:]
+        // TODO
+        return result
+    }
+    
     public func addSection(section:Section) {
         self.sections.append(section)
     }
@@ -26,6 +32,14 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     }
     
     // MARK: - UITableViewDataSource methods
+    
+    public func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return self.itemForIndexPath(indexPath).onTap != nil
+    }
+    
+    public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return self.sections[section].title
+    }
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.sections[section].items.count

@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Demo-->
         <scene sceneID="H60-rn-N8f">
             <objects>
                 <tableViewController id="LGT-by-qmq" customClass="ViewController" customModule="CollectionDataSource_Example" customModuleProvider="target" sceneMemberID="viewController">
@@ -45,7 +45,13 @@
                             <outlet property="delegate" destination="LGT-by-qmq" id="eOg-Ea-D3H"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="PkW-zg-ue2"/>
+                    <navigationItem key="navigationItem" title="Demo" id="PkW-zg-ue2">
+                        <barButtonItem key="rightBarButtonItem" title="Value" id="WWb-IE-Ak7">
+                            <connections>
+                                <action selector="getValue:" destination="LGT-by-qmq" id="rHx-jI-AE3"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pI7-gR-mXO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
