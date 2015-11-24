@@ -49,6 +49,12 @@ class ViewController: UITableViewController {
                     print("New value: \(cell.value)")
                 }
             }
+            section <<< TableViewItem<EmailAddressCell>(key: "email") { cell in
+                cell.title = "Email address"
+                cell.onChange = { [unowned cell] in
+                    print("New value: \(cell.value)")
+                }
+            }
         }
         
         self.tableView.delegate = self.dataSource

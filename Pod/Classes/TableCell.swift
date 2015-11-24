@@ -42,13 +42,13 @@ public class FieldCell: TableCell {
         
         let titleLabel = UILabel(frame: CGRect.zero)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.backgroundColor = UIColor.greenColor()
+//        titleLabel.backgroundColor = UIColor.greenColor()
         self.contentView.addSubview(titleLabel)
         self.titleLabel = titleLabel
         
         let controlView = UIView(frame: CGRect.zero)
         controlView.translatesAutoresizingMaskIntoConstraints = false
-        controlView.backgroundColor = UIColor.redColor()
+//        controlView.backgroundColor = UIColor.redColor()
         self.contentView.addSubview(controlView)
         self.controlView = controlView
         
@@ -94,6 +94,13 @@ public class TextFieldCell: FieldCell, UITextFieldDelegate {
     
     public func textFieldDidEndEditing(textField: UITextField) {
         self.handleChange()
+    }
+}
+
+public class EmailAddressCell: TextFieldCell {
+    override func buildView() {
+        super.buildView()
+        self.textField?.keyboardType = .EmailAddress
     }
 }
 
