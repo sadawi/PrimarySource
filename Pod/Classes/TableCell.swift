@@ -42,7 +42,7 @@ public class ButtonCell: TableCell {
         let button = UIButton(type: .Custom)
         button.frame = self.contentView.bounds
         button.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        button.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        button.setTitleColor(UIColor.blueColor(), forState: UIControlState.Normal)
         self.contentView.addSubview(button)
         
         button.addTarget(self, action: Selector("handleTap"), forControlEvents: .TouchUpInside)
@@ -174,7 +174,7 @@ public class PhoneNumberCell: TextFieldCell {
             }
             if (length - index) > 3 {
                 let areaCode = decimalString.substringWithRange(NSMakeRange(index, 3))
-                formattedString.appendFormat("(%@)", areaCode)
+                formattedString.appendFormat("(%@) ", areaCode)
                 index += 3
             }
             if length - index > 3 {
