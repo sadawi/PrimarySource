@@ -73,7 +73,7 @@ public enum FieldLabelPosition {
 public class FieldCell: TableCell {
     var showTitleLabel:Bool = true
     var titleLabel:UILabel?
-    var controlView:UIView?
+    var controlView:UIStackView?
     
     public var labelPosition:FieldLabelPosition = .Top
     
@@ -105,7 +105,9 @@ public class FieldCell: TableCell {
         self.contentView.addSubview(titleLabel)
         self.titleLabel = titleLabel
         
-        let controlView = UIView(frame: CGRect.zero)
+        let controlView = UIStackView(frame: CGRect.zero)
+        controlView.axis = UILayoutConstraintAxis.Horizontal
+//        controlView.distribution = 
         controlView.translatesAutoresizingMaskIntoConstraints = false
 //                controlView.backgroundColor = UIColor.redColor()
         self.contentView.addSubview(controlView)
@@ -129,8 +131,8 @@ public class FieldCell: TableCell {
         switch self.labelPosition {
         case .Left:
             self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[title]-[controls]-right-|", options: .AlignAllTop, metrics: metrics, views: views))
-            self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[title]|", options: .AlignAllTop, metrics: metrics, views: views))
-            self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[controls]|", options: .AlignAllTop, metrics: metrics, views: views))
+            self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-top-[title]-bottom-|", options: .AlignAllTop, metrics: metrics, views: views))
+            self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-top-[controls]-bottom-|", options: .AlignAllTop, metrics: metrics, views: views))
             
         case .Top:
             let options = NSLayoutFormatOptions.AlignAllLeft
@@ -152,10 +154,10 @@ public class FieldCell: TableCell {
     
     private func addControl(control:UIView, alignment:ControlAlignment = .Right) {
         control.translatesAutoresizingMaskIntoConstraints = false
-        self.controlView!.addSubview(control)
+        self.controlView!.addArrangedSubview(control)
         
-        self.addConstraint(NSLayoutConstraint(item: control, attribute: .Right, relatedBy: .Equal, toItem: control.superview, attribute: .Right, multiplier: 1, constant: 0))
-        self.addConstraint(NSLayoutConstraint(item: control, attribute: .CenterY, relatedBy: .Equal, toItem: control.superview, attribute: .CenterY, multiplier: 1, constant: 0))
+//        self.addConstraint(NSLayoutConstraint(item: control, attribute: .Right, relatedBy: .Equal, toItem: control.superview, attribute: .Right, multiplier: 1, constant: 0))
+//        self.addConstraint(NSLayoutConstraint(item: control, attribute: .CenterY, relatedBy: .Equal, toItem: control.superview, attribute: .CenterY, multiplier: 1, constant: 0))
     }
 }
 
@@ -185,12 +187,15 @@ public class TextFieldCell: FieldCell, UITextFieldDelegate {
         
         let textField = UITextField(frame: self.controlView!.bounds)
         
-        textField.textAlignment = .Right
         textField.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         textField.returnKeyType = UIReturnKeyType.Done
         textField.clearButtonMode = .WhileEditing
         
         self.controlView!.addSubview(textField)
+        
+        textField.textAlignment = self.labelPosition == .Left ? .Right : .Left
+        textField.addConstraint(NSLayoutConstraint(item: textField, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 30))
+        
         textField.delegate = self
         self.textField = textField
     }

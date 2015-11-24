@@ -9,6 +9,6 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  CollectionDataSource: 2edfc0ee56eebda18134f506ff70b8dd71a5b869
+  CollectionDataSource: 43b2632283a13c0c2055a8eb7689edc3f23fe485
 
 COCOAPODS: 0.39.0
