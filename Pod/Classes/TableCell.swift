@@ -251,13 +251,19 @@ public class TextFieldCell: FieldCell, UITextFieldDelegate {
     public var textField:UITextField?
     public var editingMode:TextEditingMode = .Inline
     public var value:String? {
-        get {
-            return self.textField?.text
-        }
-        set {
-            self.textField?.text = newValue
+        didSet {
+            self.textField?.text = self.value
         }
     }
+    
+//    public var value:String? {
+//        get {
+//            return self.textField?.text
+//        }
+//        set {
+//            self.textField?.text = newValue
+//        }
+//    }
     
     override func buildView() {
         super.buildView()
@@ -283,7 +289,11 @@ public class TextFieldCell: FieldCell, UITextFieldDelegate {
     }
     
     public func textFieldDidEndEditing(textField: UITextField) {
-        self.handleChange()
+        let newValue = self.textField?.text
+        if newValue != self.value {
+            self.value = newValue
+            self.handleChange()
+        }
     }
     
     public func textFieldShouldReturn(textField: UITextField) -> Bool {
