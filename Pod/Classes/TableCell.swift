@@ -43,6 +43,9 @@ public class ActivityIndicatorCell: TableCell {
     }
     
     override public func setSelected(selected: Bool, animated: Bool) {
+        self.backgroundColor = UIColor.clearColor()
+        self.contentView.backgroundColor = UIColor.clearColor()
+        
         self.activityIndicator?.startAnimating()
     }
 }
@@ -352,6 +355,7 @@ public class SelectCell<ValueType:Equatable>: FieldCell, TappableTableCell {
     public var value:ValueType? {
         didSet {
             self.update()
+            self.valueChanged()
         }
     }
     public var options:[ValueType] = []

@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class DataSourceViewController: UITableViewController {
+public class DataSourceViewController: UITableViewController, DataSourceDelegate {
     var dataSource = DataSource()
 
     override public func viewDidLoad() {
@@ -29,9 +29,16 @@ public class DataSourceViewController: UITableViewController {
         let dataSource = DataSource()
         self.configureDataSource(dataSource)
         self.dataSource = dataSource
+        
+        self.dataSource.delegate = self
+        
         self.tableView.delegate = self.dataSource
         self.tableView.dataSource = self.dataSource
         self.tableView.reloadData()
+    }
+    
+    public func presentationViewControllerForDataSource(dataSource: DataSource) -> UIViewController? {
+        return self
     }
     
 }
