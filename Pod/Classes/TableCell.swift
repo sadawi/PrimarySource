@@ -185,7 +185,7 @@ public class FieldCell: TableCell {
         let views = ["title":titleLabel, "controls":controlView]
         let metrics = [
             "left": self.separatorInset.left,
-            "right": self.layoutMargins.right,
+            "right": self.separatorInset.left, // for symmetry
             "top": self.layoutMargins.top,
             "bottom": self.layoutMargins.bottom,
             "controlHeight": 10
