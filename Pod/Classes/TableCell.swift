@@ -37,9 +37,17 @@ public class TableCell: UITableViewCell {
     func buildView() {
         self.clipsToBounds = true
     }
+    
+    override public func setSelected(selected: Bool, animated: Bool) {
+        self.stylize()
+    }
+    
+    func stylize() {
+    }
 }
 
 public class SubtitleCell: TableCell {
+    public dynamic var detailTextColor:UIColor? = UIColor(white: 0.5, alpha: 1)
     
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: UITableViewCellStyle.Subtitle, reuseIdentifier: reuseIdentifier)
@@ -49,6 +57,9 @@ public class SubtitleCell: TableCell {
         super.init(coder: aDecoder)
     }
     
+    override func stylize() {
+        self.detailTextLabel?.textColor = self.detailTextColor
+    }
 }
 
 public class ActivityIndicatorCell: TableCell {
@@ -173,7 +184,9 @@ public class FieldCell: TableCell {
         self.titleLabel?.text = self.formattedTitle()
     }
     
-    func stylize() {
+    override func stylize() {
+        super.stylize()
+        
         switch self.labelPosition {
         case .Left:
             self.titleLabel?.font = self.contentFont
