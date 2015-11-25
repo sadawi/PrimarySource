@@ -120,6 +120,14 @@ public class FieldCell: TableCell {
     
     var contentConstraints:[NSLayoutConstraint] = []
     
+    public dynamic var titleTextColor:UIColor? {
+        get {
+            return self.titleLabel?.textColor
+        }
+        set {
+            self.titleLabel?.textColor = newValue
+        }
+    }
     public dynamic var contentFont:UIFont = UIFont.systemFontOfSize(17)
     
     //
@@ -140,7 +148,7 @@ public class FieldCell: TableCell {
     
     public var title:String? {
         didSet {
-            self.titleLabel?.text = self.formattedTitle()
+            self.update()
         }
     }
     
@@ -186,16 +194,15 @@ public class FieldCell: TableCell {
     }
     
     func update() {
-        // Override in subclasses
+        self.titleLabel?.text = self.formattedTitle()
     }
     
     func stylize() {
-        self.titleLabel?.textColor = UIColor(white: 0.5, alpha: 1)
-        
         switch self.labelPosition {
         case .Left:
             self.titleLabel?.font = self.contentFont
         case .Top:
+            self.titleLabel?.textColor = UIColor(white: 0.5, alpha: 1)
             self.titleLabel?.font = UIFont.boldSystemFontOfSize(11)
         }
     }
