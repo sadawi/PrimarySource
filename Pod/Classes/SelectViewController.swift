@@ -35,7 +35,7 @@ class SelectViewController<ValueType:Equatable>: DataSourceViewController {
     override func configureDataSource(dataSource:DataSource) {
         dataSource <<< Section { section in
             for option in self.options {
-                section <<< TableViewItem<UITableViewCell> { [unowned self] cell in
+                section <<< TableViewItem<TableCell> { [unowned self] cell in
                     cell.textLabel?.text = String(option)
                     cell.accessoryType = self.value == option ? .Checkmark : .None
                     }.onTap { [unowned self] _ in

@@ -120,22 +120,9 @@ public class FieldCell: TableCell {
     
     var contentConstraints:[NSLayoutConstraint] = []
     
-    public dynamic var titleTextColor:UIColor? {
-        get {
-            return self.titleLabel?.textColor
-        }
-        set {
-            self.titleLabel?.textColor = newValue
-        }
-    }
+    public dynamic var titleTextColor:UIColor? = UIColor.blackColor()
+    public dynamic var valueTextColor:UIColor? = UIColor(white: 0.4, alpha: 1)
     public dynamic var contentFont:UIFont = UIFont.systemFontOfSize(17)
-    
-    //
-    //    dynamic var topTitleTextColor:UIColor? {
-    //        get {
-    //
-    //        }
-    //    }
     
     public var labelPosition:FieldLabelPosition = .Left {
         didSet {
@@ -151,17 +138,6 @@ public class FieldCell: TableCell {
             self.update()
         }
     }
-    
-    //    public init(labelPosition:FieldLabelPosition?=nil) {
-    //        super.init(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
-    //        if let labelPosition = labelPosition {
-    //            self.labelPosition = labelPosition
-    //        }
-    //    }
-    //
-    //    public required init?(coder aDecoder: NSCoder) {
-    //        super.init(coder: aDecoder)
-    //    }
     
     private func formattedTitle() -> String? {
         if self.labelPosition == .Top {
@@ -201,6 +177,7 @@ public class FieldCell: TableCell {
         switch self.labelPosition {
         case .Left:
             self.titleLabel?.font = self.contentFont
+            self.titleLabel?.textColor = self.titleTextColor
         case .Top:
             self.titleLabel?.textColor = UIColor(white: 0.5, alpha: 1)
             self.titleLabel?.font = UIFont.boldSystemFontOfSize(11)
@@ -255,9 +232,6 @@ public class FieldCell: TableCell {
     private func addControl(control:UIView, alignment:ControlAlignment = .Right) {
         control.translatesAutoresizingMaskIntoConstraints = false
         self.controlView!.addArrangedSubview(control)
-        
-        //        self.addConstraint(NSLayoutConstraint(item: control, attribute: .Right, relatedBy: .Equal, toItem: control.superview, attribute: .Right, multiplier: 1, constant: 0))
-        //        self.addConstraint(NSLayoutConstraint(item: control, attribute: .CenterY, relatedBy: .Equal, toItem: control.superview, attribute: .CenterY, multiplier: 1, constant: 0))
     }
     
     override public func setSelected(selected: Bool, animated: Bool) {
@@ -284,15 +258,6 @@ public class TextFieldCell: FieldCell, UITextFieldDelegate {
         }
     }
     
-    //    public var value:String? {
-    //        get {
-    //            return self.textField?.text
-    //        }
-    //        set {
-    //            self.textField?.text = newValue
-    //        }
-    //    }
-    
     override func buildView() {
         super.buildView()
         
@@ -300,7 +265,6 @@ public class TextFieldCell: FieldCell, UITextFieldDelegate {
         
         textField.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         textField.returnKeyType = UIReturnKeyType.Done
-        //        textField.clearButtonMode = .WhileEditing
         
         self.controlView!.addSubview(textField)
         
@@ -314,6 +278,7 @@ public class TextFieldCell: FieldCell, UITextFieldDelegate {
         super.stylize()
         self.textField?.textAlignment = self.labelPosition == .Left ? .Right : .Left
         self.textField?.font = self.contentFont
+        self.textField?.textColor = self.valueTextColor
     }
     
     public func textFieldDidEndEditing(textField: UITextField) {
@@ -417,6 +382,7 @@ public class SelectCell<ValueType:Equatable>: FieldCell, TappableTableCell {
         super.stylize()
         
         self.valueLabel?.font = self.contentFont
+        self.valueLabel?.textColor = self.valueTextColor
         
         switch self.selectMode {
         case .Push:
