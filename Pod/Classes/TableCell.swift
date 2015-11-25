@@ -15,6 +15,13 @@ protocol TappableTableCell {
 public class TableCell: UITableViewCell {
     internal weak var dataSource:DataSource?
     
+    var defaultContentInsets:UIEdgeInsets {
+        get {
+            let side = self.separatorInset.left
+            return UIEdgeInsets(top: self.layoutMargins.top, left: side, bottom: self.layoutMargins.bottom, right: side)
+        }
+    }
+    
     public dynamic var textLabelFont:UIFont? {
         get {
             return self.textLabel?.font
@@ -86,6 +93,8 @@ public class ButtonCell: TableCell, TappableTableCell {
     public var button:UIButton?
     public var onTap:(Void -> Void)?
     
+    public dynamic var buttonFont:UIFont?
+    
     public var title:String? {
         set {
             self.button?.setTitle(newValue, forState: UIControlState.Normal)
@@ -98,14 +107,27 @@ public class ButtonCell: TableCell, TappableTableCell {
     override func buildView() {
         super.buildView()
         let button = UIButton(type: .Custom)
-        button.frame = self.contentView.bounds
-        button.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        button.setTitleColor(UIColor.blueColor(), forState: UIControlState.Normal)
-        self.contentView.addSubview(button)
         
+        var frame = self.contentView.bounds
+        frame.origin.x = self.defaultContentInsets.left
+        frame.origin.y = self.defaultContentInsets.top
+        frame.size.width -= (frame.origin.x + self.defaultContentInsets.right)
+        frame.size.height -= (frame.origin.y + self.defaultContentInsets.bottom)
+        
+        button.frame = frame
+        button.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+        self.contentView.addSubview(button)
         button.addTarget(self, action: Selector("handleTap"), forControlEvents: .TouchUpInside)
         
         self.button = button
+    }
+    
+    override func stylize() {
+        super.stylize()
+        if let font = self.buttonFont {
+            self.button?.titleLabel?.font = font
+        }
+        self.button?.setTitleColor(self.tintColor, forState: UIControlState.Normal)
     }
     
     func handleTap() {
@@ -202,10 +224,10 @@ public class FieldCell: TableCell {
         
         let views = ["title":titleLabel, "controls":controlView]
         let metrics = [
-            "left": self.separatorInset.left,
-            "right": self.separatorInset.left, // for symmetry
-            "top": self.layoutMargins.top,
-            "bottom": self.layoutMargins.bottom,
+            "left": self.defaultContentInsets.left,
+            "right": self.defaultContentInsets.right,
+            "top": self.defaultContentInsets.top,
+            "bottom": self.defaultContentInsets.bottom,
             "controlHeight": 10
         ]
         

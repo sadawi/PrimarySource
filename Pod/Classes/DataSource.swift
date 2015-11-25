@@ -145,6 +145,9 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
         if let headerItem = section.header, height = headerItem.height {
             return height
         }
+        if section.title == nil {
+            return 0
+        }
         return defaultHeaderHeight
     }
     
