@@ -24,12 +24,16 @@ public protocol CollectionItem: ReusableItemType {
     var reorderable:Bool { get set }
     var onDelete:ItemAction? { get }
     var onTap:ItemAction? { get }
+    var onAccessoryTap:ItemAction? { get }
 
     func onDelete(action: ItemAction) -> CollectionItem
     func handleDelete()
     
     func onTap(action: ItemAction) -> CollectionItem
     func handleTap()
+
+    func onAccessoryTap(action: ItemAction) -> CollectionItem
+    func handleAccessoryTap()
 }
 
 public class ReusableItem<ViewType:UIView>: ReusableItemType {
@@ -75,6 +79,7 @@ public class TableViewItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionI
     public var reorderable:Bool = false
 
     public var onTap:ItemAction?
+    public var onAccessoryTap:ItemAction?
     public var onDelete:ItemAction?
     
     public init(key:String?=nil, nibName:String?=nil, reorderable:Bool=false, storyboardIdentifier:String?=nil, configure:(ViewType -> Void)?=nil) {
@@ -92,17 +97,24 @@ public class TableViewItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionI
         return self
     }
 
+    public func onAccessoryTap(action:ItemAction) -> CollectionItem {
+        self.onAccessoryTap = action
+        return self
+    }
+
     public func onDelete(action:ItemAction) -> CollectionItem {
         self.onDelete = action
         return self
     }
     
     public func handleDelete() {
-        if let action = self.onDelete { action(self) }
+        self.onDelete?(self)
     }
     public func handleTap() {
-        if let action = self.onTap {
-            action(self)
-        }
+        self.onTap?(self)
+    }
+
+    public func handleAccessoryTap() {
+        self.onAccessoryTap?(self)
     }
 }

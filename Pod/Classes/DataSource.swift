@@ -116,6 +116,10 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     public func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
     }
     
+    public func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
+        self.item(atIndexPath: indexPath).handleAccessoryTap()
+    }
+    
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         self.item(atIndexPath: indexPath).handleTap()
