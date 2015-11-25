@@ -8,8 +8,7 @@
 
 import UIKit
 
-class SelectViewController<ValueType:Equatable>: UITableViewController {
-    var dataSource = DataSource()
+class SelectViewController<ValueType:Equatable>: DataSourceViewController {
     var value:ValueType?
     var multiple:Bool = false
     
@@ -33,9 +32,7 @@ class SelectViewController<ValueType:Equatable>: UITableViewController {
         self.buildDataSource()
     }
     
-    func buildDataSource() {
-        let dataSource = DataSource()
-        
+    override func configureDataSource(dataSource:DataSource) {
         dataSource <<< Section { section in
             for option in self.options {
                 section <<< TableViewItem<UITableViewCell> { [unowned self] cell in
@@ -47,11 +44,6 @@ class SelectViewController<ValueType:Equatable>: UITableViewController {
                 }
             }
         }
-        
-        self.dataSource = dataSource
-        self.tableView.delegate = self.dataSource
-        self.tableView.dataSource = self.dataSource
-        self.tableView.reloadData()
     }
     
     func commit() {
