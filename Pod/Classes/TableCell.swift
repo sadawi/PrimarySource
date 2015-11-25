@@ -433,8 +433,10 @@ public class StepperCell: IntegerCell {
         control.addTarget(self, action: Selector("valueChanged"), forControlEvents: UIControlEvents.ValueChanged)
         self.stepper = control
     }
-    
-    
+}
+
+public class DateCell:FieldCell {
+    public var value:NSDate?
 }
 
 public class BooleanCell:FieldCell {
