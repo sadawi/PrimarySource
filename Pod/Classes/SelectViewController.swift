@@ -21,7 +21,7 @@ class SelectViewController<ValueType:Equatable>: DataSourceViewController {
     }
 
     init(options:[ValueType], value:ValueType?, didSelectValue:(ValueType? -> Void)?=nil) {
-        super.init(style: .Grouped)
+        super.init(style: .Plain)
         self.options = options
         self.value = value
         self.didSelectValue = didSelectValue

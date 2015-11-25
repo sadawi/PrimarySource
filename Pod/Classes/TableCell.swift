@@ -320,13 +320,17 @@ public class TextFieldCell: FieldCell, UITextFieldDelegate {
         let newValue = self.textField?.text
         if newValue != self.value {
             self.value = newValue
-            self.handleChange()
+            self.valueChanged()
         }
     }
     
     public func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+    public override func valueChanged() {
+        super.valueChanged()
     }
 }
 
