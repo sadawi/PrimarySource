@@ -50,8 +50,3 @@ public class Section {
         return self
     }
 }
-
-infix operator <<< { associativity left precedence 95 }
-public func <<<(left:Section, right:CollectionItem) {
-    left.addItem(right)
-}

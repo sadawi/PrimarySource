@@ -9,7 +9,7 @@
 import UIKit
 import CollectionDataSource
 
-class ViewController: UITableViewController {
+class ViewController: UITableViewController, DataSourceDelegate {
     var dataSource = DataSource()
     
     override func viewDidLoad() {
@@ -65,8 +65,10 @@ class ViewController: UITableViewController {
                     print("New value: \(cell.value)")
                 }
             }
-            section <<< TableViewItem<StepperCell>(key: "problems") { cell in
-                cell.title = "Problems"
+            section <<< TableViewItem<SelectCell<String>>(key: "gender") { cell in
+                cell.title = "Gender"
+                cell.options = ["male", "female", "other"]
+                cell.selectMode = .Push
                 cell.onChange = { [unowned cell] in
                     print("New value: \(cell.value)")
                 }
@@ -103,10 +105,18 @@ class ViewController: UITableViewController {
             }
         }
         
+        self.dataSource.delegate = self
+        
         self.tableView.delegate = self.dataSource
         self.tableView.dataSource = self.dataSource
         self.tableView.reloadData()
     }
     
+    
+    // MARK: - DataSourceDelegate
+    
+    func presentationViewControllerForDataSource(dataSource: DataSource) -> UIViewController? {
+        return self
+    }
 }
 

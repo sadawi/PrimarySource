@@ -14,9 +14,15 @@ public enum ReorderingMode {
     case WithinSections
 }
 
+public protocol DataSourceDelegate: class {
+    func presentationViewControllerForDataSource(dataSource:DataSource) -> UIViewController?
+}
+
 public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     var sections:[Section] = []
     var didRegisterReuseIdentifiers = false
+    
+    public weak var delegate:DataSourceDelegate?
 
     public var reorderingMode:ReorderingMode = .WithinSections
     public var reorder:((NSIndexPath, NSIndexPath) -> Void)?
@@ -29,6 +35,10 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
         let result:[String:AnyObject] = [:]
         // TODO
         return result
+    }
+    
+    internal func presentationViewController() -> UIViewController? {
+        return self.delegate?.presentationViewControllerForDataSource(self)
     }
     
     public func addSection(section:Section) {
@@ -116,6 +126,9 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
         
         let item = self.item(atIndexPath: indexPath)
         if let identifier = item.reuseIdentifier, cell = tableView.dequeueReusableCellWithIdentifier(identifier) {
+            if let tableCell = cell as? TableCell {
+                tableCell.dataSource = self
+            }
             item.configureView(cell)
             return cell
         } else {
@@ -184,10 +197,4 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
         }
         self.didRegisterReuseIdentifiers = true
     }
-}
-
-
-infix operator <<< { associativity left precedence 95 }
-public func <<<(left:DataSource, right:Section) {
-    left.addSection(right)
 }
