@@ -231,6 +231,11 @@ public class FieldCell: TableCell {
 //        self.addConstraint(NSLayoutConstraint(item: control, attribute: .Right, relatedBy: .Equal, toItem: control.superview, attribute: .Right, multiplier: 1, constant: 0))
 //        self.addConstraint(NSLayoutConstraint(item: control, attribute: .CenterY, relatedBy: .Equal, toItem: control.superview, attribute: .CenterY, multiplier: 1, constant: 0))
     }
+    
+    override public func setSelected(selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        self.stylize()
+    }
 }
 
 public class DateFieldCell: FieldCell {
@@ -261,7 +266,7 @@ public class TextFieldCell: FieldCell, UITextFieldDelegate {
         
         textField.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         textField.returnKeyType = UIReturnKeyType.Done
-        textField.clearButtonMode = .WhileEditing
+//        textField.clearButtonMode = .WhileEditing
         
         self.controlView!.addSubview(textField)
         
@@ -355,7 +360,6 @@ public class SelectCell<ValueType:Equatable>: FieldCell, TappableTableCell {
     public var value:ValueType? {
         didSet {
             self.update()
-            self.valueChanged()
         }
     }
     public var options:[ValueType] = []
@@ -395,6 +399,7 @@ public class SelectCell<ValueType:Equatable>: FieldCell, TappableTableCell {
         if let presenter = self.dataSource?.presentationViewController() {
             let controller = SelectViewController(options: self.options, value:self.value) { [unowned self] value in
                 self.value = value
+                self.valueChanged()
                 presenter.navigationController?.popViewControllerAnimated(true)
             }
             controller.title = self.title
