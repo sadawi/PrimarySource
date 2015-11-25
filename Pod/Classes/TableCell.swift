@@ -30,6 +30,23 @@ public class TableCell: UITableViewCell {
     }
 }
 
+public class ActivityIndicatorCell: TableCell {
+    public var activityIndicator:UIActivityIndicatorView?
+    
+    override func buildView() {
+        super.buildView()
+        let activity = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+        activity.center = CGPoint(x: CGRectGetMidX(self.contentView.bounds), y: CGRectGetMidY(self.contentView.bounds))
+        activity.autoresizingMask = [.FlexibleLeftMargin, .FlexibleTopMargin, .FlexibleBottomMargin, .FlexibleRightMargin]
+        self.contentView.addSubview(activity)
+        self.activityIndicator = activity
+    }
+    
+    override public func setSelected(selected: Bool, animated: Bool) {
+        self.activityIndicator?.startAnimating()
+    }
+}
+
 public class ButtonCell: TableCell, TappableTableCell {
     public var button:UIButton?
     public var onTap:(Void -> Void)?
