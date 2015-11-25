@@ -225,9 +225,9 @@ public enum TextEditingMode {
 public class TextFieldCell: FieldCell, UITextFieldDelegate {
     public var textField:UITextField?
     public var editingMode:TextEditingMode = .Inline
-    public var value:String {
+    public var value:String? {
         get {
-            return self.textField?.text ?? ""
+            return self.textField?.text
         }
         set {
             self.textField?.text = newValue

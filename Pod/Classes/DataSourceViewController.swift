@@ -13,10 +13,16 @@ public class DataSourceViewController: UITableViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-        self.buildDataSource()
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.estimatedRowHeight = 44
+        self.reloadData()
     }
     
     public func configureDataSource(dataSource:DataSource) {
+    }
+    
+    public func reloadData() {
+        self.buildDataSource()
     }
 
     func buildDataSource() {
