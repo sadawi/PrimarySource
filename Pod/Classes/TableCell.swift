@@ -15,6 +15,15 @@ protocol TappableTableCell {
 public class TableCell: UITableViewCell {
     internal weak var dataSource:DataSource?
     
+    public dynamic var textLabelFont:UIFont? {
+        get {
+            return self.textLabel?.font
+        }
+        set {
+            self.textLabel?.font = newValue
+        }
+    }
+    
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.buildView()
@@ -28,6 +37,18 @@ public class TableCell: UITableViewCell {
     func buildView() {
         self.clipsToBounds = true
     }
+}
+
+public class SubtitleCell: TableCell {
+    
+    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: UITableViewCellStyle.Subtitle, reuseIdentifier: reuseIdentifier)
+    }
+    
+    public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
 }
 
 public class ActivityIndicatorCell: TableCell {
@@ -101,12 +122,12 @@ public class FieldCell: TableCell {
     
     public dynamic var contentFont:UIFont = UIFont.systemFontOfSize(17)
     
-//
-//    dynamic var topTitleTextColor:UIColor? {
-//        get {
-//            
-//        }
-//    }
+    //
+    //    dynamic var topTitleTextColor:UIColor? {
+    //        get {
+    //
+    //        }
+    //    }
     
     public var labelPosition:FieldLabelPosition = .Left {
         didSet {
@@ -123,16 +144,16 @@ public class FieldCell: TableCell {
         }
     }
     
-//    public init(labelPosition:FieldLabelPosition?=nil) {
-//        super.init(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
-//        if let labelPosition = labelPosition {
-//            self.labelPosition = labelPosition
-//        }
-//    }
-//
-//    public required init?(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)
-//    }
+    //    public init(labelPosition:FieldLabelPosition?=nil) {
+    //        super.init(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
+    //        if let labelPosition = labelPosition {
+    //            self.labelPosition = labelPosition
+    //        }
+    //    }
+    //
+    //    public required init?(coder aDecoder: NSCoder) {
+    //        super.init(coder: aDecoder)
+    //    }
     
     private func formattedTitle() -> String? {
         if self.labelPosition == .Top {
@@ -147,15 +168,15 @@ public class FieldCell: TableCell {
         
         let titleLabel = UILabel(frame: CGRect.zero)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-//                titleLabel.backgroundColor = UIColor.greenColor()
+        //                titleLabel.backgroundColor = UIColor.greenColor()
         self.contentView.addSubview(titleLabel)
         self.titleLabel = titleLabel
         
         let controlView = UIStackView(frame: CGRect.zero)
         controlView.axis = UILayoutConstraintAxis.Horizontal
-//        controlView.distribution = 
+        //        controlView.distribution =
         controlView.translatesAutoresizingMaskIntoConstraints = false
-//                controlView.backgroundColor = UIColor.redColor()
+        //                controlView.backgroundColor = UIColor.redColor()
         self.contentView.addSubview(controlView)
         self.controlView = controlView
         
@@ -169,13 +190,13 @@ public class FieldCell: TableCell {
     }
     
     func stylize() {
+        self.titleLabel?.textColor = UIColor(white: 0.5, alpha: 1)
+        
         switch self.labelPosition {
         case .Left:
             self.titleLabel?.font = self.contentFont
-            self.titleLabel?.textColor = UIColor.blackColor()
         case .Top:
             self.titleLabel?.font = UIFont.boldSystemFontOfSize(11)
-            self.titleLabel?.textColor = UIColor(white: 0.5, alpha: 1)
         }
     }
     
@@ -228,8 +249,8 @@ public class FieldCell: TableCell {
         control.translatesAutoresizingMaskIntoConstraints = false
         self.controlView!.addArrangedSubview(control)
         
-//        self.addConstraint(NSLayoutConstraint(item: control, attribute: .Right, relatedBy: .Equal, toItem: control.superview, attribute: .Right, multiplier: 1, constant: 0))
-//        self.addConstraint(NSLayoutConstraint(item: control, attribute: .CenterY, relatedBy: .Equal, toItem: control.superview, attribute: .CenterY, multiplier: 1, constant: 0))
+        //        self.addConstraint(NSLayoutConstraint(item: control, attribute: .Right, relatedBy: .Equal, toItem: control.superview, attribute: .Right, multiplier: 1, constant: 0))
+        //        self.addConstraint(NSLayoutConstraint(item: control, attribute: .CenterY, relatedBy: .Equal, toItem: control.superview, attribute: .CenterY, multiplier: 1, constant: 0))
     }
     
     override public func setSelected(selected: Bool, animated: Bool) {
@@ -256,14 +277,14 @@ public class TextFieldCell: FieldCell, UITextFieldDelegate {
         }
     }
     
-//    public var value:String? {
-//        get {
-//            return self.textField?.text
-//        }
-//        set {
-//            self.textField?.text = newValue
-//        }
-//    }
+    //    public var value:String? {
+    //        get {
+    //            return self.textField?.text
+    //        }
+    //        set {
+    //            self.textField?.text = newValue
+    //        }
+    //    }
     
     override func buildView() {
         super.buildView()
@@ -272,7 +293,7 @@ public class TextFieldCell: FieldCell, UITextFieldDelegate {
         
         textField.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         textField.returnKeyType = UIReturnKeyType.Done
-//        textField.clearButtonMode = .WhileEditing
+        //        textField.clearButtonMode = .WhileEditing
         
         self.controlView!.addSubview(textField)
         
@@ -387,6 +408,9 @@ public class SelectCell<ValueType:Equatable>: FieldCell, TappableTableCell {
     
     override func stylize() {
         super.stylize()
+        
+        self.valueLabel?.font = self.contentFont
+        
         switch self.selectMode {
         case .Push:
             self.accessoryType = .DisclosureIndicator
@@ -425,7 +449,7 @@ public class IntegerCell: FieldCell {
 
 public class StepperCell: IntegerCell {
     public var stepper:UIStepper?
-
+    
     override func buildView() {
         super.buildView()
         let control = UIStepper(frame: self.controlView!.bounds)
@@ -461,7 +485,7 @@ public class SwitchCell:BooleanCell, TappableTableCell  {
         super.buildView()
         let control = UISwitch(frame: self.controlView!.bounds)
         
-//        control.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: UILayoutConstraintAxis.Vertical)
+        //        control.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: UILayoutConstraintAxis.Vertical)
         
         self.addControl(control, alignment:.Right)
         control.addTarget(self, action: Selector("valueChanged"), forControlEvents: UIControlEvents.ValueChanged)
