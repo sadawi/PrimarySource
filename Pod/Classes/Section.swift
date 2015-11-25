@@ -17,6 +17,8 @@ public class Section {
     var reorderable:Bool = true
     var reorder:ReorderAction?
     
+    public var header:HeaderItemType?
+    
     public init(title:String?=nil, key:String?=nil, reorderable:Bool?=nil, configure:(Section -> Void)?=nil) {
         self.title = title
         self.key = key

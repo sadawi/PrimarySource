@@ -21,6 +21,7 @@ public protocol DataSourceDelegate: class {
 public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     var sections:[Section] = []
     var didRegisterReuseIdentifiers = false
+    var defaultHeaderHeight:CGFloat = 30.0
     
     public weak var delegate:DataSourceDelegate?
 
@@ -124,8 +125,27 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let section = self.sections[section]
+        if let headerItem = section.header, identifier = headerItem.reuseIdentifier {
+            if let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(identifier) {
+                headerItem.configureView(header)
+                return header
+            }
+        }
+        return nil
+    }
+    
+    public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        let section = self.sections[section]
+        if let headerItem = section.header, height = headerItem.height {
+            return height
+        }
+        return defaultHeaderHeight
+    }
+    
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        self.registerReuseIdentifiersIfNecessary(tableView)
+        self.registerReuseIdentifiersIfNeeded(tableView)
         
         let item = self.item(atIndexPath: indexPath)
         if let identifier = item.reuseIdentifier, cell = tableView.dequeueReusableCellWithIdentifier(identifier) {
@@ -172,7 +192,7 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - 
     
-    func registerReuseIdentifiersIfNecessary(tableView:UITableView) {
+    func registerReuseIdentifiersIfNeeded(tableView:UITableView) {
         if !self.didRegisterReuseIdentifiers {
             self.registerReuseIdentifiers(tableView)
         }
@@ -180,6 +200,17 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     
     public func registerReuseIdentifiers(tableView:UITableView) {
         for section in self.sections {
+            
+            if let header = section.header, identifier = header.reuseIdentifier {
+                if let nibName = header.nibName {
+                    if NSBundle.mainBundle().pathForResource(nibName, ofType: "nib") != nil {
+                        tableView.registerNib(UINib(nibName: nibName, bundle: nil), forHeaderFooterViewReuseIdentifier: identifier)
+                    }
+                } else {
+                    tableView.registerClass(header.viewType, forHeaderFooterViewReuseIdentifier: identifier)
+                }
+            }
+            
             for item in section.items {
                 if let rowClass = item.viewType, identifier = item.reuseIdentifier {
                     

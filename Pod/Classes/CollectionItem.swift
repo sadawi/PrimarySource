@@ -10,35 +10,30 @@ import Foundation
 
 public typealias ItemAction = (CollectionItem -> Void)
 
-public protocol CollectionItem {
+public protocol ReusableItemType {
     var storyboardIdentifier:String? { get set }
     var nibName:String? { get set }
-    var reorderable:Bool { get set }
     
     var reuseIdentifier:String? { get }
     var viewType:AnyClass? { get }
     
-    var onTap:ItemAction? { get }
-    var onDelete:ItemAction? { get }
-    
-    func onTap(action: ItemAction) -> CollectionItem
-    func onDelete(action: ItemAction) -> CollectionItem
-    
-    func handleTap()
-    func handleDelete()
     func configureView(view:UIView)
 }
 
-public class TableViewItem<ViewType:UIView>: CollectionItem {
-    var key:String?
-    var configure: (ViewType -> Void)?
-    
-    
-    public var reorderable:Bool = false
+public protocol CollectionItem: ReusableItemType {
+    var reorderable:Bool { get set }
+    var onDelete:ItemAction? { get }
+    var onTap:ItemAction? { get }
 
-    public var onTap:ItemAction?
-    public var onDelete:ItemAction?
+    func onDelete(action: ItemAction) -> CollectionItem
+    func handleDelete()
     
+    func onTap(action: ItemAction) -> CollectionItem
+    func handleTap()
+}
+
+public class ReusableItem<ViewType:UIView>: ReusableItemType {
+    var configure: (ViewType -> Void)?
     public var storyboardIdentifier:String?
     public var nibName:String?
     
@@ -47,15 +42,7 @@ public class TableViewItem<ViewType:UIView>: CollectionItem {
             return storyboardIdentifier ?? generateReuseIdentifier()
         }
     }
-    
-    public init(key:String?=nil, nibName:String?=nil, reorderable:Bool=false, storyboardIdentifier:String?=nil, configure:(ViewType -> Void)?=nil) {
-        self.key = key
-        self.nibName = nibName
-        self.storyboardIdentifier = storyboardIdentifier
-        self.configure = configure
-        self.reorderable = reorderable
-    }
-    
+
     func generateReuseIdentifier() -> String {
         if let viewType = self.viewType {
             return NSStringFromClass(viewType)
@@ -80,6 +67,24 @@ public class TableViewItem<ViewType:UIView>: CollectionItem {
         }
     }
     
+}
+
+public class TableViewItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionItem {
+    var key:String?
+    
+    public var reorderable:Bool = false
+
+    public var onTap:ItemAction?
+    public var onDelete:ItemAction?
+    
+    public init(key:String?=nil, nibName:String?=nil, reorderable:Bool=false, storyboardIdentifier:String?=nil, configure:(ViewType -> Void)?=nil) {
+        super.init()
+        self.key = key
+        self.nibName = nibName
+        self.storyboardIdentifier = storyboardIdentifier
+        self.configure = configure
+        self.reorderable = reorderable
+    }
     // MARK: - Actions
 
     public func onTap(action:ItemAction) -> CollectionItem {
