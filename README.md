@@ -4,17 +4,6 @@
 
 This is a Swift library for setting up data sources for UITableViews and UICollectionViews.
 
-```swift
-dataSource <<< Section(title: "Form") { section in
-    section <<< TableViewItem<TextFieldCell> { cell in
-        cell.title = "Name"
-        cell.onChange = { [unowned cell] in
-            print("New value: \(cell.value)")
-        }
-    }
-}
-```
-
 ## Installation
 
 CollectionDataSource is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:		
@@ -29,9 +18,29 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ### Setting up the data source
 
-Data sources should be set as your UITableView/UICollectionView delegate and dataSource.  A DataSource contains Sections, and each section contains items.
+Create a `DataSource` object and set it as your UITableView/UICollectionView delegate and dataSource.  A DataSource contains Sections, and each section contains items.  Items are responsible for configuring cells, which may have been reused.
 
-Items are responsible for configuring cells, which may have been reused.
+You'll probably want a method to rebuild the data source whenever you get new data:
+
+```swift
+func loadData()
+    self.dataSource = DataSource()
+    self.tableView.delegate = self.dataSource
+    self.tableView.dataSource = self.dataSource
+    
+    self.dataSource <<< Section(title: "Form") { section in
+        section <<< TableViewItem<TextFieldCell> { cell in
+            cell.title = "Name"
+            cell.onChange = { [unowned cell] in
+                print("New value: \(cell.value)")
+            }
+        }
+    }
+}
+```
+
+Then, whenever you call `self.tableView.reloadData()`, your table will be populated with data from your dataSource.
+
 
 ### Cell registration
 
