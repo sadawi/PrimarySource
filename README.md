@@ -72,7 +72,7 @@ Display cells:
 Interactive cells:
 * `ButtonCell`
 
-Field cells (each with a field and a strongly typed value):
+Field cells (each with a field and a strongly typed `value`):
 * `TextFieldCell` (UITextField, String)
 * `SwitchCell` (UISwitch, Boolean)
 * `DateFieldCell` (UIDatePicker, NSDate)
