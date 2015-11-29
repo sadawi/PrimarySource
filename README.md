@@ -74,3 +74,11 @@ Field cells (each with a field and a strongly typed value):
 * `PasswordCell` (String)
 * `StepperCell` (UIStepper, Int)
 * `SliderCell` (UISlider, Float)
+
+### Cell action handlers
+
+Handlers can be added for cell actions:
+
+* `onDelete`
+* `onReorder`
+* `onTap`
