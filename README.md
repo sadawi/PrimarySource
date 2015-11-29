@@ -2,7 +2,7 @@
 
 ## Overview
 
-**PrimarySource** is a Swift library for setting up data sources for UITableViews and UICollectionViews.
+This is a Swift library for setting up data sources for UITableViews and UICollectionViews.
 
 ```swift
 dataSource <<< Section(title: "Form") { section in
@@ -16,6 +16,12 @@ dataSource <<< Section(title: "Form") { section in
 ```
 
 ## Installation
+
+CollectionDataSource is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:		
+ 		 
+```swift
+pod "PrimarySource"
+```
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
