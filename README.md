@@ -19,7 +19,7 @@ dataSource <<< Section(title: "Form") { section in
 
 CollectionDataSource is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:		
  		 
-```swift
+```ruby
 pod "PrimarySource"
 ```
 
@@ -27,3 +27,26 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Usage
 
+### Setting up the data source
+
+Data sources should be set as your UITableView/UICollectionView delegate and dataSource.  A DataSource contains Sections, and each section contains items.
+
+Items are responsible for configuring cells, which may have been reused.
+
+### Cell registration
+
+A cell can be created in several ways:
+
+* By class (instantiated purely from code)
+```swift
+section <<< TableViewItem<TextFieldCell>()
+```
+
+* By storyboard identifier (using dynamic prototypes from the storyboard)
+```swift
+section <<< TableViewItem<TextFieldCell>(storyboardIdentifier: "NormalTextCell")
+```
+* From a nib
+```swift
+section <<< TableViewItem<TextFieldCell>(nibName: "NormalTextCellNib")
+```
