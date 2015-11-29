@@ -105,6 +105,7 @@ section <<< TableViewItem<TextFieldCell> { cell in
 ```
 
 And section-level actions:
+* `onReorder`
 
 ```swift
 dataSource <<< Section { section in
