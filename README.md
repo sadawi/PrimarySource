@@ -8,8 +8,8 @@ This is a Swift library for setting up data sources for UITableViews and UIColle
 dataSource <<< Section(title: "Form") { section in
     section <<< TableViewItem<TextFieldCell> { cell in
         cell.title = "Name"
-        cell.onChange = { [weak cell] in
-            print("New value: \(cell?.value)")
+        cell.onChange = { [unowned cell] in
+            print("New value: \(cell.value)")
         }
     }
 }
