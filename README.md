@@ -50,3 +50,27 @@ section <<< TableViewItem<TextFieldCell>(storyboardIdentifier: "NormalTextCell")
 ```swift
 section <<< TableViewItem<TextFieldCell>(nibName: "NormalTextCellNib")
 ```
+
+### Cell types
+
+A number of cell types are included.
+
+Display cells:
+* `TableCell`
+* `SubtitleCell`
+* `ActivityIndicatorCell`
+
+Interactive cells:
+* `ButtonCell`
+
+Field cells (each with a field and a strongly typed value):
+* `TextFieldCell` (UITextField, String)
+* `SwitchCell` (UISwitch, Boolean)
+* `DateFieldCell` (UIDatePicker, NSDate)
+* `SelectCell` (typed set of options, selectable in a pushed view controller)
+* `EmailAddressCell` (String)
+* `PhoneNumberCell` (String)
+* `IntegerCell` (Int)
+* `PasswordCell` (String)
+* `StepperCell` (UIStepper, Int)
+* `SliderCell` (UISlider, Float)
