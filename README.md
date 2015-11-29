@@ -98,7 +98,7 @@ section <<< TableViewItem<TextFieldCell> { cell in
 And section-level actions:
 
 ```swift
-dataSource <<< Section(title: "Form") { section in
+dataSource <<< Section { section in
     ...
 }.onReorder { sourceIndexPath, destinationIndexPath in 
     ...
