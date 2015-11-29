@@ -86,6 +86,8 @@ Field cells (each with a field and a strongly typed `value`):
 
 ### Cell action handlers
 
+Handlers can be added for actions like deleting, tapping, and reordering cells.  Adding a handler will enable the corresponding action in the UI: swipe to delete will become possible, the cells will highlight on tap, and the reordering accessory views will appear in edit mode.
+
 Handlers can be added for cell-level actions:
 
 * `onDelete`
