@@ -77,8 +77,30 @@ Field cells (each with a field and a strongly typed value):
 
 ### Cell action handlers
 
-Handlers can be added for cell actions:
+Handlers can be added for cell-level actions:
 
 * `onDelete`
-* `onReorder`
 * `onTap`
+
+```swift
+section <<< TableViewItem<TextFieldCell> { cell in
+    cell.title = "Name"
+    cell.onChange = { [unowned cell] in
+        print("New value: \(cell.value)")
+    }
+}.onTap { 
+    print("tapped") 
+}.onDelete { 
+    print("deleted") 
+}
+```
+
+And section-level actions:
+
+```swift
+dataSource <<< Section(title: "Form") { section in
+    ...
+}.onReorder { sourceIndexPath, destinationIndexPath in 
+    ...
+}
+```
