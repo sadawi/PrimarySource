@@ -1,29 +1,23 @@
-# CollectionDataSource
+# PrimarySource
 
-[![CI Status](http://img.shields.io/travis/Sam Williams/CollectionDataSource.svg?style=flat)](https://travis-ci.org/Sam Williams/CollectionDataSource)
-[![Version](https://img.shields.io/cocoapods/v/CollectionDataSource.svg?style=flat)](http://cocoapods.org/pods/CollectionDataSource)
-[![License](https://img.shields.io/cocoapods/l/CollectionDataSource.svg?style=flat)](http://cocoapods.org/pods/CollectionDataSource)
-[![Platform](https://img.shields.io/cocoapods/p/CollectionDataSource.svg?style=flat)](http://cocoapods.org/pods/CollectionDataSource)
+## Overview
 
-## Usage
+**PrimarySource** is a Swift library for setting up data sources for UITableViews and UICollectionViews.
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
-## Requirements
+```swift
+dataSource <<< Section(title: "Form") { section in
+    section <<< TableViewItem<TextFieldCell> { cell in
+        cell.title = "Name"
+        cell.onChange = { [weak cell] in
+            print("New value: \(cell?.value)")
+        }
+    }
+}
+```
 
 ## Installation
 
-CollectionDataSource is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your Podfile:
+To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-```ruby
-pod "CollectionDataSource"
-```
+## Usage
 
-## Author
-
-Sam Williams, samuel.williams@gmail.com
-
-## License
-
-CollectionDataSource is available under the MIT license. See the LICENSE file for more info.
