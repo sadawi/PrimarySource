@@ -41,8 +41,6 @@ func loadData()
 
 Then, whenever you call `self.tableView.reloadData()`, your table will be populated with data from your dataSource.
 
-Note that the initializers for sections take a configuration closure with that new section as an argument, and new items take a closure that configures the UITableViewCell instance itself.
-
 ### Cell registration
 
 A cell can be created in several ways:
