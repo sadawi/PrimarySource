@@ -151,28 +151,54 @@ public class FieldCell: TableCell {
     var titleLabel:UILabel?
     var controlView:UIStackView?
     
+    public var blank:Bool {
+        get { return true }
+    }
+    
     var contentConstraints:[NSLayoutConstraint] = []
     
     public dynamic var titleTextColor:UIColor? = UIColor.blackColor()
     public dynamic var valueTextColor:UIColor? = UIColor(white: 0.4, alpha: 1)
     public dynamic var contentFont:UIFont = UIFont.systemFontOfSize(17)
     
-    lazy var accessoryToolbar:UIToolbar = self.buildAccessoryToolbar()
-    
-    func buildAccessoryToolbar() -> UIToolbar {
+    lazy var accessoryToolbar:UIToolbar = {
         let toolbar = UIToolbar(frame: CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height))
-        toolbar.items = [
-            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: Selector("toolbarDone"))
-        ]
+        self.configureAccessoryToolbar(toolbar)
         return toolbar
+    }()
+    
+    func configureAccessoryToolbar(toolbar:UIToolbar) {
+        var items:[UIBarButtonItem] = []
+        if toolbarShowsCancelButton() {
+            items.append(UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: Selector("cancel")))
+        }
+        if toolbarShowsClearButton() {
+            items.append(UIBarButtonItem(title: "Clear", style: .Done, target: self, action: Selector("clear")))
+        }
+        
+        items.append(UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil))
+        items.append(UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: Selector("commit")))
+        
+        toolbar.items = items
     }
     
-    func toolbarDone() {
-        self.commit()
+    func toolbarShowsCancelButton() -> Bool {
+        return false
+    }
+
+    func toolbarShowsClearButton() -> Bool {
+        return true
     }
     
     public func commit() {
+    }
+    
+    public func cancel() {
+    }
+    
+    public func clear() {
+        self.cancel()
+        self.update()
     }
     
     public var labelPosition:FieldLabelPosition = .Left {
@@ -316,6 +342,16 @@ public class DateFieldCell: TextFieldCell {
         self.update()
     }
     
+    override public func commit() {
+        super.commit()
+        self.datePickerValueChanged()
+    }
+    
+    override public func clear() {
+        self.dateValue = nil
+        super.clear()
+    }
+    
     override func update() {
         super.update()
         if let date = self.dateValue {
@@ -337,7 +373,7 @@ public class TextFieldCell: FieldCell, UITextFieldDelegate {
     public var editingMode:TextEditingMode = .Inline
     public var value:String? {
         didSet {
-            self.textField?.text = self.value
+            self.update()
         }
     }
     
@@ -390,6 +426,27 @@ public class TextFieldCell: FieldCell, UITextFieldDelegate {
     public override func valueChanged() {
         super.valueChanged()
     }
+    
+    override public func cancel() {
+        self.textField?.resignFirstResponder()
+    }
+    
+    override public func clear() {
+        self.value = nil
+        super.clear()
+    }
+    
+    override public var blank:Bool {
+        get {
+            return self.value == nil
+        }
+    }
+    
+    override func update() {
+        super.update()
+        self.textField?.text = self.value
+    }
+    
 }
 
 public class EmailAddressCell: TextFieldCell {
