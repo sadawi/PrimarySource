@@ -157,6 +157,24 @@ public class FieldCell: TableCell {
     public dynamic var valueTextColor:UIColor? = UIColor(white: 0.4, alpha: 1)
     public dynamic var contentFont:UIFont = UIFont.systemFontOfSize(17)
     
+    lazy var accessoryToolbar:UIToolbar = self.buildAccessoryToolbar()
+    
+    func buildAccessoryToolbar() -> UIToolbar {
+        let toolbar = UIToolbar(frame: CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height))
+        toolbar.items = [
+            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: Selector("toolbarDone"))
+        ]
+        return toolbar
+    }
+    
+    func toolbarDone() {
+        self.commit()
+    }
+    
+    public func commit() {
+    }
+    
     public var labelPosition:FieldLabelPosition = .Left {
         didSet {
             self.setupConstraints()
@@ -329,7 +347,7 @@ public class TextFieldCell: FieldCell, UITextFieldDelegate {
         let textField = UITextField(frame: self.controlView!.bounds)
         
         textField.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        textField.returnKeyType = UIReturnKeyType.Done
+        textField.returnKeyType = UIReturnKeyType.Continue
         
         self.controlView!.addSubview(textField)
         
@@ -337,6 +355,11 @@ public class TextFieldCell: FieldCell, UITextFieldDelegate {
         
         textField.delegate = self
         self.textField = textField
+    }
+    
+    override public func commit() {
+        super.commit()
+        self.textField?.resignFirstResponder()
     }
     
     override func stylize() {
@@ -354,8 +377,13 @@ public class TextFieldCell: FieldCell, UITextFieldDelegate {
         }
     }
     
+    public func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+        self.textField?.inputAccessoryView = self.accessoryToolbar
+        return true
+    }
+    
     public func textFieldShouldReturn(textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+        self.commit()
         return true
     }
     
