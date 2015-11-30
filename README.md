@@ -95,7 +95,7 @@ Handlers can be added for cell-level actions:
 ```swift
 section <<< TableViewItem<TextFieldCell> { cell in
     cell.title = "Name"
-    ...
+    // ...
 }.onTap { 
     print("tapped") 
 }.onDelete { 
@@ -108,8 +108,8 @@ And section-level actions:
 
 ```swift
 dataSource <<< Section { section in
-    ...
+    // ...
 }.onReorder { sourceIndexPath, destinationIndexPath in 
-    ...
+    // ...
 }
 ```
