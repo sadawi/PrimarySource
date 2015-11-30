@@ -33,7 +33,7 @@ public class FieldCell: TableCell {
     public dynamic var contentFont:UIFont = UIFont.systemFontOfSize(17)
     
     lazy var accessoryToolbar:UIToolbar = {
-        let toolbar = UIToolbar(frame: CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height))
+        let toolbar = UIToolbar(frame: CGRectMake(0, 0, self.bounds.size.width, 36))
         self.configureAccessoryToolbar(toolbar)
         return toolbar
         }()
