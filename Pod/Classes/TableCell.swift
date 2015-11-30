@@ -275,8 +275,38 @@ public class FieldCell: TableCell {
     }
 }
 
-public class DateFieldCell: FieldCell {
-    public var value:NSDate?
+public class DateFieldCell: TextFieldCell {
+    public var dateValue:NSDate?
+    public var dateFormatter:NSDateFormatter = NSDateFormatter()
+    public var datePicker:UIDatePicker?
+    
+    override func buildView() {
+        super.buildView()
+        
+        self.dateFormatter.dateStyle = .MediumStyle
+        
+        self.datePicker = UIDatePicker()
+        self.datePicker?.datePickerMode = .Date
+        self.datePicker?.addTarget(self, action: Selector("datePickerValueChanged"), forControlEvents: UIControlEvents.ValueChanged)
+        
+        self.textField?.inputView = self.datePicker
+        self.textField?.tintColor = UIColor.clearColor()
+    }
+    
+    func datePickerValueChanged() {
+        self.dateValue = self.datePicker?.date
+        self.update()
+    }
+    
+    override func update() {
+        super.update()
+        if let date = self.dateValue {
+            self.textField?.text = self.dateFormatter.stringFromDate(date)
+        } else {
+            self.textField?.text = nil
+        }
+    }
+    
 }
 
 public enum TextEditingMode {
@@ -469,10 +499,6 @@ public class StepperCell: IntegerCell {
         control.addTarget(self, action: Selector("valueChanged"), forControlEvents: UIControlEvents.ValueChanged)
         self.stepper = control
     }
-}
-
-public class DateCell:FieldCell {
-    public var value:NSDate?
 }
 
 public class BooleanCell:FieldCell {
