@@ -87,9 +87,13 @@ public class TextFieldCell: FieldCell, UITextFieldDelegate {
         }
     }
     
+    func displayValue() -> String? {
+        return self.value
+    }
+    
     override func update() {
         super.update()
-        self.textField?.text = self.value
+        self.textField?.text = self.displayValue()
     }
     
 }

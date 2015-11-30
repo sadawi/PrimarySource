@@ -41,12 +41,11 @@ public class DateFieldCell: TextFieldCell {
         super.clear()
     }
     
-    override func update() {
-        super.update()
+    override func displayValue() -> String? {
         if let date = self.dateValue {
-            self.textField?.text = self.dateFormatter.stringFromDate(date)
+            return self.dateFormatter.stringFromDate(date)
         } else {
-            self.textField?.text = nil
+            return nil
         }
     }
     
