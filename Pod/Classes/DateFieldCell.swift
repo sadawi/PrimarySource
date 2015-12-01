@@ -59,4 +59,13 @@ public class DateFieldCell: TextFieldInputCell {
         super.clear()
     }
     
+    override public func update() {
+        super.update()
+        if let date = self.value {
+            self.datePicker?.date = date
+        } else {
+            self.datePicker?.date = NSDate()
+        }
+    }
+    
 }
