@@ -9,7 +9,11 @@
 import UIKit
 
 public class DateFieldCell: TextFieldCell {
-    public var dateValue:NSDate?
+    public var dateValue:NSDate? {
+        didSet {
+            self.update()
+        }
+    }
     public var dateFormatter:NSDateFormatter = NSDateFormatter()
     public var datePicker:UIDatePicker?
     
