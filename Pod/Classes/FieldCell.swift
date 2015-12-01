@@ -17,6 +17,11 @@ public enum FieldLabelPosition {
     case Left
 }
 
+public enum FieldState {
+    case Normal
+    case Error([String])
+}
+
 public class FieldCell: TableCell {
     var showTitleLabel:Bool = true
     var titleLabel:UILabel?
@@ -27,8 +32,16 @@ public class FieldCell: TableCell {
     }
     
     var contentConstraints:[NSLayoutConstraint] = []
+
+    public var state:FieldState = .Normal {
+        didSet {
+            self.stylize()
+        }
+    }
     
     public dynamic var titleTextColor:UIColor? = UIColor.blackColor()
+    public dynamic var errorTextColor:UIColor? = UIColor.redColor()
+    
     public dynamic var valueTextColor:UIColor? = UIColor(white: 0.4, alpha: 1)
     public dynamic var contentFont:UIFont = UIFont.systemFontOfSize(17)
     
@@ -131,6 +144,12 @@ public class FieldCell: TableCell {
         case .Top:
             self.titleLabel?.textColor = UIColor(white: 0.5, alpha: 1)
             self.titleLabel?.font = UIFont.boldSystemFontOfSize(11)
+        }
+        
+        switch self.state {
+        case .Error:
+            self.titleLabel?.textColor = self.errorTextColor
+        default: break
         }
     }
     
