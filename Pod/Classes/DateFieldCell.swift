@@ -8,8 +8,22 @@
 
 import UIKit
 
-public class DateFieldCell: TextFieldCell {
-    public var dateValue:NSDate? {
+public class DateFieldCell: TextFieldInputCell {
+    public override var stringValue:String? {
+        get {
+            if let date = self.value {
+                return self.dateFormatter.stringFromDate(date)
+            } else {
+                return nil
+            }
+        }
+        set {
+            // Input is through the datePicker.
+            // TODO: Might want to put date string parsing here, for completeness.
+        }
+    }
+    
+    public var value:NSDate? {
         didSet {
             self.update()
         }
@@ -31,7 +45,7 @@ public class DateFieldCell: TextFieldCell {
     }
     
     func datePickerValueChanged() {
-        self.dateValue = self.datePicker?.date
+        self.value = self.datePicker?.date
         self.update()
     }
     
@@ -41,16 +55,8 @@ public class DateFieldCell: TextFieldCell {
     }
     
     override public func clear() {
-        self.dateValue = nil
+        self.value = nil
         super.clear()
-    }
-    
-    override func displayValue() -> String? {
-        if let date = self.dateValue {
-            return self.dateFormatter.stringFromDate(date)
-        } else {
-            return nil
-        }
     }
     
 }

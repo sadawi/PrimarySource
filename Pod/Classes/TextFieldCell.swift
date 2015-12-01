@@ -13,14 +13,18 @@ public enum TextEditingMode {
     case Push
 }
 
-public class TextFieldCell: FieldCell, UITextFieldDelegate {
+/**
+    A cell that uses a UITextField as an input, but doesn't necessarily have a String value.  Should be subclassed.
+*/
+public class TextFieldInputCell: FieldCell, UITextFieldDelegate {
     public var textField:UITextField?
     public var editingMode:TextEditingMode = .Inline
-    public var value:String? {
-        didSet {
-            self.update()
-        }
-    }
+    
+    /**
+        The string that is set by and displayed in the text field, but isn't necessarily the primary value of this cell.
+        Subclasses should override this with getters and setters that translate it to their primary value type.
+    */
+    public var stringValue:String?
     
     override func buildView() {
         super.buildView()
@@ -52,8 +56,8 @@ public class TextFieldCell: FieldCell, UITextFieldDelegate {
     
     public func textFieldDidEndEditing(textField: UITextField) {
         let newValue = self.textField?.text
-        if newValue != self.value {
-            self.value = newValue
+        if newValue != self.stringValue {
+            self.stringValue = newValue
             self.valueChanged()
         }
     }
@@ -68,34 +72,47 @@ public class TextFieldCell: FieldCell, UITextFieldDelegate {
         return true
     }
     
-    public override func valueChanged() {
-        super.valueChanged()
-    }
-    
     override public func cancel() {
         self.textField?.resignFirstResponder()
     }
     
     override public func clear() {
-        self.value = nil
+        self.stringValue = nil
         super.clear()
     }
     
     override public var blank:Bool {
         get {
-            return self.value == nil
+            return self.stringValue == nil
         }
-    }
-    
-    func displayValue() -> String? {
-        return self.value
     }
     
     override func update() {
         super.update()
-        self.textField?.text = self.displayValue()
+        self.textField?.text = self.stringValue
     }
     
+}
+
+/**
+    A cell that uses a UITextField as an input and has a String value
+*/
+
+public class TextFieldCell: TextFieldInputCell {
+    public override var stringValue:String? {
+        get {
+            return self.value
+        }
+        set {
+            self.value = newValue
+        }
+    }
+    
+    public var value:String? {
+        didSet {
+            self.update()
+        }
+    }
 }
 
 public class EmailAddressCell: TextFieldCell {
