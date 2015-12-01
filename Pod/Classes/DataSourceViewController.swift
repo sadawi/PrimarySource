@@ -9,7 +9,7 @@
 import UIKit
 
 public class DataSourceViewController: UITableViewController, DataSourceDelegate {
-    var dataSource = DataSource()
+    public var dataSource = DataSource()
 
     override public func viewDidLoad() {
         super.viewDidLoad()
