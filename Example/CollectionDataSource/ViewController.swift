@@ -9,28 +9,32 @@
 import UIKit
 import CollectionDataSource
 
-class ViewController: UITableViewController, DataSourceDelegate {
-    var dataSource = DataSource()
+class ViewController: DataSourceViewController {
     
     override func viewDidLoad() {
-        super.viewDidLoad()
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 50
-        self.loadData()
+        super.viewDidLoad()
     }
     
     @IBAction func getValue(sender: AnyObject) {
         // TODO
     }
+    
+    @IBAction func refresh(sender: AnyObject) {
+        self.reloadData()
+    }
+    
     @IBAction func edit(sender: AnyObject) {
         self.tableView.setEditing(!self.tableView.editing, animated: true)
     }
     
-    func loadData() {
-        self.dataSource <<< Section(title: "Form") { section in
+    override func configureDataSource(dataSource: DataSource) {
+        dataSource <<< Section(title: "Form") { section in
             section <<< TableViewItem<TextFieldCell>(key: "name") { cell in
                 cell.labelPosition = .Top
                 cell.title = "Name"
+                cell.placeholderText = "Enter a full name"
                 cell.onChange = { [weak cell] in
                     print("New value: \(cell?.value)")
                 }
@@ -49,6 +53,8 @@ class ViewController: UITableViewController, DataSourceDelegate {
             }
             section <<< TableViewItem<PhoneNumberCell>(key: "phone") { cell in
                 cell.title = "Phone number"
+                cell.value = "948AAA"
+                cell.state = FieldState.Error(["Looks like this phone number is invalid!"])
                 cell.onChange = { [unowned cell] in
                     print("New value: \(cell.value)")
                 }
@@ -75,7 +81,7 @@ class ViewController: UITableViewController, DataSourceDelegate {
             }
         }
         
-        self.dataSource <<< Section(title: "List") { section in
+        dataSource <<< Section(title: "List") { section in
             for i in 1...25 {
                 section <<< TableViewItem<UITableViewCell>(reorderable: true) { cell in
                     cell.textLabel?.text = "Value \(i)"
@@ -91,7 +97,7 @@ class ViewController: UITableViewController, DataSourceDelegate {
             }
         }
         
-        self.dataSource <<< Section(title: "Manual Rows") { section in
+        dataSource <<< Section(title: "Manual Rows") { section in
             section <<< TableViewItem<CustomButtonCell>(storyboardIdentifier: "ButtonCell") { cell in
                 cell.backgroundColor = UIColor.greenColor()
                 cell.button?.setTitle("PRESS ME", forState: .Normal)
@@ -104,19 +110,6 @@ class ViewController: UITableViewController, DataSourceDelegate {
                     print("deleted!")
             }
         }
-        
-        self.dataSource.delegate = self
-        
-        self.tableView.delegate = self.dataSource
-        self.tableView.dataSource = self.dataSource
-        self.tableView.reloadData()
-    }
-    
-    
-    // MARK: - DataSourceDelegate
-    
-    func presentationViewControllerForDataSource(dataSource: DataSource) -> UIViewController? {
-        return self
     }
 }
 

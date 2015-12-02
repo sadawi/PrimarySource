@@ -20,6 +20,7 @@ public enum FieldLabelPosition {
 public enum FieldState {
     case Normal
     case Error([String])
+    case Editing
 }
 
 public class FieldCell: TableCell {
@@ -30,6 +31,12 @@ public class FieldCell: TableCell {
     
     var mainContent:UIView?
     var detailContent:UIView?
+    
+    public var placeholderText:String? {
+        didSet {
+            self.update()
+        }
+    }
     
     var controlView:UIStackView?
     

@@ -46,12 +46,13 @@ public class DateFieldCell: TextFieldInputCell {
     
     func datePickerValueChanged() {
         self.value = self.datePicker?.date
-        self.valueChanged()
+//        self.valueChanged()
     }
     
     override public func commit() {
-        super.commit()
         self.datePickerValueChanged()
+        self.valueChanged()
+        super.commit()
     }
     
     override public func clear() {
