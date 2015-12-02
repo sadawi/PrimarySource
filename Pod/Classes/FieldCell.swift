@@ -135,11 +135,11 @@ public class FieldCell: TableCell {
         self.mainContent?.addSubview(titleLabel)
         self.titleLabel = titleLabel
 
-        let errorIcon = UIImageView(frame: CGRect(x: 0, y: 0, width: 32, height: 32))
-        errorIcon.contentMode = .ScaleAspectFit
-        errorIcon.translatesAutoresizingMaskIntoConstraints = false
-        self.detailContent?.addSubview(errorIcon)
-        self.errorIcon = errorIcon
+//        let errorIcon = UIImageView(frame: CGRect(x: 0, y: 0, width: 32, height: 32))
+//        errorIcon.contentMode = .ScaleAspectFit
+//        errorIcon.translatesAutoresizingMaskIntoConstraints = false
+//        self.detailContent?.addSubview(errorIcon)
+//        self.errorIcon = errorIcon
 
         let errorLabel = UILabel(frame: detailContent.bounds)
         errorLabel.numberOfLines = 0
@@ -154,7 +154,8 @@ public class FieldCell: TableCell {
         self.controlView = controlView
         
         
-        let views = ["error":errorLabel, "main":mainContent, "detail":detailContent, "errorIcon": errorIcon]
+//        let views = ["error":errorLabel, "main":mainContent, "detail":detailContent, "errorIcon": errorIcon]
+        let views = ["error":errorLabel, "main":mainContent, "detail":detailContent]
         let metrics = [
             "left": self.defaultContentInsets.left,
             "right": self.defaultContentInsets.right,
@@ -163,9 +164,11 @@ public class FieldCell: TableCell {
             "icon": 20
         ]
         
-        self.detailContent?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[errorIcon(icon)]-[error]-right-|", options: .AlignAllTop, metrics: metrics, views: views))
+//        self.detailContent?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[errorIcon(icon)]-[error]-right-|", options: .AlignAllTop, metrics: metrics, views: views))
+        self.detailContent?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[error]-right-|", options: .AlignAllTop, metrics: metrics, views: views))
+        
         self.detailContent?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[error]|", options: .AlignAllTop, metrics: metrics, views: views))
-        self.detailContent?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[errorIcon]|", options: .AlignAllTop, metrics: metrics, views: views))
+//        self.detailContent?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[errorIcon]|", options: .AlignAllTop, metrics: metrics, views: views))
         
         var constraints:[NSLayoutConstraint] = []
         constraints += NSLayoutConstraint.constraintsWithVisualFormat("H:|[main]|", options: .AlignAllTop, metrics: metrics, views: views)
@@ -213,9 +216,9 @@ public class FieldCell: TableCell {
     }
     
     func setupConstraints() {
-        guard let titleLabel=self.titleLabel, controlView=self.controlView, errorLabel=self.errorLabel, mainContent=self.mainContent else { return }
+        guard let titleLabel=self.titleLabel, controlView=self.controlView, mainContent=self.mainContent else { return }
         
-        let views = ["title":titleLabel, "controls":controlView, "error":errorLabel, "main":mainContent]
+        let views = ["title":titleLabel, "controls":controlView, "main":mainContent]
         let metrics = [
             "left": self.defaultContentInsets.left,
             "right": self.defaultContentInsets.right,
