@@ -10,6 +10,11 @@ import UIKit
 
 public class DataSourceViewController: UITableViewController, DataSourceDelegate {
     public var dataSource = DataSource()
+    
+    override public func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.reloadData()
+    }
 
     override public func viewDidLoad() {
         super.viewDidLoad()
