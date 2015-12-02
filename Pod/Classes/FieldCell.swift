@@ -25,6 +25,11 @@ public enum FieldState {
 public class FieldCell: TableCell {
     var showTitleLabel:Bool = true
     var titleLabel:UILabel?
+    var errorLabel:UILabel?
+    
+    var mainContent:UIView?
+    var detailContent:UIView?
+    
     var controlView:UIStackView?
     
     public var blank:Bool {
@@ -35,7 +40,9 @@ public class FieldCell: TableCell {
 
     public var state:FieldState = .Normal {
         didSet {
+            self.update()
             self.stylize()
+            self.setupConstraints()
         }
     }
     
@@ -111,19 +118,51 @@ public class FieldCell: TableCell {
     override func buildView() {
         super.buildView()
         
+        let mainContent = UIView(frame: CGRect.zero)
+        mainContent.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(mainContent)
+        self.mainContent = mainContent
+
+        let detailContent = UIView(frame: CGRect.zero)
+        detailContent.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(detailContent)
+        self.detailContent = detailContent
+        
         let titleLabel = UILabel(frame: CGRect.zero)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        //                titleLabel.backgroundColor = UIColor.greenColor()
-        self.contentView.addSubview(titleLabel)
+        self.mainContent?.addSubview(titleLabel)
         self.titleLabel = titleLabel
-        
+
+        let errorLabel = UILabel(frame: detailContent.bounds)
+        errorLabel.numberOfLines = 0
+        errorLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.detailContent?.addSubview(errorLabel)
+        self.errorLabel = errorLabel
+
         let controlView = UIStackView(frame: CGRect.zero)
         controlView.axis = UILayoutConstraintAxis.Horizontal
-        //        controlView.distribution =
         controlView.translatesAutoresizingMaskIntoConstraints = false
-        //                controlView.backgroundColor = UIColor.redColor()
-        self.contentView.addSubview(controlView)
+        self.mainContent?.addSubview(controlView)
         self.controlView = controlView
+        
+        
+        let views = ["error":errorLabel, "main":mainContent, "detail":detailContent]
+        let metrics = [
+            "left": self.defaultContentInsets.left,
+            "right": self.defaultContentInsets.right,
+            "top": self.defaultContentInsets.top,
+            "bottom": self.defaultContentInsets.bottom,
+        ]
+        
+        self.detailContent?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[error]-right-|", options: .AlignAllTop, metrics: metrics, views: views))
+        self.detailContent?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[error]|", options: .AlignAllTop, metrics: metrics, views: views))
+        
+        var constraints:[NSLayoutConstraint] = []
+        constraints += NSLayoutConstraint.constraintsWithVisualFormat("H:|[main]|", options: .AlignAllTop, metrics: metrics, views: views)
+        constraints += NSLayoutConstraint.constraintsWithVisualFormat("H:|[detail]|", options: .AlignAllTop, metrics: metrics, views: views)
+        constraints += NSLayoutConstraint.constraintsWithVisualFormat("V:|[main][detail]-bottom-|", options: .AlignAllLeft, metrics: metrics, views: views)
+        self.contentView.addConstraints(constraints)
+    
         
         self.setupConstraints()
         self.stylize()
@@ -132,10 +171,20 @@ public class FieldCell: TableCell {
     
     func update() {
         self.titleLabel?.text = self.formattedTitle()
+        switch self.state {
+        case .Error(let messages):
+            self.errorLabel?.text = messages.joinWithSeparator("\n")
+        default:
+            self.errorLabel?.text = nil
+        }
     }
     
     override func stylize() {
         super.stylize()
+        
+//        self.controlView?.backgroundColor = UIColor.greenColor()
+//        self.titleLabel?.backgroundColor = UIColor.yellowColor()
+//        self.errorLabel?.backgroundColor = UIColor.grayColor()
         
         switch self.labelPosition {
         case .Left:
@@ -149,14 +198,15 @@ public class FieldCell: TableCell {
         switch self.state {
         case .Error:
             self.titleLabel?.textColor = self.errorTextColor
+            self.errorLabel?.textColor = self.errorTextColor
         default: break
         }
     }
     
     func setupConstraints() {
-        guard let titleLabel=self.titleLabel, controlView=self.controlView else { return }
+        guard let titleLabel=self.titleLabel, controlView=self.controlView, errorLabel=self.errorLabel, mainContent=self.mainContent else { return }
         
-        let views = ["title":titleLabel, "controls":controlView]
+        let views = ["title":titleLabel, "controls":controlView, "error":errorLabel, "main":mainContent]
         let metrics = [
             "left": self.defaultContentInsets.left,
             "right": self.defaultContentInsets.right,
@@ -166,7 +216,7 @@ public class FieldCell: TableCell {
         ]
         
         for constraint in self.contentConstraints {
-            self.contentView.removeConstraint(constraint)
+            self.mainContent?.removeConstraint(constraint)
         }
         
         var newConstraints:[NSLayoutConstraint] = []
@@ -174,17 +224,16 @@ public class FieldCell: TableCell {
         switch self.labelPosition {
         case .Left:
             newConstraints += NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[title]-[controls]-right-|", options: .AlignAllTop, metrics: metrics, views: views)
-            newConstraints += NSLayoutConstraint.constraintsWithVisualFormat("V:|-top-[title]-bottom-|", options: .AlignAllTop, metrics: metrics, views: views)
-            newConstraints += NSLayoutConstraint.constraintsWithVisualFormat("V:|-top-[controls]-bottom-|", options: .AlignAllTop, metrics: metrics, views: views)
-            
+            newConstraints += NSLayoutConstraint.constraintsWithVisualFormat("V:|-top-[title]|", options: .AlignAllTop, metrics: metrics, views: views)
+            newConstraints += NSLayoutConstraint.constraintsWithVisualFormat("V:|-top-[controls]|", options: .AlignAllTop, metrics: metrics, views: views)
         case .Top:
             let options = NSLayoutFormatOptions.AlignAllLeft
             newConstraints += NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[title]-right-|", options: options, metrics: metrics, views: views)
             newConstraints += NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[controls]-right-|", options: options, metrics: metrics, views: views)
-            newConstraints += NSLayoutConstraint.constraintsWithVisualFormat("V:|-top-[title]-[controls(>=controlHeight)]-bottom-|", options: options, metrics: metrics, views: views)
+            newConstraints += NSLayoutConstraint.constraintsWithVisualFormat("V:|-top-[title]-[controls(>=controlHeight)]-|", options: options, metrics: metrics, views: views)
         }
         
-        self.contentView.addConstraints(newConstraints)
+        self.mainContent?.addConstraints(newConstraints)
         self.contentConstraints = newConstraints
     }
     
