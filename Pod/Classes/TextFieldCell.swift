@@ -90,6 +90,7 @@ public class TextFieldInputCell: FieldCell, UITextFieldDelegate {
     override func update() {
         super.update()
         self.textField?.text = self.stringValue
+        self.textField?.placeholder = self.placeholderText
     }
     
 }
