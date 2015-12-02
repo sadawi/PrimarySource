@@ -51,7 +51,7 @@ public class FieldCell: TableCell {
         didSet {
             self.update()
             self.stylize()
-            self.setupConstraints()
+//            self.setupConstraints()
         }
     }
     
