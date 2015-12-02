@@ -39,7 +39,7 @@ public class FieldCell: TableCell {
     
     var contentConstraints:[NSLayoutConstraint] = []
 
-    //    public var state:FieldState = .Error(["Oh no.  Seems like this is wrong"]) {
+//        public var state:FieldState = .Error(["Oh no.  Seems like this is wrong"]) {
     public var state:FieldState = .Normal {
         didSet {
             self.update()
@@ -136,7 +136,6 @@ public class FieldCell: TableCell {
         self.titleLabel = titleLabel
 
         let errorIcon = UIImageView(frame: CGRect(x: 0, y: 0, width: 32, height: 32))
-        errorIcon.image = UIImage(named: "error-32", inBundle: NSBundle(forClass: FieldCell.self), compatibleWithTraitCollection: nil)?.imageWithRenderingMode(.AlwaysTemplate)
         errorIcon.contentMode = .ScaleAspectFit
         errorIcon.translatesAutoresizingMaskIntoConstraints = false
         self.detailContent?.addSubview(errorIcon)
@@ -166,7 +165,7 @@ public class FieldCell: TableCell {
         
         self.detailContent?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[errorIcon(icon)]-[error]-right-|", options: .AlignAllTop, metrics: metrics, views: views))
         self.detailContent?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[error]|", options: .AlignAllTop, metrics: metrics, views: views))
-        self.detailContent?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[errorIcon(icon)]|", options: .AlignAllTop, metrics: metrics, views: views))
+        self.detailContent?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[errorIcon]|", options: .AlignAllTop, metrics: metrics, views: views))
         
         var constraints:[NSLayoutConstraint] = []
         constraints += NSLayoutConstraint.constraintsWithVisualFormat("H:|[main]|", options: .AlignAllTop, metrics: metrics, views: views)
@@ -184,8 +183,10 @@ public class FieldCell: TableCell {
         self.titleLabel?.text = self.formattedTitle()
         switch self.state {
         case .Error(let messages):
+            self.errorIcon?.image = UIImage(named: "error-32", inBundle: NSBundle(forClass: FieldCell.self), compatibleWithTraitCollection: nil)?.imageWithRenderingMode(.AlwaysTemplate)
             self.errorLabel?.text = messages.joinWithSeparator("\n")
         default:
+            self.errorIcon?.image = nil
             self.errorLabel?.text = nil
         }
     }
