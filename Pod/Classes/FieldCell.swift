@@ -26,6 +26,7 @@ public class FieldCell: TableCell {
     var showTitleLabel:Bool = true
     var titleLabel:UILabel?
     var errorLabel:UILabel?
+    var errorIcon:UIImageView?
     
     var mainContent:UIView?
     var detailContent:UIView?
@@ -38,6 +39,7 @@ public class FieldCell: TableCell {
     
     var contentConstraints:[NSLayoutConstraint] = []
 
+    //    public var state:FieldState = .Error(["Oh no.  Seems like this is wrong"]) {
     public var state:FieldState = .Normal {
         didSet {
             self.update()
@@ -133,6 +135,13 @@ public class FieldCell: TableCell {
         self.mainContent?.addSubview(titleLabel)
         self.titleLabel = titleLabel
 
+        let errorIcon = UIImageView(frame: CGRect(x: 0, y: 0, width: 32, height: 32))
+        errorIcon.image = UIImage(named: "error-32", inBundle: NSBundle(forClass: FieldCell.self), compatibleWithTraitCollection: nil)?.imageWithRenderingMode(.AlwaysTemplate)
+        errorIcon.contentMode = .ScaleAspectFit
+        errorIcon.translatesAutoresizingMaskIntoConstraints = false
+        self.detailContent?.addSubview(errorIcon)
+        self.errorIcon = errorIcon
+
         let errorLabel = UILabel(frame: detailContent.bounds)
         errorLabel.numberOfLines = 0
         errorLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -146,16 +155,18 @@ public class FieldCell: TableCell {
         self.controlView = controlView
         
         
-        let views = ["error":errorLabel, "main":mainContent, "detail":detailContent]
+        let views = ["error":errorLabel, "main":mainContent, "detail":detailContent, "errorIcon": errorIcon]
         let metrics = [
             "left": self.defaultContentInsets.left,
             "right": self.defaultContentInsets.right,
             "top": self.defaultContentInsets.top,
             "bottom": self.defaultContentInsets.bottom,
+            "icon": 20
         ]
         
-        self.detailContent?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[error]-right-|", options: .AlignAllTop, metrics: metrics, views: views))
+        self.detailContent?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[errorIcon(icon)]-[error]-right-|", options: .AlignAllTop, metrics: metrics, views: views))
         self.detailContent?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[error]|", options: .AlignAllTop, metrics: metrics, views: views))
+        self.detailContent?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[errorIcon(icon)]|", options: .AlignAllTop, metrics: metrics, views: views))
         
         var constraints:[NSLayoutConstraint] = []
         constraints += NSLayoutConstraint.constraintsWithVisualFormat("H:|[main]|", options: .AlignAllTop, metrics: metrics, views: views)
@@ -195,12 +206,9 @@ public class FieldCell: TableCell {
             self.titleLabel?.font = UIFont.boldSystemFontOfSize(11)
         }
         
-        switch self.state {
-        case .Error:
-            self.titleLabel?.textColor = self.errorTextColor
-            self.errorLabel?.textColor = self.errorTextColor
-        default: break
-        }
+        self.errorLabel?.textColor = self.errorTextColor
+        self.errorIcon?.tintColor = self.errorTextColor
+        self.errorLabel?.font = self.contentFont
     }
     
     func setupConstraints() {
