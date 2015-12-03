@@ -10,6 +10,13 @@ import UIKit
 
 public class DataSourceViewController: UITableViewController, DataSourceDelegate {
     public var dataSource = DataSource()
+    public var configure:(DataSource -> Void)?
+    
+    public convenience init(title:String?=nil, configure:(DataSource -> Void)) {
+        self.init()
+        self.title = title
+        self.configure = configure
+    }
     
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -28,6 +35,9 @@ public class DataSourceViewController: UITableViewController, DataSourceDelegate
     }
     
     public func configureDataSource(dataSource:DataSource) {
+        if let configure = self.configure {
+            configure(dataSource)
+        }
     }
     
     public func reloadData() {
