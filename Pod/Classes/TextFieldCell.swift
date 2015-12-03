@@ -47,7 +47,7 @@ public class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCe
         self.textField?.resignFirstResponder()
     }
     
-    override func stylize() {
+    override public func stylize() {
         super.stylize()
         self.textField?.textAlignment = self.labelPosition == .Left ? .Right : .Left
         self.textField?.font = self.contentFont

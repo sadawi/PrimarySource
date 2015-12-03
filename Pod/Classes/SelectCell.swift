@@ -33,7 +33,7 @@ public class SelectCell<ValueType:Equatable>: FieldCell, TappableTableCell {
         self.valueLabel = valueLabel
     }
     
-    override func stylize() {
+    override public func stylize() {
         super.stylize()
         
         self.valueLabel?.font = self.contentFont

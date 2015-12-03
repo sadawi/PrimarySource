@@ -49,7 +49,7 @@ public class TableCell: UITableViewCell {
         self.stylize()
     }
     
-    func stylize() {
+    public func stylize() {
     }
 }
 
@@ -64,7 +64,7 @@ public class SubtitleCell: TableCell {
         super.init(coder: aDecoder)
     }
     
-    override func stylize() {
+    override public func stylize() {
         self.detailTextLabel?.textColor = self.detailTextColor
     }
 }
@@ -122,7 +122,7 @@ public class ButtonCell: TableCell, TappableTableCell {
         self.button = button
     }
     
-    override func stylize() {
+    override public func stylize() {
         super.stylize()
         if let font = self.buttonFont {
             self.button?.titleLabel?.font = font

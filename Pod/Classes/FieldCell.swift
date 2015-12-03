@@ -201,7 +201,7 @@ public class FieldCell: TableCell {
         }
     }
     
-    override func stylize() {
+    override public func stylize() {
         super.stylize()
         
 //        self.controlView?.backgroundColor = UIColor.greenColor()
