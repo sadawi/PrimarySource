@@ -16,7 +16,7 @@ public enum TextEditingMode {
 /**
     A cell that uses a UITextField as an input, but doesn't necessarily have a String value.  Should be subclassed.
 */
-public class TextFieldInputCell: FieldCell, UITextFieldDelegate {
+public class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCell {
     public var textField:UITextField?
     public var editingMode:TextEditingMode = .Inline
     
@@ -93,8 +93,13 @@ public class TextFieldInputCell: FieldCell, UITextFieldDelegate {
         super.update()
         self.textField?.text = self.stringValue
         self.textField?.placeholder = self.placeholderText
+        self.textField?.userInteractionEnabled = !self.readonly
     }
     
+    func handleTap() {
+        self.textField?.becomeFirstResponder()
+    }
+   
 }
 
 /**

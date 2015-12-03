@@ -54,7 +54,7 @@ public class SelectCell<ValueType:Equatable>: FieldCell, TappableTableCell {
         } else {
             self.valueLabel?.text = nil
         }
-        
+        self.userInteractionEnabled = !self.readonly
     }
     
     func handleTap() {

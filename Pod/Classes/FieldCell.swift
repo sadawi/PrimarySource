@@ -32,6 +32,8 @@ public class FieldCell: TableCell {
     var mainContent:UIView?
     var detailContent:UIView?
     
+    public var readonly:Bool = false
+    
     public var placeholderText:String? {
         didSet {
             self.update()
@@ -46,12 +48,10 @@ public class FieldCell: TableCell {
     
     var contentConstraints:[NSLayoutConstraint] = []
 
-//        public var state:FieldState = .Error(["Oh no.  Seems like this is wrong"]) {
     public var state:FieldState = .Normal {
         didSet {
             self.update()
             self.stylize()
-//            self.setupConstraints()
         }
     }
     
