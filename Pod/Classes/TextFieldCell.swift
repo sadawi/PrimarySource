@@ -58,6 +58,8 @@ public class TextFieldInputCell: FieldCell, UITextFieldDelegate {
         let newValue = self.textField?.text
         if newValue != self.stringValue {
             self.stringValue = newValue
+            
+            // TODO: could be more accurate about this.  Maybe keep track of whether user actually changed the value
             self.valueChanged()
         }
     }
