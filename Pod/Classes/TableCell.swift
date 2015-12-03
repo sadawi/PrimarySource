@@ -41,7 +41,7 @@ public class TableCell: UITableViewCell {
         self.buildView()
     }
     
-    func buildView() {
+    public func buildView() {
         self.clipsToBounds = true
     }
     
@@ -72,7 +72,7 @@ public class SubtitleCell: TableCell {
 public class ActivityIndicatorCell: TableCell {
     public var activityIndicator:UIActivityIndicatorView?
     
-    override func buildView() {
+    override public func buildView() {
         super.buildView()
         let activity = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
         activity.center = CGPoint(x: CGRectGetMidX(self.contentView.bounds), y: CGRectGetMidY(self.contentView.bounds))
@@ -104,7 +104,7 @@ public class ButtonCell: TableCell, TappableTableCell {
         }
     }
     
-    override func buildView() {
+    override public func buildView() {
         super.buildView()
         let button = UIButton(type: .Custom)
         

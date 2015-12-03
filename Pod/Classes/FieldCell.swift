@@ -124,7 +124,7 @@ public class FieldCell: TableCell {
         }
     }
     
-    override func buildView() {
+    override public func buildView() {
         super.buildView()
         
         let mainContent = UIView(frame: CGRect.zero)

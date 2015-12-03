@@ -16,7 +16,7 @@ public class BooleanCell:FieldCell {
 public class SwitchCell:BooleanCell, TappableTableCell  {
     var switchControl:UISwitch?
     
-    override func buildView() {
+    override public func buildView() {
         super.buildView()
         let control = UISwitch(frame: self.controlView!.bounds)
         

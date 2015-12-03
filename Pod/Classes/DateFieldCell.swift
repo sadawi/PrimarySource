@@ -31,7 +31,7 @@ public class DateFieldCell: TextFieldInputCell {
     public var dateFormatter:NSDateFormatter = NSDateFormatter()
     public var datePicker:UIDatePicker?
     
-    override func buildView() {
+    override public func buildView() {
         super.buildView()
         
         self.dateFormatter.dateStyle = .MediumStyle

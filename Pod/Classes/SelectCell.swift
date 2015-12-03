@@ -25,7 +25,7 @@ public class SelectCell<ValueType:Equatable>: FieldCell, TappableTableCell {
     
     public var valueLabel:UILabel?
     
-    override func buildView() {
+    override public func buildView() {
         super.buildView()
         
         let valueLabel = UILabel(frame: CGRect.zero)

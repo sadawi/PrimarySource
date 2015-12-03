@@ -15,7 +15,7 @@ public class IntegerCell: FieldCell {
 public class StepperCell: IntegerCell {
     public var stepper:UIStepper?
     
-    override func buildView() {
+    override public func buildView() {
         super.buildView()
         let control = UIStepper(frame: self.controlView!.bounds)
         self.addControl(control, alignment:.Right)

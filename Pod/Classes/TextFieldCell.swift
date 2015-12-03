@@ -26,7 +26,7 @@ public class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCe
     */
     public var stringValue:String?
     
-    override func buildView() {
+    override public func buildView() {
         super.buildView()
         
         let textField = UITextField(frame: self.controlView!.bounds)
@@ -124,7 +124,7 @@ public class TextFieldCell: TextFieldInputCell {
 }
 
 public class EmailAddressCell: TextFieldCell {
-    override func buildView() {
+    override public func buildView() {
         super.buildView()
         self.textField?.keyboardType = .EmailAddress
         self.textField?.autocapitalizationType = .None
@@ -133,7 +133,7 @@ public class EmailAddressCell: TextFieldCell {
 }
 
 public class PhoneNumberCell: TextFieldCell {
-    override func buildView() {
+    override public func buildView() {
         super.buildView()
         self.textField?.keyboardType = .PhonePad
     }
