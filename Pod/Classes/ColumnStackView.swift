@@ -71,8 +71,6 @@ public class ColumnStackView: UIView {
             
             self.needsRebalancing = false
         }
-        self.setNeedsUpdateConstraints()
-        self.setNeedsLayout()
     }
     
     // MARK: - private
@@ -82,14 +80,14 @@ public class ColumnStackView: UIView {
         
         let columnStack = UIStackView(frame: self.bounds)
         columnStack.axis = .Horizontal
-        columnStack.distribution = .FillEqually
+        columnStack.distribution = UIStackViewDistribution.FillProportionally
         columnStack.translatesAutoresizingMaskIntoConstraints = false
         
         for var i=0; i<self.columnCount; i++ {
             let column = UIStackView(frame: CGRect.null)
             column.axis = .Vertical
             column.translatesAutoresizingMaskIntoConstraints = false
-            column.spacing = 1
+//            column.spacing = 1
             columnStack.addArrangedSubview(column)
         }
         
