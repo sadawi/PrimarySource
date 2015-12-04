@@ -87,6 +87,7 @@ public class ColumnStackView: UIView {
         for var i=0; i<self.columnCount; i++ {
             let column = UIStackView(frame: CGRect.null)
             column.axis = .Vertical
+            column.distribution = .FillEqually
             column.translatesAutoresizingMaskIntoConstraints = false
 //            column.spacing = 0
             columnStack.addArrangedSubview(column)
