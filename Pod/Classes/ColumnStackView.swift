@@ -79,6 +79,7 @@ public class ColumnStackView: UIView {
         self.columnStack?.removeFromSuperview()
         
         let columnStack = UIStackView(frame: self.bounds)
+        columnStack.spacing = 5.0
         columnStack.axis = .Horizontal
         columnStack.distribution = UIStackViewDistribution.FillProportionally
         columnStack.translatesAutoresizingMaskIntoConstraints = false
@@ -87,7 +88,7 @@ public class ColumnStackView: UIView {
             let column = UIStackView(frame: CGRect.null)
             column.axis = .Vertical
             column.translatesAutoresizingMaskIntoConstraints = false
-//            column.spacing = 1
+//            column.spacing = 0
             columnStack.addArrangedSubview(column)
         }
         
