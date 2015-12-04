@@ -31,6 +31,10 @@ class ViewController: DataSourceViewController {
     
     override func configureDataSource(dataSource: DataSource) {
         dataSource <<< Section(title: "Cells") { section in
+            section <<< TableViewItem<MapCell> { cell in
+                cell.mapHeight = 200
+            }
+            
             section <<< TableViewItem<StackCell> { cell in
                 var views:[UIView] = []
                 for i in 1...5 {
@@ -51,6 +55,8 @@ class ViewController: DataSourceViewController {
                 }
                 cell.columns?.items = views
             }
+            
+            
         }
         
         dataSource <<< Section(title: "Form") { section in

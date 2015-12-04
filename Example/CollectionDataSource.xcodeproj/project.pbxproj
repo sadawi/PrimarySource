@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		224CC2261C03C46100E80B8E /* CustomButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224CC2251C03C46100E80B8E /* CustomButtonCell.swift */; settings = {ASSET_TAGS = (); }; };
+		229471081C1140B9006E2138 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 229471071C1140B9006E2138 /* MapKit.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -31,6 +32,7 @@
 /* Begin PBXFileReference section */
 		025DD3AAB74D38760077DCAD /* Pods_CollectionDataSource_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CollectionDataSource_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		224CC2251C03C46100E80B8E /* CustomButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButtonCell.swift; sourceTree = "<group>"; };
+		229471071C1140B9006E2138 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		607FACD01AFB9204008FA782 /* CollectionDataSource_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionDataSource_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -56,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				229471081C1140B9006E2138 /* MapKit.framework in Frameworks */,
 				A51204D380EA35264C620578 /* Pods_CollectionDataSource_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -164,6 +167,7 @@
 		BE301C22AF48839F521E59D6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				229471071C1140B9006E2138 /* MapKit.framework */,
 				025DD3AAB74D38760077DCAD /* Pods_CollectionDataSource_Example.framework */,
 				7C4E71950E87EE88602D9145 /* Pods_CollectionDataSource_Tests.framework */,
 			);
