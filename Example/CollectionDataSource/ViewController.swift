@@ -30,6 +30,29 @@ class ViewController: DataSourceViewController {
     }
     
     override func configureDataSource(dataSource: DataSource) {
+        dataSource <<< Section(title: "Cells") { section in
+            section <<< TableViewItem<StackCell> { cell in
+                var views:[UIView] = []
+                for i in 1...5 {
+                    let view = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 40))
+                    view.text = "Item \(i)"
+                    views.append(view)
+                }
+                cell.arrangedSubviews = views
+            }
+            
+            section <<< TableViewItem<MultiColumnCell> { cell in
+                cell.columns?.columnCount = 3
+                var views:[UIView] = []
+                for i in 1...10 {
+                    let view = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 40))
+                    view.text = "Item \(i)"
+                    views.append(view)
+                }
+                cell.columns?.items = views
+            }
+        }
+        
         dataSource <<< Section(title: "Form") { section in
             section <<< TableViewItem<TextFieldCell>(key: "name") { cell in
                 cell.labelPosition = .Top
