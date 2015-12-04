@@ -20,7 +20,6 @@ public class DataSourceViewController: UITableViewController, DataSourceDelegate
     
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.reloadData()
     }
 
     override public func viewDidLoad() {
