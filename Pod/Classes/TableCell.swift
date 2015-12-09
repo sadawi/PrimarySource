@@ -14,7 +14,7 @@ protocol TappableTableCell {
 
 public class TableCell: UITableViewCell {
     internal weak var dataSource:DataSource?
-        
+    
     var defaultContentInsets:UIEdgeInsets {
         get {
             let side = self.separatorInset.left

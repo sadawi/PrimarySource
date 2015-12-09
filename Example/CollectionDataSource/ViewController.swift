@@ -12,6 +12,7 @@ import CollectionDataSource
 class ViewController: DataSourceViewController {
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 50
         super.viewDidLoad()
@@ -125,20 +126,20 @@ class ViewController: DataSourceViewController {
                 }
             }
         }
-        
-        dataSource <<< Section(title: "Manual Rows") { section in
-            section <<< TableViewItem<CustomButtonCell>(storyboardIdentifier: "ButtonCell") { cell in
-                cell.backgroundColor = UIColor.greenColor()
-                cell.button?.setTitle("PRESS ME", forState: .Normal)
-            }
-            section <<< TableViewItem<UITableViewCell> { cell in
-                cell.textLabel?.text = "Hello"
-                }.onTap { _ in
-                    print("hello there")
-                }.onDelete { _ in
-                    print("deleted!")
-            }
-        }
+//        
+//        dataSource <<< Section(title: "Manual Rows") { section in
+//            section <<< TableViewItem<CustomButtonCell>(storyboardIdentifier: "ButtonCell") { cell in
+//                cell.backgroundColor = UIColor.greenColor()
+//                cell.button?.setTitle("PRESS ME", forState: .Normal)
+//            }
+//            section <<< TableViewItem<UITableViewCell> { cell in
+//                cell.textLabel?.text = "Hello"
+//                }.onTap { _ in
+//                    print("hello there")
+//                }.onDelete { _ in
+//                    print("deleted!")
+//            }
+//        }
     }
 }
 

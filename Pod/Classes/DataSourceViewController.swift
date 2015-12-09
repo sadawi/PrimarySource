@@ -8,9 +8,13 @@
 
 import UIKit
 
-public class DataSourceViewController: UITableViewController, DataSourceDelegate {
+public class DataSourceViewController: UIViewController, DataSourceDelegate {
     public var dataSource = DataSource()
     public var configure:(DataSource -> Void)?
+    
+    @IBOutlet lazy public var tableView:UITableView! = {
+        UITableView(frame: self.view.bounds)
+    }()
     
     public convenience init(title:String?=nil, configure:(DataSource -> Void)) {
         self.init()
@@ -24,6 +28,13 @@ public class DataSourceViewController: UITableViewController, DataSourceDelegate
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+        
+        if self.tableView.superview == nil {
+            self.tableView.frame = self.view.bounds
+            self.tableView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+            self.view.addSubview(tableView)
+        }
+        
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 44
         
