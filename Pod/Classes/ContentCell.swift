@@ -11,7 +11,7 @@ import Foundation
 public class ContentCell: TableCell {
     var content:UIView?
     
-    func buildContent() -> UIView {
+    public func buildContent() -> UIView {
         return UIView(frame: CGRect.zero)
     }
     

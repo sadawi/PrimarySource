@@ -33,7 +33,7 @@ public class StackCell: ContentCell {
         }
     }
     
-    override func buildContent() -> UIView {
+    override public func buildContent() -> UIView {
         let stack =  UIStackView()
         stack.axis = .Vertical
         
@@ -48,7 +48,7 @@ public class MultiColumnCell: ContentCell {
         }
     }
     
-    override func buildContent() -> UIView {
+    override public func buildContent() -> UIView {
         return ColumnStackView()
     }
 }
