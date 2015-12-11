@@ -27,9 +27,14 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
 
     public var reorderingMode:ReorderingMode = .WithinSections
     public var reorder:((NSIndexPath, NSIndexPath) -> Void)?
+    public var didScroll:(Void -> Void)?
     
     public override init() {
         
+    }
+    
+    public func scrollViewDidScroll(scrollView: UIScrollView) {
+        self.didScroll?()
     }
     
     public func serialize() -> [String:AnyObject] {
