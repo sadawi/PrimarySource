@@ -8,20 +8,21 @@
 
 import UIKit
 
-public enum SelectMode {
-    case Push
-    case Alert
-    case Picker
-}
-
-public class SelectCell<ValueType:Equatable>: FieldCell, TappableTableCell {
+public class SelectCell<ValueType:Equatable>: FieldCell {
     public var value:ValueType? {
         didSet {
             self.update()
         }
     }
-    public var options:[ValueType] = []
-    public var selectMode:SelectMode = .Push
+    public var options:[ValueType] = [] {
+        didSet {
+            self.update()
+        }
+    }
+}
+
+public class PushSelectCell<ValueType:Equatable>: SelectCell<ValueType>, TappableTableCell {
+    // TODO: there's some duplicated code between here and PushFieldCell.  Maybe this should inherit from that instead of SelectCell?
     
     public var valueLabel:UILabel?
     
@@ -38,13 +39,7 @@ public class SelectCell<ValueType:Equatable>: FieldCell, TappableTableCell {
         
         self.valueLabel?.font = self.contentFont
         self.valueLabel?.textColor = self.valueTextColor
-        
-        switch self.selectMode {
-        case .Push:
-            self.accessoryType = .DisclosureIndicator
-        default:
-            self.accessoryType = .None
-        }
+        self.accessoryType = .DisclosureIndicator
     }
     
     override func update() {
@@ -69,4 +64,50 @@ public class SelectCell<ValueType:Equatable>: FieldCell, TappableTableCell {
             presenter.navigationController?.pushViewController(controller, animated: true)
         }
     }
+}
+
+public class SegmentedSelectCell<ValueType:Equatable>: SelectCell<ValueType> {
+    public var segmentedControl:UISegmentedControl?
+    
+    override public func buildView() {
+        let view = UISegmentedControl()
+        
+        view.addTarget(self, action: Selector("segmentedControlChanged"), forControlEvents: UIControlEvents.ValueChanged)
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(view)
+        let views = ["v": view]
+        let metrics:[String:CGFloat] = [:]
+        self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-[v]-|", options: [], metrics: metrics, views: views))
+        self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-[v]-|", options: [], metrics: metrics, views: views))
+
+        self.segmentedControl = view
+    }
+    
+    override public func stylize() {
+        super.stylize()
+        // TODO
+    }
+    
+    func segmentedControlChanged() {
+        if let index = self.segmentedControl?.selectedSegmentIndex {
+            if index < self.options.count {
+                self.value = self.options[index]
+                self.valueChanged()
+            }
+        }
+    }
+    
+    override func update() {
+        super.update()
+        self.segmentedControl?.removeAllSegments()
+        for i in 0..<self.options.count {
+            let title = String(self.options[i])
+            self.segmentedControl?.insertSegmentWithTitle(title, atIndex: i, animated: false)
+        }
+        if let value = self.value, index = self.options.indexOf(value) {
+            self.segmentedControl?.selectedSegmentIndex = index
+        }
+    }
+    
 }

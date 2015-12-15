@@ -157,6 +157,7 @@ public class FieldCell: TableCell {
         let controlView = UIStackView(frame: CGRect.zero)
         controlView.axis = UILayoutConstraintAxis.Horizontal
         controlView.translatesAutoresizingMaskIntoConstraints = false
+        controlView.spacing = 15
         self.mainContent?.addSubview(controlView)
         self.controlView = controlView
         
