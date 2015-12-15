@@ -36,10 +36,10 @@ func loadData()
             }
         }
     }
+    
+    self.tableView.reloadData()
 }
 ```
-
-Then, whenever you call `self.tableView.reloadData()`, your table will be populated with data from your dataSource.
 
 ### Cell registration
 
