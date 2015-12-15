@@ -1,14 +1,14 @@
 PODS:
-  - CollectionDataSource (0.1.0)
+  - PrimarySource (0.1.0)
 
 DEPENDENCIES:
-  - CollectionDataSource (from `../`)
+  - PrimarySource (from `../`)
 
 EXTERNAL SOURCES:
-  CollectionDataSource:
+  PrimarySource:
     :path: "../"
 
 SPEC CHECKSUMS:
-  CollectionDataSource: 5a150a6fd410c11990c197dc271554189ff4d3ec
+  PrimarySource: e5da5b9ec7a3827ca1cc7dcbab70bfd77793f284
 
 COCOAPODS: 0.39.0

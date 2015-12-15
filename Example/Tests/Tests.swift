@@ -1,6 +1,6 @@
 import UIKit
 import XCTest
-import CollectionDataSource
+import PrimarySource
 
 class Tests: XCTestCase {
     

@@ -6,7 +6,7 @@ This is a Swift library for setting up data sources for UITableViews and UIColle
 
 ## Installation
 
-CollectionDataSource is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:		
+PrimarySource is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:		
  		 
 ```ruby
 pod "PrimarySource"

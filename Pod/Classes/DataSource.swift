@@ -1,6 +1,6 @@
 //
-//  CollectionDataSource.swift
-//  CollectionDataSource
+//  PrimarySource.swift
+//  PrimarySource
 //
 //  Created by Sam Williams on 11/23/15.
 //  Copyright © 2015 Sam Williams. All rights reserved.

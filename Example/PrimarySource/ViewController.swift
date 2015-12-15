@@ -1,13 +1,13 @@
 //
 //  ViewController.swift
-//  CollectionDataSource
+//  PrimarySource
 //
 //  Created by Sam Williams on 11/23/2015.
 //  Copyright (c) 2015 Sam Williams. All rights reserved.
 //
 
 import UIKit
-import CollectionDataSource
+import PrimarySource
 
 class ViewController: DataSourceViewController {
     
@@ -101,10 +101,9 @@ class ViewController: DataSourceViewController {
                     print("New value: \(cell.value)")
                 }
             }
-            section <<< TableViewItem<SelectCell<String>>(key: "gender") { cell in
+            section <<< TableViewItem<PushSelectCell<String>>(key: "gender") { cell in
                 cell.title = "Gender"
                 cell.options = ["male", "female", "other"]
-                cell.selectMode = .Push
                 cell.onChange = { [unowned cell] in
                     print("New value: \(cell.value)")
                 }

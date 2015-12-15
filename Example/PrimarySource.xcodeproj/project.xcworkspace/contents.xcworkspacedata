@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:CollectionDataSource.xcodeproj">
+      location = "self:PrimarySource.xcodeproj">
    </FileRef>
 </Workspace>

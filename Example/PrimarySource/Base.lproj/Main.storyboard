@@ -7,7 +7,7 @@
         <!--View Controller-->
         <scene sceneID="T6R-JN-0QR">
             <objects>
-                <viewController id="FwI-Vc-aBi" customClass="ViewController" customModule="CollectionDataSource_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="FwI-Vc-aBi" customClass="ViewController" customModule="PrimarySource_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="aJB-Wb-13o"/>
                         <viewControllerLayoutGuide type="bottom" id="XRb-nl-RGF"/>

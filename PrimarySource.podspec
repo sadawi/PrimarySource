@@ -1,5 +1,5 @@
 #
-# Be sure to run `pod lib lint CollectionDataSource.podspec' to ensure this is a
+# Be sure to run `pod lib lint PrimarySource.podspec' to ensure this is a
 # valid spec before submitting.
 #
 # Any lines starting with a # are optional, but their use is encouraged
@@ -7,9 +7,9 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = "CollectionDataSource"
+  s.name             = "PrimarySource"
   s.version          = "0.1.0"
-  s.summary          = "A short description of CollectionDataSource."
+  s.summary          = "A short description of PrimarySource."
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -19,11 +19,11 @@ Pod::Spec.new do |s|
   s.description      = <<-DESC
                        DESC
 
-  s.homepage         = "https://github.com/<GITHUB_USERNAME>/CollectionDataSource"
+  s.homepage         = "https://github.com/<GITHUB_USERNAME>/PrimarySource"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
   s.author           = { "Sam Williams" => "samuel.williams@gmail.com" }
-  s.source           = { :git => "https://github.com/<GITHUB_USERNAME>/CollectionDataSource.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://github.com/<GITHUB_USERNAME>/PrimarySource.git", :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.platform     = :ios, '9.0'
@@ -31,7 +31,7 @@ Pod::Spec.new do |s|
 
   s.source_files = 'Pod/Classes/**/*'
   s.resource_bundles = {
-    'CollectionDataSource' => ['Pod/Assets/*']
+    'PrimarySource' => ['Pod/Assets/*']
   }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'

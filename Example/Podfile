@@ -1,12 +1,12 @@
 source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 
-target 'CollectionDataSource_Example', :exclusive => true do
-  pod "CollectionDataSource", :path => "../"
+target 'PrimarySource_Example', :exclusive => true do
+  pod "PrimarySource", :path => "../"
 end
 
-target 'CollectionDataSource_Tests', :exclusive => true do
-  pod "CollectionDataSource", :path => "../"
+target 'PrimarySource_Tests', :exclusive => true do
+  pod "PrimarySource", :path => "../"
 
   
 end

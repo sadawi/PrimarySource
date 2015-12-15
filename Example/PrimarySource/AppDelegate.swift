@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  CollectionDataSource
+//  PrimarySource
 //
 //  Created by Sam Williams on 11/23/2015.
 //  Copyright (c) 2015 Sam Williams. All rights reserved.
