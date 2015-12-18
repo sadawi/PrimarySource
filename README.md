@@ -113,3 +113,7 @@ dataSource <<< Section { section in
     // ...
 }
 ```
+
+## TODO
+
+* support for UICollectionViews
