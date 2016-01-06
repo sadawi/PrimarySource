@@ -132,6 +132,15 @@ public class EmailAddressCell: TextFieldCell {
     }
 }
 
+public class PasswordCell: TextFieldCell {
+    override public func buildView() {
+        super.buildView()
+        self.textField?.autocapitalizationType = .None
+        self.textField?.autocorrectionType = .No
+        self.textField?.secureTextEntry = true
+    }
+}
+
 public class PhoneNumberCell: TextFieldCell {
     override public func buildView() {
         super.buildView()
