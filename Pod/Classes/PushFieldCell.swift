@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MagneticFields
 
 //public protocol FieldCellEditor {
 //    typealias ValueType
@@ -18,12 +19,15 @@ import UIKit
 /**
  A cell that pushes another view controller for data entry.
 */
-public class PushFieldCell<ValueType:Equatable>: FieldCell {
+public class PushFieldCell<ValueType:Equatable>: FieldCell, Observable {
     public var value:ValueType? {
         didSet {
             self.update()
+            self.notifyObservers()
         }
     }
+    
+    public var observations = ObservationRegistry<ValueType>()
     
     public var valueLabel:UILabel?
 //    public var showEditor:(Void -> Void)?
