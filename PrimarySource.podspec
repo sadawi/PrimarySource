@@ -2,7 +2,6 @@ Pod::Spec.new do |s|
   s.name             = "PrimarySource"
   s.version          = "0.2.0"
   s.summary          = "Collection data sources"
-
   s.homepage         = "https://github.com/sadawi/PrimarySource"
   s.license          = 'MIT'
   s.author           = { "Sam Williams" => "samuel.williams@gmail.com" }

@@ -36,10 +36,10 @@ func loadData()
             }
         }
     }
+    
+    self.tableView.reloadData()
 }
 ```
-
-Then, whenever you call `self.tableView.reloadData()`, your table will be populated with data from your dataSource.
 
 ### Cell registration
 
@@ -75,7 +75,7 @@ Field cells (each with a field and a strongly typed `value`):
 * `TextFieldCell` (UITextField, String)
 * `SwitchCell` (UISwitch, Boolean)
 * `DateFieldCell` (UIDatePicker, NSDate)
-* `SelectCell` (typed set of options, selectable in a pushed view controller)
+* `PushSelectCell` (typed set of options, selectable in a pushed view controller)
 * `EmailAddressCell` (String)
 * `PhoneNumberCell` (String)
 * `IntegerCell` (Int)
@@ -113,3 +113,7 @@ dataSource <<< Section { section in
     // ...
 }
 ```
+
+## TODO
+
+* support for UICollectionViews
