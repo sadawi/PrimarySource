@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import MagneticFields
 
-public class SelectCell<ValueType:Equatable>: FieldCell {
+public class SelectCell<ValueType:Equatable>: FieldCell, Observable {
     public var value:ValueType? {
         didSet {
             self.update()
+            self.notifyObservers()
         }
     }
     public var options:[ValueType] = [] {
@@ -19,6 +21,8 @@ public class SelectCell<ValueType:Equatable>: FieldCell {
             self.update()
         }
     }
+    
+    public var observations = ObservationRegistry<ValueType>()
 }
 
 public class PushSelectCell<ValueType:Equatable>: SelectCell<ValueType>, TappableTableCell {
