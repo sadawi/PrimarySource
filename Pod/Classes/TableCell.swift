@@ -131,8 +131,6 @@ public class ButtonCell: TableCell, TappableTableCell {
     }
     
     func handleTap() {
-        if let onTap = self.onTap {
-            onTap()
-        }
+        self.onTap?()
     }
 }

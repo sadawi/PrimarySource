@@ -7,10 +7,19 @@
 //
 
 import UIKit
+import MagneticFields
 
-public class BooleanCell:FieldCell {
-    // TODO: to be consistent, probably should be (Bool?)
-    public var value:Bool? = false
+public class BooleanCell:FieldCell, Observable {
+    public var value:Bool? = false {
+        didSet {
+            self.notifyObservers()
+        }
+    }
+
+    // MARK: - Observable
+    
+    public typealias ValueType = Bool
+    public var observations = ObservationRegistry<ValueType>()
 }
 
 public class SwitchCell:BooleanCell, TappableTableCell  {
@@ -21,8 +30,13 @@ public class SwitchCell:BooleanCell, TappableTableCell  {
         let control = UISwitch(frame: self.controlView!.bounds)
         
         self.addControl(control, alignment:.Right)
-        control.addTarget(self, action: Selector("valueChanged"), forControlEvents: UIControlEvents.ValueChanged)
+        control.addTarget(self, action: Selector("switchChanged"), forControlEvents: UIControlEvents.ValueChanged)
         self.switchControl = control
+    }
+    
+    public func switchChanged() {
+        self.value = self.switchControl?.on
+        self.valueChanged()
     }
     
     public func toggle(animated:Bool=true) {

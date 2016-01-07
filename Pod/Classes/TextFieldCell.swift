@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MagneticFields
 
 public enum TextEditingMode {
     case Inline
@@ -106,7 +107,7 @@ public class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCe
     A cell that uses a UITextField as an input and has a String value
 */
 
-public class TextFieldCell: TextFieldInputCell {
+public class TextFieldCell: TextFieldInputCell, Observable {
     public override var stringValue:String? {
         get {
             return self.value
@@ -119,8 +120,14 @@ public class TextFieldCell: TextFieldInputCell {
     public var value:String? {
         didSet {
             self.update()
+            self.notifyObservers()
         }
     }
+
+    // MARK: - Observable
+    
+    public typealias ValueType = String
+    public var observations = ObservationRegistry<ValueType>()
 }
 
 public class EmailAddressCell: TextFieldCell {

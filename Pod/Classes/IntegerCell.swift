@@ -7,13 +7,20 @@
 //
 
 import UIKit
+import MagneticFields
 
-public class IntegerCell: FieldCell {
+public class IntegerCell: FieldCell, Observable {
     public var value:Int? {
         didSet {
             self.update()
+            self.notifyObservers()
         }
     }
+
+    // MARK: - Observable
+    
+    public typealias ValueType = Int
+    public var observations = ObservationRegistry<Int>()
 }
 
 public class StepperCell: IntegerCell {
