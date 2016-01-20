@@ -13,7 +13,15 @@ class MenuViewController: DataSourceViewController {
     override func configureDataSource(dataSource: DataSource) {
         dataSource <<< Section { section in
             section <<< TableViewItem<TableCell> { cell in
-                cell.textLabel?.text = "Basic"
+                cell.textLabel?.text = "Form"
+                cell.accessoryType = .DisclosureIndicator
+                }.onTap { _ in
+                    let controller = FormViewController()
+                    self.navigationController?.pushViewController(controller, animated: true)
+            }
+            
+            section <<< TableViewItem<TableCell> { cell in
+                cell.textLabel?.text = "Misc"
                 cell.accessoryType = .DisclosureIndicator
                 }.onTap { _ in
                     let controller = ViewController()
