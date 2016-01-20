@@ -10,7 +10,6 @@ import UIKit
 import PrimarySource
 
 class ViewController: DataSourceViewController {
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.rowHeight = UITableViewAutomaticDimension
@@ -109,36 +108,8 @@ class ViewController: DataSourceViewController {
                 }
             }
         }
-        
-        dataSource <<< Section(title: "List") { section in
-            for i in 1...25 {
-                section <<< TableViewItem<UITableViewCell>(reorderable: true) { cell in
-                    cell.textLabel?.text = "Value \(i)"
-                    }.onDelete { _ in
-                }
-            }
-            
-            section <<< TableViewItem<ButtonCell> { cell in
-                cell.title = "Add"
-                cell.onTap = {
-                    print("O!")
-                }
-            }
-        }
-//        
-//        dataSource <<< Section(title: "Manual Rows") { section in
-//            section <<< TableViewItem<CustomButtonCell>(storyboardIdentifier: "ButtonCell") { cell in
-//                cell.backgroundColor = UIColor.greenColor()
-//                cell.button?.setTitle("PRESS ME", forState: .Normal)
-//            }
-//            section <<< TableViewItem<UITableViewCell> { cell in
-//                cell.textLabel?.text = "Hello"
-//                }.onTap { _ in
-//                    print("hello there")
-//                }.onDelete { _ in
-//                    print("deleted!")
-//            }
-//        }
     }
+    
+    
 }
 
