@@ -10,11 +10,13 @@ import PrimarySource
 
 class AnimationsViewController: DataSourceViewController {
     var numbers:[Int] = [0, 1, 2]
-    var numbersSection:ListSection<Int>?
+    var numbersSection: ListSection<Int>? {
+        return self.dataSource["numbers"] as? ListSection<Int>
+    }
     
     override func configureDataSource(dataSource: DataSource) {
 
-        self.numbersSection = ListSection(values: self.numbers, title: "Numbers") { value, index in
+        dataSource <<< ListSection(values: self.numbers, title: "Numbers", key: "numbers") { value, index in
             return TableViewItem<UITableViewCell> { cell in
                 cell.textLabel?.text = "Value \(value)"
                 }.onTap { [weak self] _ in
@@ -23,7 +25,6 @@ class AnimationsViewController: DataSourceViewController {
                     self?.removeNumber(value)
             }
         }
-        dataSource <<< self.numbersSection
         
         dataSource <<< Section { section in
             section <<< TableViewItem<ButtonCell> { cell in

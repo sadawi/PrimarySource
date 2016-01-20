@@ -25,6 +25,8 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     
     public weak var delegate:DataSourceDelegate?
 
+    var sectionLookup:[String:Section] = [:]
+    
     weak var tableView:UITableView?
 
     public var reorderingMode:ReorderingMode = .WithinSections
@@ -56,7 +58,20 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     public func addSection(section:Section) {
         section.dataSource = self
         self.sections.append(section)
+        if let key = section.key {
+            self.sectionLookup[key] = section
+        }
         self.didRegisterReuseIdentifiers = false
+    }
+    
+    public func sectionForKey(key:String) -> Section? {
+        return self.sectionLookup[key]
+    }
+    
+    public subscript(key:String) -> Section? {
+        get {
+            return self.sectionForKey(key)
+        }
     }
     
     func item(atIndexPath indexPath: NSIndexPath) -> CollectionItem? {
