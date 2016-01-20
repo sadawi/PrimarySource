@@ -14,7 +14,7 @@ class AnimationsViewController: DataSourceViewController {
     
     override func configureDataSource(dataSource: DataSource) {
 
-        self.numbersSection = ListSection(values: self.numbers) { value in
+        self.numbersSection = ListSection(values: self.numbers) { value, index in
             return TableViewItem<UITableViewCell> { cell in
                 cell.textLabel?.text = "Value \(value)"
             }
