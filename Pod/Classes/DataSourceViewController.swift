@@ -52,9 +52,10 @@ public class DataSourceViewController: UIViewController, DataSourceDelegate {
     
     public func reloadData() {
         self.buildDataSource()
+        self.tableView.reloadData()
     }
 
-    func buildDataSource() {
+    public func buildDataSource() {
         let dataSource = DataSource()
         self.configureDataSource(dataSource)
         self.dataSource = dataSource
@@ -63,7 +64,6 @@ public class DataSourceViewController: UIViewController, DataSourceDelegate {
         
         self.tableView.delegate = self.dataSource
         self.tableView.dataSource = self.dataSource
-        self.tableView.reloadData()
     }
     
     public func presentationViewControllerForDataSource(dataSource: DataSource) -> UIViewController? {
