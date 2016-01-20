@@ -53,6 +53,7 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     
     public func addSection(section:Section) {
         self.sections.append(section)
+        self.didRegisterReuseIdentifiers = false
     }
     
     func item(atIndexPath indexPath: NSIndexPath) -> CollectionItem {
