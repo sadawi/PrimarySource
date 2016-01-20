@@ -9,7 +9,12 @@
 import UIKit
 
 public class DataSourceViewController: UIViewController, DataSourceDelegate {
-    public var dataSource = DataSource()
+    lazy public var dataSource:DataSource = {
+        let dataSource = DataSource()
+        dataSource.delegate = self
+        return dataSource
+    }()
+    
     public var configure:(DataSource -> Void)?
     
     @IBOutlet lazy public var tableView:UITableView! = {
@@ -22,10 +27,6 @@ public class DataSourceViewController: UIViewController, DataSourceDelegate {
         self.configure = configure
     }
     
-    override public func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
     override public func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,6 +41,9 @@ public class DataSourceViewController: UIViewController, DataSourceDelegate {
         
         // Hide trailing separators
         self.tableView.tableFooterView = UIView()
+
+        self.tableView.delegate = self.dataSource
+        self.tableView.dataSource = self.dataSource
 
         self.reloadData()
     }
@@ -56,14 +60,8 @@ public class DataSourceViewController: UIViewController, DataSourceDelegate {
     }
 
     public func buildDataSource() {
-        let dataSource = DataSource()
+        self.dataSource.sections = []
         self.configureDataSource(dataSource)
-        self.dataSource = dataSource
-        
-        self.dataSource.delegate = self
-        
-        self.tableView.delegate = self.dataSource
-        self.tableView.dataSource = self.dataSource
     }
     
     public func presentationViewControllerForDataSource(dataSource: DataSource) -> UIViewController? {
