@@ -12,6 +12,7 @@ public typealias ReorderAction = ((NSIndexPath, NSIndexPath) -> Void)
 
 public class Section {
     var items:[CollectionItem] = []
+    var itemLookup: [String: CollectionItem] = [:]
     
     var key:String?
     var title:String?
@@ -42,6 +43,9 @@ public class Section {
     
     public func addItem(item:CollectionItem) -> Section {
         self.items.append(item)
+        if let key = item.key {
+            self.itemLookup[key] = item
+        }
         return self
     }
     
@@ -66,9 +70,19 @@ public class Section {
         return self.items[index]
     }
     
+    public func itemForKey(key:String) -> CollectionItem? {
+        return self.itemLookup[key]
+    }
+    
     public subscript(index:Int) -> CollectionItem? {
         get {
             return self.itemAtIndex(index)
+        }
+    }
+    
+    public subscript(key:String) -> CollectionItem? {
+        get {
+            return self.itemForKey(key)
         }
     }
     

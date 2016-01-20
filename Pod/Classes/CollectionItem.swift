@@ -22,6 +22,7 @@ public protocol ReusableItemType {
 
 public protocol CollectionItem: ReusableItemType {
     var reorderable:Bool { get set }
+    var key: String? { get }
     
     var deleteAction:ItemAction? { get }
     var didDeleteAction:ItemAction? { get }
@@ -80,7 +81,7 @@ public class ReusableItem<ViewType:UIView>: ReusableItemType {
 }
 
 public class TableViewItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionItem {
-    var key:String?
+    public var key:String?
     
     public var reorderable:Bool = false
 
