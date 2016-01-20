@@ -9,7 +9,7 @@
 import PrimarySource
 
 class AnimationsViewController: DataSourceViewController {
-    var numbers:[Int] = [0, 1, 1]
+    var numbers:[Int] = [0, 1, 2]
     var numbersSection:ListSection<Int>?
     
     override func configureDataSource(dataSource: DataSource) {
@@ -17,6 +17,8 @@ class AnimationsViewController: DataSourceViewController {
         self.numbersSection = ListSection(values: self.numbers) { value, index in
             return TableViewItem<UITableViewCell> { cell in
                 cell.textLabel?.text = "Value \(value)"
+                }.onTap { [weak self] _ in
+                    self?.removeNumber(value)
             }
         }
         dataSource <<< self.numbersSection
@@ -30,14 +32,18 @@ class AnimationsViewController: DataSourceViewController {
             }
         }
     }
+
+    func removeNumber(number:Int) {
+        if let index = self.numbers.indexOf(number) {
+            self.numbers.removeAtIndex(index)
+            self.numbersSection?.removeValueAtIndex(index, updateView: true)
+        }
+    }
     
     func addNumber() {
-        let count = self.numbers.count
-        self.numbers.append(count)
-        self.numbersSection?.addValue(count, updateView: true)
-//        let indexPath = NSIndexPath(forRow: count, inSection: self.dataSource.sectionCount-2)
-//        self.buildDataSource()
-//        self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        let number = (self.numbers.last ?? -1) + 1
+        self.numbers.append(number)
+        self.numbersSection?.addValue(number, updateView: true)
     }
     
 }

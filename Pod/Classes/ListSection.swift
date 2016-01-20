@@ -41,9 +41,15 @@ public class ListSection<T:Equatable>: Section {
         self.values.removeAtIndex(index)
         self.items.removeAtIndex(index)
         if updateView {
-            if let indexPath = self.indexPathForIndex(self.itemCount-1) {
+            if let indexPath = self.indexPathForIndex(index) {
                 self.tableView?.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             }
+        }
+    }
+    
+    public func removeValue(value:T, updateView: Bool = false) {
+        if let index = self.values.indexOf(value) {
+            self.removeValueAtIndex(index, updateView: updateView)
         }
     }
     
