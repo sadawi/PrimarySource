@@ -10,7 +10,7 @@ import PrimarySource
 
 class AnimationsViewController: DataSourceViewController {
     var numbers:[Int] = [0, 1, 1]
-    var numbersSection:Section?
+    var numbersSection:ListSection<Int>?
     
     override func configureDataSource(dataSource: DataSource) {
 
@@ -29,32 +29,15 @@ class AnimationsViewController: DataSourceViewController {
                 }
             }
         }
-
-//        self.numbersSection = Section(title: "List", key: "list") { section in
-//            for i in self.numbers {
-//                section <<< TableViewItem<UITableViewCell> { cell in
-//                    cell.textLabel?.text = "Value \(i)"
-//                }
-//            }
-//        }
-//        dataSource <<< self.numbersSection
-//        
-//        dataSource <<< Section { section in
-//            section <<< TableViewItem<ButtonCell> { cell in
-//                cell.title = "Add"
-//                cell.onTap = { [weak self] in
-//                    self?.addNumber()
-//                }
-//            }
-//        }
     }
     
     func addNumber() {
         let count = self.numbers.count
         self.numbers.append(count)
-        let indexPath = NSIndexPath(forRow: count, inSection: self.dataSource.sectionCount-2)
-        self.buildDataSource()
-        self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        self.numbersSection?.addValue(count, updateView: true)
+//        let indexPath = NSIndexPath(forRow: count, inSection: self.dataSource.sectionCount-2)
+//        self.buildDataSource()
+//        self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
     }
     
 }

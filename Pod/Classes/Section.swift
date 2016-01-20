@@ -17,6 +17,11 @@ public class Section {
     var title:String?
     var reorderable:Bool = true
     var reorder:ReorderAction?
+    
+    weak var dataSource: DataSource?
+    var tableView: UITableView? {
+        return self.dataSource?.tableView
+    }
 
     public var itemCount:Int {
         return self.items.count

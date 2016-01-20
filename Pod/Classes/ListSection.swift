@@ -29,9 +29,24 @@ public class ListSection<T:Equatable>: Section {
         return self.generator(value)
     }
     
-    func addValue(value: T) -> Section {
+    var index:Int? {
+        return self.dataSource?.indexOfSection(self)
+    }
+    
+    public func addValue(value: T, updateView: Bool = false) -> Section {
+        self.values.append(value)
+        
         if let item = self.itemForValue(value) {
             self.addItem(item)
+            
+            if updateView {
+                let row = self.itemCount - 1
+                if let section = self.index {
+                    let indexPath = NSIndexPath(forRow: row, inSection: section)
+                    self.tableView?.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                }
+            }
+        
         }
         return self
     }

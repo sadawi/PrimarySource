@@ -25,6 +25,8 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     
     public weak var delegate:DataSourceDelegate?
 
+    weak var tableView:UITableView?
+
     public var reorderingMode:ReorderingMode = .WithinSections
     public var reorder:((NSIndexPath, NSIndexPath) -> Void)?
     public var didScroll:(Void -> Void)?
@@ -52,6 +54,7 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     }
     
     public func addSection(section:Section) {
+        section.dataSource = self
         self.sections.append(section)
         self.didRegisterReuseIdentifiers = false
     }
@@ -211,6 +214,8 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     }
     
     public func registerReuseIdentifiers(tableView:UITableView) {
+        self.tableView = tableView
+        
         for section in self.sections {
             
             if let header = section.header, identifier = header.reuseIdentifier {
@@ -242,5 +247,9 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
             }
         }
         self.didRegisterReuseIdentifiers = true
+    }
+    
+    public func indexOfSection(section:Section) -> Int? {
+        return self.sections.indexOf { $0 === section }
     }
 }
