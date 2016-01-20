@@ -22,18 +22,21 @@ public protocol ReusableItemType {
 
 public protocol CollectionItem: ReusableItemType {
     var reorderable:Bool { get set }
-    var onDelete:ItemAction? { get }
-    var onTap:ItemAction? { get }
-    var onAccessoryTap:ItemAction? { get }
-
-    func onDelete(action: ItemAction) -> CollectionItem
-    func handleDelete()
     
-    func onTap(action: ItemAction) -> CollectionItem
-    func handleTap()
+    var didDeleteAction:ItemAction? { get }
+    var willDeleteAction:ItemAction? { get }
+    var onTapAction:ItemAction? { get }
+    var onAccessoryTapAction:ItemAction? { get }
 
+    func didDelete(action: ItemAction) -> CollectionItem
+    func willDelete(action: ItemAction) -> CollectionItem
+    func onTap(action: ItemAction) -> CollectionItem
     func onAccessoryTap(action: ItemAction) -> CollectionItem
-    func handleAccessoryTap()
+
+    func didDelete()
+    func willDelete()
+    func onTap()
+    func onAccessoryTap()
 }
 
 public class ReusableItem<ViewType:UIView>: ReusableItemType {
@@ -78,9 +81,10 @@ public class TableViewItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionI
     
     public var reorderable:Bool = false
 
-    public var onTap:ItemAction?
-    public var onAccessoryTap:ItemAction?
-    public var onDelete:ItemAction?
+    public var onTapAction:ItemAction?
+    public var onAccessoryTapAction:ItemAction?
+    public var didDeleteAction:ItemAction?
+    public var willDeleteAction:ItemAction?
     
     public init(key:String?=nil, nibName:String?=nil, reorderable:Bool=false, storyboardIdentifier:String?=nil, configure:(ViewType -> Void)?=nil) {
         super.init()
@@ -93,28 +97,40 @@ public class TableViewItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionI
     // MARK: - Actions
 
     public func onTap(action:ItemAction) -> CollectionItem {
-        self.onTap = action
-        return self
-    }
-
-    public func onAccessoryTap(action:ItemAction) -> CollectionItem {
-        self.onAccessoryTap = action
-        return self
-    }
-
-    public func onDelete(action:ItemAction) -> CollectionItem {
-        self.onDelete = action
+        self.onTapAction = action
         return self
     }
     
-    public func handleDelete() {
-        self.onDelete?(self)
+    public func onAccessoryTap(action:ItemAction) -> CollectionItem {
+        self.onAccessoryTapAction = action
+        return self
     }
-    public func handleTap() {
-        self.onTap?(self)
+    
+    public func didDelete(action:ItemAction) -> CollectionItem {
+        self.didDeleteAction = action
+        return self
     }
-
-    public func handleAccessoryTap() {
-        self.onAccessoryTap?(self)
+    
+    public func willDelete(action:ItemAction) -> CollectionItem {
+        self.willDeleteAction = action
+        return self
+    }
+    
+    // MARK: - Handling actions
+    
+    public func onTap() {
+        self.onTapAction?(self)
+    }
+    
+    public func onAccessoryTap() {
+        self.onAccessoryTapAction?(self)
+    }
+    
+    public func didDelete() {
+        self.didDeleteAction?(self)
+    }
+    
+    public func willDelete() {
+        self.willDeleteAction?(self)
     }
 }

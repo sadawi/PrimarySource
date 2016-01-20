@@ -100,7 +100,7 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        if self.item(atIndexPath: indexPath).onTap != nil {
+        if self.item(atIndexPath: indexPath).onTapAction != nil {
             return true
         }
         
@@ -127,12 +127,12 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
-        self.item(atIndexPath: indexPath).handleAccessoryTap()
+        self.item(atIndexPath: indexPath).onAccessoryTap()
     }
     
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        self.item(atIndexPath: indexPath).handleTap()
+        self.item(atIndexPath: indexPath).onTap()
         
         if let tappable = tableView.cellForRowAtIndexPath(indexPath) as? TappableTableCell {
             tappable.handleTap()
@@ -185,25 +185,20 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     }
     
     private func canDeleteItem(atIndexPath indexPath:NSIndexPath) -> Bool {
-        return self.item(atIndexPath: indexPath).onDelete != nil
-    }
-    
-    private func deleteItem(atIndexPath indexPath:NSIndexPath) {
         let item = self.item(atIndexPath: indexPath)
-        item.handleDelete()
+        return item.willDeleteAction != nil || item.didDeleteAction != nil
     }
     
     public func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            self.deleteItem(atIndexPath: indexPath)
+            let item = self.item(atIndexPath: indexPath)
+            item.willDelete()
 
             let section = self.sections[indexPath.section]
             section.deleteItemAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-            if section.items.count == 0 {
-                self.sections.removeAtIndex(indexPath.section)
-                tableView.deleteSections(NSIndexSet(index: indexPath.section), withRowAnimation: .Automatic)
-            }
+            
+            item.didDelete()
         }
     }
     
