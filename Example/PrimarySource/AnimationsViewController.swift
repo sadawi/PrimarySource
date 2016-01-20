@@ -19,6 +19,8 @@ class AnimationsViewController: DataSourceViewController {
                 cell.textLabel?.text = "Value \(value)"
                 }.onTap { [weak self] _ in
                     self?.removeNumber(value)
+                }.delete { [weak self] _ in
+                    self?.removeNumber(value)
             }
         }
         dataSource <<< self.numbersSection

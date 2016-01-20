@@ -188,7 +188,7 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     
     private func canDeleteItem(atIndexPath indexPath:NSIndexPath) -> Bool {
         let item = self.item(atIndexPath: indexPath)
-        return item?.willDeleteAction != nil || item?.didDeleteAction != nil
+        return item?.willDeleteAction != nil || item?.didDeleteAction != nil || item?.deleteAction != nil
     }
     
     public func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -196,9 +196,13 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
             if let item = self.item(atIndexPath: indexPath) {
                 item.willDelete()
                 
-                let section = self.sections[indexPath.section]
-                section.deleteItemAtIndex(indexPath.row)
-                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                if item.deleteAction == nil {
+                    let section = self.sections[indexPath.section]
+                    section.deleteItemAtIndex(indexPath.row)
+                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                } else {
+                    item.delete()
+                }
                 
                 item.didDelete()
             }

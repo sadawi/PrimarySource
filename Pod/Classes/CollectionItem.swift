@@ -23,16 +23,19 @@ public protocol ReusableItemType {
 public protocol CollectionItem: ReusableItemType {
     var reorderable:Bool { get set }
     
+    var deleteAction:ItemAction? { get }
     var didDeleteAction:ItemAction? { get }
     var willDeleteAction:ItemAction? { get }
     var onTapAction:ItemAction? { get }
     var onAccessoryTapAction:ItemAction? { get }
 
+    func delete(action: ItemAction) -> CollectionItem
     func didDelete(action: ItemAction) -> CollectionItem
     func willDelete(action: ItemAction) -> CollectionItem
     func onTap(action: ItemAction) -> CollectionItem
     func onAccessoryTap(action: ItemAction) -> CollectionItem
 
+    func delete()
     func didDelete()
     func willDelete()
     func onTap()
@@ -83,6 +86,7 @@ public class TableViewItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionI
 
     public var onTapAction:ItemAction?
     public var onAccessoryTapAction:ItemAction?
+    public var deleteAction:ItemAction?
     public var didDeleteAction:ItemAction?
     public var willDeleteAction:ItemAction?
     
@@ -111,6 +115,11 @@ public class TableViewItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionI
         return self
     }
     
+    public func delete(action:ItemAction) -> CollectionItem {
+        self.deleteAction = action
+        return self
+    }
+    
     public func willDelete(action:ItemAction) -> CollectionItem {
         self.willDeleteAction = action
         return self
@@ -124,6 +133,10 @@ public class TableViewItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionI
     
     public func onAccessoryTap() {
         self.onAccessoryTapAction?(self)
+    }
+
+    public func delete() {
+        self.deleteAction?(self)
     }
     
     public func didDelete() {
