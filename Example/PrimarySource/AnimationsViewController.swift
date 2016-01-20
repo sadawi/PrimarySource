@@ -9,16 +9,14 @@
 import PrimarySource
 
 class AnimationsViewController: DataSourceViewController {
-    var numbers:[Int] = []
+    var numbers:[Int] = [0, 1, 1]
     var numbersSection:Section?
     
     override func configureDataSource(dataSource: DataSource) {
-        
-        self.numbersSection = Section(title: "List") { section in
-            for i in self.numbers {
-                section <<< TableViewItem<UITableViewCell> { cell in
-                    cell.textLabel?.text = "Value \(i)"
-                }
+
+        self.numbersSection = ListSection(values: self.numbers) { value in
+            return TableViewItem<UITableViewCell> { cell in
+                cell.textLabel?.text = "Value \(value)"
             }
         }
         dataSource <<< self.numbersSection
@@ -31,6 +29,24 @@ class AnimationsViewController: DataSourceViewController {
                 }
             }
         }
+
+//        self.numbersSection = Section(title: "List", key: "list") { section in
+//            for i in self.numbers {
+//                section <<< TableViewItem<UITableViewCell> { cell in
+//                    cell.textLabel?.text = "Value \(i)"
+//                }
+//            }
+//        }
+//        dataSource <<< self.numbersSection
+//        
+//        dataSource <<< Section { section in
+//            section <<< TableViewItem<ButtonCell> { cell in
+//                cell.title = "Add"
+//                cell.onTap = { [weak self] in
+//                    self?.addNumber()
+//                }
+//            }
+//        }
     }
     
     func addNumber() {

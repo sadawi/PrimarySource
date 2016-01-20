@@ -56,21 +56,21 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
         self.didRegisterReuseIdentifiers = false
     }
     
-    func item(atIndexPath indexPath: NSIndexPath) -> CollectionItem {
-        return self.sections[indexPath.section].items[indexPath.row]
+    func item(atIndexPath indexPath: NSIndexPath) -> CollectionItem? {
+        return self.sections[indexPath.section].itemAtIndex(indexPath.row)
     }
     
     func canMoveItem(atIndexPath indexPath:NSIndexPath) -> Bool {
         let section = self.sections[indexPath.section]
-        return self.reorderingMode != .None && section.reorderable && section.items[indexPath.row].reorderable
+        return self.reorderingMode != .None && section.reorderable && section.itemAtIndex(indexPath.row)?.reorderable == true
     }
 
     func canMoveItem(fromIndexPath fromIndexPath:NSIndexPath, toIndexPath:NSIndexPath) -> Bool {
         let toSection = self.sections[toIndexPath.section]
         
         guard self.canMoveItem(atIndexPath: fromIndexPath) else { return false }
-        guard toIndexPath.row < toSection.items.count else { return false }
-        guard toSection.reorderable && toSection.items[toIndexPath.row].reorderable else { return false }
+        guard toIndexPath.row < toSection.itemCount else { return false }
+        guard toSection.reorderable && toSection[toIndexPath.row]?.reorderable == true else { return false }
         
         switch self.reorderingMode {
         case .None: return false
@@ -100,7 +100,7 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        if self.item(atIndexPath: indexPath).onTapAction != nil {
+        if self.item(atIndexPath: indexPath)?.onTapAction != nil {
             return true
         }
         
@@ -116,7 +116,7 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.sections[section].items.count
+        return self.sections[section].itemCount
     }
     
     public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -127,12 +127,12 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
-        self.item(atIndexPath: indexPath).onAccessoryTap()
+        self.item(atIndexPath: indexPath)?.onAccessoryTap()
     }
     
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        self.item(atIndexPath: indexPath).onTap()
+        self.item(atIndexPath: indexPath)?.onTap()
         
         if let tappable = tableView.cellForRowAtIndexPath(indexPath) as? TappableTableCell {
             tappable.handleTap()
@@ -164,8 +164,7 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         self.registerReuseIdentifiersIfNeeded(tableView)
         
-        let item = self.item(atIndexPath: indexPath)
-        if let identifier = item.reuseIdentifier, cell = tableView.dequeueReusableCellWithIdentifier(identifier) {
+        if let item = self.item(atIndexPath: indexPath), let identifier = item.reuseIdentifier, cell = tableView.dequeueReusableCellWithIdentifier(identifier) {
             if let tableCell = cell as? TableCell {
                 tableCell.dataSource = self
             }
@@ -174,7 +173,7 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
         } else {
             // This is an error state.  TODO: only on debug
             let cell = UITableViewCell()
-            cell.textLabel?.text = "Error: can't instantiate cell (\(item.reuseIdentifier))"
+            cell.textLabel?.text = "Error: can't instantiate cell"
             cell.backgroundColor = UIColor.redColor()
             return cell
         }
@@ -186,19 +185,20 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     
     private func canDeleteItem(atIndexPath indexPath:NSIndexPath) -> Bool {
         let item = self.item(atIndexPath: indexPath)
-        return item.willDeleteAction != nil || item.didDeleteAction != nil
+        return item?.willDeleteAction != nil || item?.didDeleteAction != nil
     }
     
     public func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            let item = self.item(atIndexPath: indexPath)
-            item.willDelete()
-
-            let section = self.sections[indexPath.section]
-            section.deleteItemAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-            
-            item.didDelete()
+            if let item = self.item(atIndexPath: indexPath) {
+                item.willDelete()
+                
+                let section = self.sections[indexPath.section]
+                section.deleteItemAtIndex(indexPath.row)
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                
+                item.didDelete()
+            }
         }
     }
     
@@ -223,7 +223,7 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
                 }
             }
             
-            for item in section.items {
+            section.eachItem { item in
                 if let rowClass = item.viewType, identifier = item.reuseIdentifier {
                     
                     // If we've explicitly specified an identifier, we'll just use the storyboard prototype

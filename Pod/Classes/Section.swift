@@ -11,9 +11,10 @@ import Foundation
 public typealias ReorderAction = ((NSIndexPath, NSIndexPath) -> Void)
 
 public class Section {
+    var items:[CollectionItem] = []
+    
     var key:String?
     var title:String?
-    var items:[CollectionItem] = []
     var reorderable:Bool = true
     var reorder:ReorderAction?
 
@@ -54,5 +55,21 @@ public class Section {
         self.reorderable = true
         self.reorder = reorder
         return self
+    }
+    
+    public func itemAtIndex(index:Int) -> CollectionItem? {
+        return self.items[index]
+    }
+    
+    public subscript(index:Int) -> CollectionItem? {
+        get {
+            return self.itemAtIndex(index)
+        }
+    }
+    
+    public func eachItem(iterator: (CollectionItem -> Void)) {
+        for item in self.items {
+            iterator(item)
+        }
     }
 }
