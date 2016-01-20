@@ -29,6 +29,10 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     public var reorder:((NSIndexPath, NSIndexPath) -> Void)?
     public var didScroll:(Void -> Void)?
     
+    public var sectionCount:Int {
+        return self.sections.count
+    }
+    
     public override init() {
         
     }

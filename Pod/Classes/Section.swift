@@ -16,6 +16,10 @@ public class Section {
     var items:[CollectionItem] = []
     var reorderable:Bool = true
     var reorder:ReorderAction?
+
+    public var itemCount:Int {
+        return self.items.count
+    }
     
     public var header:HeaderItemType?
     
