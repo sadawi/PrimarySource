@@ -14,6 +14,14 @@ class AnimationsViewController: DataSourceViewController {
         return self.dataSource["numbers"] as? ListSection<Int>
     }
     
+    var visible:Bool? = true {
+        didSet {
+            if let item = self.dataSource["visibility"]?["item"] {
+                self.visible==true ? item.show() : item.hide()
+            }
+        }
+    }
+    
     override func configureDataSource(dataSource: DataSource) {
 
         dataSource <<< ListSection(values: self.numbers, title: "Numbers", key: "numbers") { value, index in
@@ -32,6 +40,19 @@ class AnimationsViewController: DataSourceViewController {
                 cell.onTap = { [weak self] in
                     self?.addNumber()
                 }
+            }
+        }
+        
+        dataSource <<< Section(title: "Visibility", key: "visibility") { section in
+            section <<< TableViewItem<SwitchCell> { [weak self] cell in
+                cell.title = "Visible"
+                cell.value = self?.visible
+                cell.onChange = { [weak cell] in
+                    self?.visible = cell?.value
+                }
+            }
+            section <<< TableViewItem<TableCell>(key: "item") { cell in
+                cell.textLabel?.text = "Some item"
             }
         }
     }

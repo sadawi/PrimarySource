@@ -32,11 +32,7 @@ public class ListSection<T:Equatable>: Section {
     func itemForValue(value: T, index:Int) -> CollectionItem {
         return self.generator(value, index)
     }
-    
-    var index:Int? {
-        return self.dataSource?.indexOfSection(self)
-    }
-    
+
     public func removeValueAtIndex(index:Int, updateView: Bool = false) {
         self.values.removeAtIndex(index)
         self.items.removeAtIndex(index)
@@ -50,14 +46,6 @@ public class ListSection<T:Equatable>: Section {
     public func removeValue(value:T, updateView: Bool = false) {
         if let index = self.values.indexOf(value) {
             self.removeValueAtIndex(index, updateView: updateView)
-        }
-    }
-    
-    func indexPathForIndex(index:Int) -> NSIndexPath? {
-        if let section = self.index {
-            return NSIndexPath(forRow: index, inSection: section)
-        } else {
-            return nil
         }
     }
     

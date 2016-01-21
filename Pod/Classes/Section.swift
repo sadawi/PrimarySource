@@ -12,6 +12,10 @@ public typealias ReorderAction = ((NSIndexPath, NSIndexPath) -> Void)
 
 public class Section {
     var items:[CollectionItem] = []
+    var visibleItems:[CollectionItem] {
+        return self.items.filter { $0.visible }
+    }
+    
     var itemLookup: [String: CollectionItem] = [:]
     
     var key:String?
@@ -25,7 +29,7 @@ public class Section {
     }
 
     public var itemCount:Int {
-        return self.items.count
+        return self.visibleItems.count
     }
     
     public var header:HeaderItemType?
@@ -46,6 +50,7 @@ public class Section {
         if let key = item.key {
             self.itemLookup[key] = item
         }
+        item.section = self
         return self
     }
     
@@ -67,7 +72,7 @@ public class Section {
     }
     
     public func itemAtIndex(index:Int) -> CollectionItem? {
-        return self.items[index]
+        return self.visibleItems[index]
     }
     
     public func itemForKey(key:String) -> CollectionItem? {
@@ -87,8 +92,28 @@ public class Section {
     }
     
     public func eachItem(iterator: (CollectionItem -> Void)) {
-        for item in self.items {
+        for item in self.visibleItems {
             iterator(item)
         }
     }
+    
+    // MARK: - Indices
+    
+    func indexOfItem(item: CollectionItem) -> Int? {
+        return self.visibleItems.indexOf { $0 === item }
+    }
+    
+    var index:Int? {
+        return self.dataSource?.indexOfSection(self)
+    }
+    
+    func indexPathForIndex(index:Int) -> NSIndexPath? {
+        if let section = self.index {
+            return NSIndexPath(forRow: index, inSection: section)
+        } else {
+            return nil
+        }
+    }
+    
+
 }

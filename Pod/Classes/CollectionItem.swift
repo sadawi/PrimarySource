@@ -20,9 +20,11 @@ public protocol ReusableItemType {
     func configureView(view:UIView)
 }
 
-public protocol CollectionItem: ReusableItemType {
+public protocol CollectionItem: class, ReusableItemType {
     var reorderable:Bool { get set }
     var key: String? { get }
+    var visible: Bool { get }
+    var section: Section? { get set }
     
     var deleteAction:ItemAction? { get }
     var didDeleteAction:ItemAction? { get }
@@ -41,6 +43,9 @@ public protocol CollectionItem: ReusableItemType {
     func willDelete()
     func onTap()
     func onAccessoryTap()
+    
+    func show()
+    func hide()
 }
 
 public class ReusableItem<ViewType:UIView>: ReusableItemType {
@@ -81,7 +86,10 @@ public class ReusableItem<ViewType:UIView>: ReusableItemType {
 }
 
 public class TableViewItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionItem {
-    public var key:String?
+    weak public var section: Section?
+    
+    internal(set) public var key:String?
+    internal(set) public var visible: Bool = true
     
     public var reorderable:Bool = false
 
@@ -147,4 +155,43 @@ public class TableViewItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionI
     public func willDelete() {
         self.willDeleteAction?(self)
     }
+    
+    // MARK: - Indices etc.
+    
+    var tableView:UITableView? {
+        return self.section?.tableView
+    }
+    
+    var index:Int? {
+        return self.section?.indexOfItem(self)
+    }
+
+    public var indexPath: NSIndexPath? {
+        if let index = self.index {
+            return self.section?.indexPathForIndex(index)
+        } else {
+            return nil
+        }
+    }
+    
+    // MARK: - Visibility
+    
+    public func show() {
+        let oldIndexPath = self.indexPath
+        self.visible = true
+        let newIndexPath = self.indexPath
+        if newIndexPath != nil && oldIndexPath == nil {
+            self.tableView?.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
+        }
+    }
+    
+    public func hide() {
+        let oldIndexPath = self.indexPath
+        self.visible = false
+        let newIndexPath = self.indexPath
+        if newIndexPath == nil && oldIndexPath != nil {
+            self.tableView?.deleteRowsAtIndexPaths([oldIndexPath!], withRowAnimation: .Automatic)
+        }
+    }
+
 }
