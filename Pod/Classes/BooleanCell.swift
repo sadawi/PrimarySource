@@ -12,6 +12,7 @@ import MagneticFields
 public class BooleanCell:FieldCell, Observable {
     public var value:Bool? = false {
         didSet {
+            self.update()
             self.notifyObservers()
         }
     }
