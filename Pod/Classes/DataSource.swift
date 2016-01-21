@@ -271,4 +271,11 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     public func indexOfSection(section:Section) -> Int? {
         return self.sections.indexOf { $0 === section }
     }
+    
+    public func refreshDisplay() {
+        self.didRegisterReuseIdentifiers = false
+        for section in self.sections {
+            section.refreshDisplay()
+        }
+    }
 }

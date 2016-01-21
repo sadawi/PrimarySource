@@ -115,5 +115,12 @@ public class Section {
         }
     }
     
+    // MARK: - 
+    
+    public func refreshDisplay() {
+        for item in self.items {
+            item.updateVisibility()
+        }
+    }
 
 }

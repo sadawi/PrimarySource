@@ -37,6 +37,7 @@ public protocol CollectionItem: class, ReusableItemType {
     func willDelete(action: ItemAction) -> CollectionItem
     func onTap(action: ItemAction) -> CollectionItem
     func onAccessoryTap(action: ItemAction) -> CollectionItem
+    func show(condition: (Void -> Bool)) -> CollectionItem
 
     func delete()
     func didDelete()
@@ -46,6 +47,7 @@ public protocol CollectionItem: class, ReusableItemType {
     
     func show()
     func hide()
+    func updateVisibility()
 }
 
 public class ReusableItem<ViewType:UIView>: ReusableItemType {
@@ -90,6 +92,8 @@ public class TableViewItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionI
     
     internal(set) public var key:String?
     internal(set) public var visible: Bool = true
+
+    var visibleCondition:(Void -> Bool)?
     
     public var reorderable:Bool = false
 
@@ -165,7 +169,10 @@ public class TableViewItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionI
     var index:Int? {
         return self.section?.indexOfItem(self)
     }
-
+    
+    /**
+     The indexPath of this item in its collection/table view, if possible.
+     */
     public var indexPath: NSIndexPath? {
         if let index = self.index {
             return self.section?.indexPathForIndex(index)
@@ -176,6 +183,9 @@ public class TableViewItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionI
     
     // MARK: - Visibility
     
+    /**
+    Sets this item's `visible` flag to true, and animates it into the view.
+    */
     public func show() {
         let oldIndexPath = self.indexPath
         self.visible = true
@@ -185,12 +195,43 @@ public class TableViewItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionI
         }
     }
     
+    /**
+     Sets this item's `visible` flag to false, and animates it out of the view.
+     */
     public func hide() {
         let oldIndexPath = self.indexPath
         self.visible = false
         let newIndexPath = self.indexPath
         if newIndexPath == nil && oldIndexPath != nil {
             self.tableView?.deleteRowsAtIndexPaths([oldIndexPath!], withRowAnimation: .Automatic)
+        }
+    }
+    
+    
+    /**
+     Sets a visibility condition for this collection item.
+     
+     The `visible` flag is set immediately, and will be updated again whenever the datasource's `refreshDisplay` method is called.
+     
+     - parameter condition: A closure determining whether this item should be visible or not.
+     */
+    public func show(condition: (Void -> Bool)) -> CollectionItem {
+        self.visibleCondition = condition
+        self.visible = condition()
+        return self
+    }
+    
+    /**
+     Updates the visible state of this item, and propagates that to the view with the appropriate animation.
+     */
+    public func updateVisibility() {
+        if let condition = self.visibleCondition {
+            let value = condition()
+            if value {
+                self.show()
+            } else {
+                self.hide()
+            }
         }
     }
 

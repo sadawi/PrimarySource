@@ -21,6 +21,12 @@ class AnimationsViewController: DataSourceViewController {
             }
         }
     }
+    var visible2:Bool? = false {
+        didSet {
+            self.dataSource.refreshDisplay()
+        }
+    }
+
     
     override func configureDataSource(dataSource: DataSource) {
 
@@ -52,7 +58,19 @@ class AnimationsViewController: DataSourceViewController {
                 }
             }
             section <<< TableViewItem<TableCell>(key: "item") { cell in
-                cell.textLabel?.text = "Some item"
+                cell.textLabel?.text = "Item toggled by key"
+            }
+            section <<< TableViewItem<SwitchCell> { [weak self] cell in
+                cell.title = "Visible 2"
+                cell.value = self?.visible2
+                cell.onChange = { [weak cell] in
+                    self?.visible2 = cell?.value
+                }
+            }
+            section <<< TableViewItem<TableCell> { cell in
+                cell.textLabel?.text = "Item created with visibility condition"
+                }.show { [weak self] in
+                    return self?.visible2 == true
             }
         }
     }
