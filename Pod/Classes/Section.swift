@@ -11,6 +11,9 @@ import Foundation
 public typealias ReorderAction = ((NSIndexPath, NSIndexPath) -> Void)
 
 public class Section {
+    var visible: Bool = true
+    var visibleCondition:(Void -> Bool)?
+    
     var items:[CollectionItem] = []
     var visibleItems:[CollectionItem] {
         return self.items.filter { $0.visible }
@@ -117,9 +120,49 @@ public class Section {
     
     // MARK: - 
     
-    public func refreshDisplay() {
-        for item in self.items {
-            item.updateVisibility()
+    public func refreshDisplay(sectionHideAnimation sectionHideAnimation:UITableViewRowAnimation = .Fade, sectionShowAnimation:UITableViewRowAnimation = .Fade) {
+        self.updateVisibility(hideAnimation: sectionHideAnimation, showAnimation: sectionShowAnimation)
+        if self.visible {
+            for item in self.items {
+                item.updateVisibility()
+            }
+        }
+    }
+
+    // MARK: - Visibility
+    
+    public func show(animation animation:UITableViewRowAnimation = .Fade) {
+        let oldIndex = self.index
+        self.visible = true
+        let newIndex = self.index
+        if newIndex != nil && oldIndex == nil {
+            self.tableView?.insertSections(NSIndexSet(index: newIndex!), withRowAnimation: animation)
+        }
+    }
+    
+    public func hide(animation animation:UITableViewRowAnimation = .Fade) {
+        let oldIndex = self.index
+        self.visible = false
+        let newIndex = self.index
+        if newIndex == nil && oldIndex != nil {
+            self.tableView?.deleteSections(NSIndexSet(index: oldIndex!), withRowAnimation: animation)
+        }
+    }
+    
+    public func show(condition: (Void -> Bool)) -> Section {
+        self.visibleCondition = condition
+        self.visible = condition()
+        return self
+    }
+    
+    public func updateVisibility(hideAnimation hideAnimation:UITableViewRowAnimation = .Fade, showAnimation:UITableViewRowAnimation = .Fade) {
+        if let condition = self.visibleCondition {
+            let value = condition()
+            if value {
+                self.show(animation: showAnimation)
+            } else {
+                self.hide(animation: hideAnimation)
+            }
         }
     }
 

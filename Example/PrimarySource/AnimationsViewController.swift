@@ -26,7 +26,11 @@ class AnimationsViewController: DataSourceViewController {
             self.dataSource.refreshDisplay()
         }
     }
-
+    var sectionVisible:Bool? = true {
+        didSet {
+            self.dataSource.refreshDisplay()
+        }
+    }
     
     override func configureDataSource(dataSource: DataSource) {
 
@@ -72,6 +76,22 @@ class AnimationsViewController: DataSourceViewController {
                 }.show { [weak self] in
                     return self?.visible2 == true
             }
+            
+            section <<< TableViewItem<SwitchCell> { [weak self] cell in
+                cell.title = "Section Visible"
+                cell.value = self?.sectionVisible
+                cell.onChange = { [weak cell] in
+                    self?.sectionVisible = cell?.value
+                }
+            }
+        }
+        
+        dataSource <<< Section(title: "Disappearing Section", key: "disappearing") { section in
+            section <<< TableViewItem<TableCell> { cell in
+                cell.textLabel?.text = "Some item"
+            }
+            }.show { [weak self] in
+                return self?.sectionVisible == true
         }
     }
 

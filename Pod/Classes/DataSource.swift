@@ -20,6 +20,10 @@ public protocol DataSourceDelegate: class {
 
 public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     var sections:[Section] = []
+    var visibleSections:[Section] {
+        return self.sections.filter { $0.visible }
+    }
+
     var didRegisterReuseIdentifiers = false
     var defaultHeaderHeight:CGFloat = 30.0
     
@@ -34,7 +38,7 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     public var didScroll:(Void -> Void)?
     
     public var sectionCount:Int {
-        return self.sections.count
+        return self.visibleSections.count
     }
     
     public override init() {
@@ -64,6 +68,10 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
         self.didRegisterReuseIdentifiers = false
     }
     
+    public func sectionAtIndex(index:Int) -> Section? {
+        return self.visibleSections[index]
+    }
+    
     public func sectionForKey(key:String) -> Section? {
         return self.sectionLookup[key]
     }
@@ -74,18 +82,24 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    public subscript(index:Int) -> Section? {
+        get {
+            return self.sectionAtIndex(index)
+        }
+    }
+
     func item(atIndexPath indexPath: NSIndexPath) -> CollectionItem? {
-        return self.sections[indexPath.section].itemAtIndex(indexPath.row)
+        return self[indexPath.section]?.itemAtIndex(indexPath.row)
     }
     
     func canMoveItem(atIndexPath indexPath:NSIndexPath) -> Bool {
-        let section = self.sections[indexPath.section]
+        guard let section = self[indexPath.section] else { return false }
+        
         return self.reorderingMode != .None && section.reorderable && section.itemAtIndex(indexPath.row)?.reorderable == true
     }
 
     func canMoveItem(fromIndexPath fromIndexPath:NSIndexPath, toIndexPath:NSIndexPath) -> Bool {
-        let toSection = self.sections[toIndexPath.section]
-        
+        guard let toSection = self[toIndexPath.section] else { return false }
         guard self.canMoveItem(atIndexPath: fromIndexPath) else { return false }
         guard toIndexPath.row < toSection.itemCount else { return false }
         guard toSection.reorderable && toSection[toIndexPath.row]?.reorderable == true else { return false }
@@ -106,7 +120,7 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     public func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
         if self.canMoveItem(fromIndexPath: sourceIndexPath, toIndexPath: destinationIndexPath) {
             if self.reorderingMode == .WithinSections {
-                self.sections[sourceIndexPath.section].handleReorder(fromIndexPath: sourceIndexPath, toIndexPath: destinationIndexPath)
+                self[sourceIndexPath.section]?.handleReorder(fromIndexPath: sourceIndexPath, toIndexPath: destinationIndexPath)
             } else if let reorder = self.reorder {
                 reorder(sourceIndexPath, destinationIndexPath)
             }
@@ -130,15 +144,15 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.sections[section].title
+        return self[section]?.title
     }
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.sections[section].itemCount
+        return self[section]?.itemCount ?? 0
     }
     
     public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return self.sections.count
+        return self.visibleSections.count
     }
     
     public func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -158,7 +172,8 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let section = self.sections[section]
+        guard let section = self[section] else { return nil }
+        
         if let headerItem = section.header, identifier = headerItem.reuseIdentifier {
             if let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(identifier) {
                 headerItem.configureView(header)
@@ -169,7 +184,8 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        let section = self.sections[section]
+        guard let section = self[section] else { return 0 }
+        
         if let headerItem = section.header, height = headerItem.height {
             return height
         }
@@ -212,9 +228,10 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
                 item.willDelete()
                 
                 if !item.handlesDelete {
-                    let section = self.sections[indexPath.section]
-                    section.deleteItemAtIndex(indexPath.row)
-                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                    if let section = self[indexPath.section] {
+                        section.deleteItemAtIndex(indexPath.row)
+                        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                    }
                 } else {
                     item.delete()
                 }
@@ -269,13 +286,18 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     }
     
     public func indexOfSection(section:Section) -> Int? {
-        return self.sections.indexOf { $0 === section }
+        return self.visibleSections.indexOf { $0 === section }
     }
     
-    public func refreshDisplay() {
+    /**
+     - parameter sectionHideAnimation: The animation to be used to hide a section
+     - parameter sectionShowAnimation: The animation to be used to show a section
+     */
+    public func refreshDisplay(sectionHideAnimation sectionHideAnimation:UITableViewRowAnimation = .Fade, sectionShowAnimation:UITableViewRowAnimation = .Fade) {
         self.didRegisterReuseIdentifiers = false
+        
         for section in self.sections {
-            section.refreshDisplay()
+            section.refreshDisplay(sectionHideAnimation: sectionHideAnimation, sectionShowAnimation:sectionShowAnimation)
         }
     }
 }
