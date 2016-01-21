@@ -26,11 +26,9 @@ public protocol CollectionItem: class, ReusableItemType {
     var visible: Bool { get }
     var section: Section? { get set }
     
-    var deleteAction:ItemAction? { get }
-    var didDeleteAction:ItemAction? { get }
-    var willDeleteAction:ItemAction? { get }
-    var onTapAction:ItemAction? { get }
-    var onAccessoryTapAction:ItemAction? { get }
+    var deletable: Bool { get }
+    var handlesDelete: Bool { get }
+    var tappable: Bool { get }
 
     func delete(action: ItemAction) -> CollectionItem
     func didDelete(action: ItemAction) -> CollectionItem
@@ -97,11 +95,23 @@ public class TableViewItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionI
     
     public var reorderable:Bool = false
 
-    public var onTapAction:ItemAction?
-    public var onAccessoryTapAction:ItemAction?
-    public var deleteAction:ItemAction?
-    public var didDeleteAction:ItemAction?
-    public var willDeleteAction:ItemAction?
+    var onTapAction:ItemAction?
+    var onAccessoryTapAction:ItemAction?
+    var deleteAction:ItemAction?
+    var didDeleteAction:ItemAction?
+    var willDeleteAction:ItemAction?
+    
+    public var handlesDelete: Bool {
+        return self.deleteAction != nil
+    }
+    
+    public var deletable: Bool {
+        return self.deleteAction != nil || self.willDeleteAction != nil || self.didDeleteAction != nil
+    }
+    
+    public var tappable: Bool {
+        return self.onTapAction != nil
+    }
     
     public init(key:String?=nil, nibName:String?=nil, reorderable:Bool=false, storyboardIdentifier:String?=nil, configure:(ViewType -> Void)?=nil) {
         super.init()
