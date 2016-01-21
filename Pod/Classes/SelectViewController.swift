@@ -8,31 +8,45 @@
 
 import UIKit
 
-class SelectViewController<ValueType:Equatable>: DataSourceViewController {
-    var value:ValueType?
-    var multiple:Bool = false
+public class SelectViewController<ValueType:Equatable>: DataSourceViewController {
+    public var value:ValueType?
+    public var multiple:Bool = false
     
-    var didSelectValue:(ValueType? -> Void)?
+    public var didSelectValue:(ValueType? -> Void)?
     
-    var options:[ValueType] = [] {
+    public var options:[ValueType] = [] {
         didSet {
             self.buildDataSource()
         }
     }
 
-    init(options:[ValueType], value:ValueType?, didSelectValue:(ValueType? -> Void)?=nil) {
+    
+    
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.scrollToValue(animated: false)
+    }
+    
+    public func scrollToValue(animated animated:Bool = false) {
+        if let value = self.value, index = self.options.indexOf(value) {
+            let indexPath = NSIndexPath(forRow: index, inSection: 0)
+            self.tableView.safe_scrollToRowAtIndexPath(indexPath, atScrollPosition: .Middle, animated: false)
+        }
+    }
+
+    public init(options:[ValueType], value:ValueType?, didSelectValue:(ValueType? -> Void)?=nil) {
         super.init(nibName: nil, bundle: nil)
         self.options = options
         self.value = value
         self.didSelectValue = didSelectValue
     }
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         self.buildDataSource()
     }
     
-    override func configureDataSource(dataSource:DataSource) {
+    public override func configureDataSource(dataSource:DataSource) {
         dataSource <<< Section { section in
             for option in self.options {
                 section <<< TableViewItem<TableCell> { [unowned self] cell in
@@ -46,7 +60,7 @@ class SelectViewController<ValueType:Equatable>: DataSourceViewController {
         }
     }
     
-    func commit() {
+    public func commit() {
         self.didSelectValue?(self.value)
     }
 
