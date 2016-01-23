@@ -59,7 +59,8 @@ public class FieldCell: TableCell {
     public dynamic var errorTextColor:UIColor? = UIColor.redColor()
     
     public dynamic var valueTextColor:UIColor? = UIColor(white: 0.4, alpha: 1)
-    public dynamic var contentFont:UIFont = UIFont.systemFontOfSize(17)
+    public dynamic var titleFont:UIFont = UIFont.boldSystemFontOfSize(17)
+    public dynamic var valueFont:UIFont = UIFont.systemFontOfSize(17)
     
     lazy var accessoryToolbar:UIToolbar = {
         let toolbar = UIToolbar(frame: CGRectMake(0, 0, self.bounds.size.width, 36))
@@ -211,7 +212,7 @@ public class FieldCell: TableCell {
         
         switch self.labelPosition {
         case .Left:
-            self.titleLabel?.font = self.contentFont
+            self.titleLabel?.font = self.titleFont
             self.titleLabel?.textColor = self.titleTextColor
         case .Top:
             self.titleLabel?.textColor = UIColor(white: 0.5, alpha: 1)
@@ -220,7 +221,7 @@ public class FieldCell: TableCell {
         
         self.errorLabel?.textColor = self.errorTextColor
         self.errorIcon?.tintColor = self.errorTextColor
-        self.errorLabel?.font = self.contentFont
+        self.errorLabel?.font = self.valueFont
     }
     
     func setupConstraints() {

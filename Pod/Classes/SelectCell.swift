@@ -43,7 +43,7 @@ public class PushSelectCell<ValueType:Equatable>: SelectCell<ValueType>, Tappabl
     override public func stylize() {
         super.stylize()
         
-        self.valueLabel?.font = self.contentFont
+        self.valueLabel?.font = self.valueFont
         self.valueLabel?.textColor = self.valueTextColor
         self.accessoryType = .DisclosureIndicator
     }

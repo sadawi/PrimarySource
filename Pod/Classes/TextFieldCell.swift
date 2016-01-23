@@ -51,7 +51,7 @@ public class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCe
     override public func stylize() {
         super.stylize()
         self.textField?.textAlignment = self.labelPosition == .Left ? .Right : .Left
-        self.textField?.font = self.contentFont
+        self.textField?.font = self.valueFont
         self.textField?.textColor = self.valueTextColor
     }
     
