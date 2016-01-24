@@ -11,7 +11,10 @@ import UIKit
 public class SelectViewController<ValueType:Equatable>: DataSourceViewController {
     public var value:ValueType?
     public var multiple:Bool = false
-    
+    public var textForValue:(ValueType -> String?) = { value in
+        return String(value)
+    }
+    public var includeNil: String?
     public var didSelectValue:(ValueType? -> Void)?
     
     public var options:[ValueType] = [] {
@@ -47,10 +50,27 @@ public class SelectViewController<ValueType:Equatable>: DataSourceViewController
     }
     
     public override func configureDataSource(dataSource:DataSource) {
+        var options:[ValueType?] = []
+        if self.includeNil != nil {
+            options.append(nil)
+        }
+        for v in self.options {
+            options.append(v)
+        }
+        
         dataSource <<< Section { section in
-            for option in self.options {
+            for option in options {
                 section <<< TableViewItem<TableCell> { [unowned self] cell in
-                    cell.textLabel?.text = String(option)
+                    let text:String?
+                    if let value = option {
+                        text = self.textForValue(value)
+                    } else if let nilText = self.includeNil {
+                        text = nilText
+                    } else {
+                        text = ""
+                    }
+                    
+                    cell.textLabel?.text = text
                     cell.accessoryType = self.value == option ? .Checkmark : .None
                     }.onTap { [unowned self] _ in
                         self.value = option

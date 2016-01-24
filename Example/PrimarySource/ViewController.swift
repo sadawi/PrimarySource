@@ -31,6 +31,18 @@ class ViewController: DataSourceViewController {
     
     override func configureDataSource(dataSource: DataSource) {
         dataSource <<< Section(title: "Cells") { section in
+            section <<< TableViewItem<TableCell> { cell in
+                cell.textLabel?.text = "options"
+                cell.accessoryType = .DisclosureIndicator
+                }.onTap { _ in
+                    let c = SelectViewController(options: [1, 2, 3], value: nil)
+                    c.includeNil = "any number"
+                    c.textForValue = { value in
+                        return "number \(value)"
+                    }
+                    self.navigationController?.pushViewController(c, animated: true)
+            }
+            
             section <<< TableViewItem<MapCell> { cell in
                 cell.mapHeight = 200
             }
