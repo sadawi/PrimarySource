@@ -32,6 +32,7 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     var sectionLookup:[String:Section] = [:]
     
     weak var tableView:UITableView?
+    weak var collectionView:UICollectionView?
 
     public var reorderingMode:ReorderingMode = .WithinSections
     public var reorder:((NSIndexPath, NSIndexPath) -> Void)?
@@ -196,7 +197,7 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        self.registerReuseIdentifiersIfNeeded(tableView)
+        self.registerReuseIdentifiersIfNeeded(tableView: tableView)
         
         if let item = self.item(atIndexPath: indexPath), let identifier = item.reuseIdentifier, cell = tableView.dequeueReusableCellWithIdentifier(identifier) {
             if let tableCell = cell as? TableCell {
@@ -243,24 +244,34 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - 
     
-    func registerReuseIdentifiersIfNeeded(tableView:UITableView) {
+    func registerReuseIdentifiersIfNeeded(tableView tableView:UITableView) {
         if !self.didRegisterReuseIdentifiers {
             self.registerReuseIdentifiers(tableView)
         }
     }
     
-    public func registerReuseIdentifiers(tableView:UITableView) {
-        self.tableView = tableView
+    func registerReuseIdentifiersIfNeeded(collectionView collectionView:UICollectionView) {
+        if !self.didRegisterReuseIdentifiers {
+            self.registerReuseIdentifiers(collectionView)
+        }
+    }
+    
+    public func registerReuseIdentifiers(view: CollectionViewType) {
+        if let collectionView = view as? UICollectionView {
+            self.collectionView = collectionView
+        } else if let tableView = view as? UITableView {
+            self.tableView = tableView
+        }
         
         for section in self.sections {
             
             if let header = section.header, identifier = header.reuseIdentifier {
                 if let nibName = header.nibName {
                     if NSBundle.mainBundle().pathForResource(nibName, ofType: "nib") != nil {
-                        tableView.registerNib(UINib(nibName: nibName, bundle: nil), forHeaderFooterViewReuseIdentifier: identifier)
+                        view.registerHeaderNib(UINib(nibName: nibName, bundle: nil), reuseIdentifier: identifier)
                     }
                 } else {
-                    tableView.registerClass(header.viewType, forHeaderFooterViewReuseIdentifier: identifier)
+                    view.registerHeaderClass(header.viewType, reuseIdentifier: identifier)
                 }
             }
             
@@ -272,10 +283,10 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
                         
                         if let nibName = item.nibName {
                             if NSBundle.mainBundle().pathForResource(nibName, ofType: "nib") != nil {
-                                tableView.registerNib(UINib(nibName: nibName, bundle: nil), forCellReuseIdentifier: identifier)
+                                view.registerCellNib(UINib(nibName: nibName, bundle: nil), reuseIdentifier: identifier)
                             }
                         } else {
-                            tableView.registerClass(rowClass, forCellReuseIdentifier: identifier)
+                            view.registerCellClass(rowClass, reuseIdentifier: identifier)
                         }
                     }
                     

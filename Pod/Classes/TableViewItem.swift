@@ -1,5 +1,5 @@
 //
-//  TableViewItem.swift
+//  CollectionItem.swift
 //  Pods
 //
 //  Created by Sam Williams on 1/20/16.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class TableViewItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionItemType {
+public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionItemType {
     weak public var section: Section?
     
     internal(set) public var key:String?
@@ -98,6 +98,10 @@ public class TableViewItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionI
     
     var tableView:UITableView? {
         return self.section?.tableView
+    }
+    
+    var collectionView:UICollectionView? {
+        return self.section?.collectionView
     }
     
     var index:Int? {

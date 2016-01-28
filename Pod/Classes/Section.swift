@@ -30,6 +30,9 @@ public class Section {
     var tableView: UITableView? {
         return self.dataSource?.tableView
     }
+    var collectionView: UICollectionView? {
+        return self.dataSource?.collectionView
+    }
 
     public var itemCount:Int {
         return self.visibleItems.count

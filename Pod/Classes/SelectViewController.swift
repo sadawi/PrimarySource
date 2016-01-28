@@ -60,7 +60,7 @@ public class SelectViewController<ValueType:Equatable>: DataSourceViewController
         
         dataSource <<< Section { section in
             for option in options {
-                section <<< TableViewItem<TableCell> { [unowned self] cell in
+                section <<< CollectionItem<TableCell> { [unowned self] cell in
                     let text:String?
                     if let value = option {
                         text = self.textForValue(value)
