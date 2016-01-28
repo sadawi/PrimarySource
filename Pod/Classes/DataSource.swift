@@ -88,7 +88,7 @@ public class DataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
         }
     }
 
-    func item(atIndexPath indexPath: NSIndexPath) -> CollectionItem? {
+    func item(atIndexPath indexPath: NSIndexPath) -> CollectionItemType? {
         return self[indexPath.section]?.itemAtIndex(indexPath.row)
     }
     

@@ -14,12 +14,12 @@ public class Section {
     var visible: Bool = true
     var visibleCondition:(Void -> Bool)?
     
-    var items:[CollectionItem] = []
-    var visibleItems:[CollectionItem] {
+    var items:[CollectionItemType] = []
+    var visibleItems:[CollectionItemType] {
         return self.items.filter { $0.visible }
     }
     
-    var itemLookup: [String: CollectionItem] = [:]
+    var itemLookup: [String: CollectionItemType] = [:]
     
     var key:String?
     var title:String?
@@ -48,7 +48,7 @@ public class Section {
         }
     }
     
-    public func addItem(item:CollectionItem) -> Section {
+    public func addItem(item:CollectionItemType) -> Section {
         self.items.append(item)
         if let key = item.key {
             self.itemLookup[key] = item
@@ -74,27 +74,27 @@ public class Section {
         return self
     }
     
-    public func itemAtIndex(index:Int) -> CollectionItem? {
+    public func itemAtIndex(index:Int) -> CollectionItemType? {
         return self.visibleItems[index]
     }
     
-    public func itemForKey(key:String) -> CollectionItem? {
+    public func itemForKey(key:String) -> CollectionItemType? {
         return self.itemLookup[key]
     }
     
-    public subscript(index:Int) -> CollectionItem? {
+    public subscript(index:Int) -> CollectionItemType? {
         get {
             return self.itemAtIndex(index)
         }
     }
     
-    public subscript(key:String) -> CollectionItem? {
+    public subscript(key:String) -> CollectionItemType? {
         get {
             return self.itemForKey(key)
         }
     }
     
-    public func eachItem(iterator: (CollectionItem -> Void)) {
+    public func eachItem(iterator: (CollectionItemType -> Void)) {
         for item in self.visibleItems {
             iterator(item)
         }
@@ -102,7 +102,7 @@ public class Section {
     
     // MARK: - Indices
     
-    func indexOfItem(item: CollectionItem) -> Int? {
+    func indexOfItem(item: CollectionItemType) -> Int? {
         return self.visibleItems.indexOf { $0 === item }
     }
     

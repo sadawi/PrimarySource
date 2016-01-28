@@ -20,11 +20,11 @@ public func <<<(left:DataSource, right:Section?) {
     }
 }
 
-public func <<<(left:Section, right:CollectionItem) {
+public func <<<(left:Section, right:CollectionItemType) {
     left.addItem(right)
 }
 
-public func <<<(left:Section, right:CollectionItem?) {
+public func <<<(left:Section, right:CollectionItemType?) {
     if let right = right {
         left.addItem(right)
     }

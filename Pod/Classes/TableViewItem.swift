@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class TableViewItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionItem {
+public class TableViewItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionItemType {
     weak public var section: Section?
     
     internal(set) public var key:String?
@@ -47,27 +47,27 @@ public class TableViewItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionI
     
     // MARK: - Actions
     
-    public func onTap(action:ItemAction) -> CollectionItem {
+    public func onTap(action:ItemAction) -> CollectionItemType {
         self.onTapAction = action
         return self
     }
     
-    public func onAccessoryTap(action:ItemAction) -> CollectionItem {
+    public func onAccessoryTap(action:ItemAction) -> CollectionItemType {
         self.onAccessoryTapAction = action
         return self
     }
     
-    public func didDelete(action:ItemAction) -> CollectionItem {
+    public func didDelete(action:ItemAction) -> CollectionItemType {
         self.didDeleteAction = action
         return self
     }
     
-    public func delete(action:ItemAction) -> CollectionItem {
+    public func delete(action:ItemAction) -> CollectionItemType {
         self.deleteAction = action
         return self
     }
     
-    public func willDelete(action:ItemAction) -> CollectionItem {
+    public func willDelete(action:ItemAction) -> CollectionItemType {
         self.willDeleteAction = action
         return self
     }
@@ -136,7 +136,7 @@ public class TableViewItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionI
     }
     
     
-    public func show(condition: (Void -> Bool)) -> CollectionItem {
+    public func show(condition: (Void -> Bool)) -> CollectionItemType {
         self.visibleCondition = condition
         self.visible = condition()
         return self

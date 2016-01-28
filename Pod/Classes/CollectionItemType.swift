@@ -8,9 +8,9 @@
 
 import Foundation
 
-public typealias ItemAction = (CollectionItem -> Void)
+public typealias ItemAction = (CollectionItemType -> Void)
 
-public protocol CollectionItem: class, ReusableItemType {
+public protocol CollectionItemType: class, ReusableItemType {
     var reorderable:Bool { get set }
     var key: String? { get }
     var visible: Bool { get }
@@ -20,11 +20,11 @@ public protocol CollectionItem: class, ReusableItemType {
     var handlesDelete: Bool { get }
     var tappable: Bool { get }
 
-    func delete(action: ItemAction) -> CollectionItem
-    func didDelete(action: ItemAction) -> CollectionItem
-    func willDelete(action: ItemAction) -> CollectionItem
-    func onTap(action: ItemAction) -> CollectionItem
-    func onAccessoryTap(action: ItemAction) -> CollectionItem
+    func delete(action: ItemAction) -> CollectionItemType
+    func didDelete(action: ItemAction) -> CollectionItemType
+    func willDelete(action: ItemAction) -> CollectionItemType
+    func onTap(action: ItemAction) -> CollectionItemType
+    func onAccessoryTap(action: ItemAction) -> CollectionItemType
     
     /**
      Sets a visibility condition for this collection item.
@@ -33,7 +33,7 @@ public protocol CollectionItem: class, ReusableItemType {
      
      - parameter condition: A closure determining whether this item should be visible or not.
      */
-    func show(condition: (Void -> Bool)) -> CollectionItem
+    func show(condition: (Void -> Bool)) -> CollectionItemType
 
     func delete()
     func didDelete()

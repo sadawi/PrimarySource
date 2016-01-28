@@ -12,7 +12,7 @@ import Foundation
  A collection section that is built from a list of objects.
  */
 public class ListSection<T:Equatable>: Section {
-    public typealias ItemGenerator = ((T, Int) -> CollectionItem)
+    public typealias ItemGenerator = ((T, Int) -> CollectionItemType)
     
     var values: [T] = []
     var generator: ItemGenerator
@@ -32,14 +32,14 @@ public class ListSection<T:Equatable>: Section {
     }
     
     func generateItems() {
-        var items:[CollectionItem] = []
+        var items:[CollectionItemType] = []
         for (i, value) in self.values.enumerate() {
             items.append(self.itemForValue(value, index: i))
         }
         self.items = items
     }
     
-    func itemForValue(value: T, index:Int) -> CollectionItem {
+    func itemForValue(value: T, index:Int) -> CollectionItemType {
         return self.generator(value, index)
     }
 

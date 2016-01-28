@@ -33,7 +33,7 @@ public class ReusableItem<ViewType:UIView>: ReusableItemType {
         if let viewType = self.viewType {
             return NSStringFromClass(viewType)
         } else {
-            return "CollectionItem"
+            return "CollectionItemType"
         }
     }
     
