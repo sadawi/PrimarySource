@@ -89,9 +89,8 @@ public class ActivityIndicatorCell: TableCell {
     }
 }
 
-public class ButtonCell: TableCell, TappableTableCell {
+public class ButtonCell: TableCell {
     public var button:UIButton?
-    public var onTap:(Void -> Void)?
     
     public dynamic var buttonFont:UIFont?
     
@@ -117,9 +116,17 @@ public class ButtonCell: TableCell, TappableTableCell {
         button.frame = frame
         button.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         self.contentView.addSubview(button)
-        button.addTarget(self, action: Selector("handleTap"), forControlEvents: .TouchUpInside)
         
         self.button = button
+    }
+    
+    // Let the CollectionItem handle taps
+    override public func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+        if CGRectContainsPoint(self.bounds, point) {
+            return self
+        } else {
+            return super.hitTest(point, withEvent: event)
+        }
     }
     
     override public func stylize() {
@@ -128,9 +135,5 @@ public class ButtonCell: TableCell, TappableTableCell {
             self.button?.titleLabel?.font = font
         }
         self.button?.setTitleColor(self.tintColor, forState: UIControlState.Normal)
-    }
-    
-    func handleTap() {
-        self.onTap?()
     }
 }
