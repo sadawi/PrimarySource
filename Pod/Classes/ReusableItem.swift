@@ -22,14 +22,17 @@ public class ReusableItem<ViewType:UIView>: ReusableItemType {
     var configure: (ViewType -> Void)?
     public var storyboardIdentifier:String?
     public var nibName:String?
+    public var identifier:String?
     
-    public var reuseIdentifier:String? {
-        get {
-            return storyboardIdentifier ?? generateReuseIdentifier()
+    public var reuseIdentifier: String? {
+        if let identifier = self.identifier {
+            return identifier
         }
-    }
-    
-    func generateReuseIdentifier() -> String {
+        
+        if let storyboardIdentifier = self.storyboardIdentifier {
+            return storyboardIdentifier
+        }
+        
         if let viewType = self.viewType {
             return NSStringFromClass(viewType)
         } else {

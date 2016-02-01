@@ -16,9 +16,10 @@ public protocol HeaderItemType: ReusableItemType {
 public class HeaderItem<ViewType:UITableViewHeaderFooterView>: ReusableItem<ViewType>, HeaderItemType {
     public var height:CGFloat?
     
-    public init(nibName:String?=nil, storyboardIdentifier:String?=nil, height:CGFloat?=nil, configure:(ViewType -> Void)?=nil) {
+    public init(nibName:String?=nil, storyboardIdentifier:String?=nil, reuseIdentifier:String?=nil, height:CGFloat?=nil, configure:(ViewType -> Void)?=nil) {
         super.init()
         self.nibName = nibName
+        self.identifier = reuseIdentifier
         self.storyboardIdentifier = storyboardIdentifier
         self.height = height
         self.configure = configure
