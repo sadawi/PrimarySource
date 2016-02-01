@@ -129,6 +129,7 @@ public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, Collection
         let newIndexPath = self.indexPath
         if newIndexPath != nil && oldIndexPath == nil {
             self.tableView?.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
+            // TODO: collectionView
         }
     }
     
@@ -138,6 +139,7 @@ public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, Collection
         let newIndexPath = self.indexPath
         if newIndexPath == nil && oldIndexPath != nil {
             self.tableView?.deleteRowsAtIndexPaths([oldIndexPath!], withRowAnimation: .Automatic)
+            // TODO: collectionView
         }
     }
     
@@ -158,5 +160,4 @@ public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, Collection
             }
         }
     }
-    
 }
