@@ -88,6 +88,14 @@ extension DataSource: UITableViewDelegate, UITableViewDataSource {
         return nil
     }
     
+    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if let sizeClosure = self.item(atIndexPath: indexPath)?.desiredSize {
+            return sizeClosure().height
+        } else {
+            return UITableViewAutomaticDimension
+        }
+    }
+    
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         guard let section = self[section] else { return 0 }
         
@@ -107,6 +115,13 @@ extension DataSource: UITableViewDelegate, UITableViewDataSource {
             if let tableCell = cell as? TableCell {
                 tableCell.dataSource = self
             }
+            
+//            // Cell height may depend on cell width.  This ensure the cell knows the proper width as soon as possible.
+//            var f = cell.frame
+//            f.size.width = tableView.bounds.size.width
+//            cell.frame = f
+//            cell.layoutIfNeeded()
+
             item.configureView(cell)
             return cell
         } else {

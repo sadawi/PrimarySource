@@ -24,6 +24,8 @@ public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, Collection
     var didDeleteAction:ItemAction?
     var willDeleteAction:ItemAction?
     
+    public var desiredSize: (Void -> CGSize)?
+    
     public var handlesDelete: Bool {
         return self.deleteAction != nil
     }

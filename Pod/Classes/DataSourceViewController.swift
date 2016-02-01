@@ -36,7 +36,6 @@ public class DataSourceViewController: UIViewController, DataSourceDelegate {
             self.view.addSubview(tableView)
         }
         
-        self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 44
         
         // Hide trailing separators
