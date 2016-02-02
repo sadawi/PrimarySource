@@ -4,6 +4,7 @@
 
 This is a Swift library for setting up data sources for UITableViews and UICollectionViews.
 
+<!--
 ## Installation
 
 PrimarySource is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:		
@@ -13,6 +14,7 @@ pod "PrimarySource"
 ```
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
+-->
 
 ## Usage
 
@@ -29,7 +31,7 @@ func loadData()
     self.tableView.dataSource = self.dataSource
     
     self.dataSource <<< Section(title: "Form") { section in
-        section <<< TableViewItem<TextFieldCell> { cell in
+        section <<< CollectionItem<TextFieldCell> { cell in
             cell.title = "Name"
             cell.onChange = { [unowned cell] in
                 print("New value: \(cell.value)")
@@ -47,16 +49,16 @@ A cell can be created in several ways:
 
 * By class (instantiated purely from code)
 ```swift
-section <<< TableViewItem<TextFieldCell>()
+section <<< CollectionItem<TextFieldCell>()
 ```
 
 * By storyboard identifier (using dynamic prototypes from the storyboard)
 ```swift
-section <<< TableViewItem<TextFieldCell>(storyboardIdentifier: "NormalTextCell")
+section <<< CollectionItem<TextFieldCell>(storyboardIdentifier: "NormalTextCell")
 ```
 * From a nib
 ```swift
-section <<< TableViewItem<TextFieldCell>(nibName: "NormalTextCellNib")
+section <<< CollectionItem<TextFieldCell>(nibName: "NormalTextCellNib")
 ```
 
 ### Cell types
@@ -96,9 +98,9 @@ Handlers can be added for cell-level actions:
 section <<< TableViewItem<TextFieldCell> { cell in
     cell.title = "Name"
     // ...
-}.onTap { 
+}.onTap { _ in
     print("tapped") 
-}.onDelete { 
+}.onDelete { _ in 
     print("deleted") 
 }
 ```
