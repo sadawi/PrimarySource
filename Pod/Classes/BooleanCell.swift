@@ -21,6 +21,11 @@ public class BooleanCell:FieldCell, Observable {
     
     public typealias ValueType = Bool
     public var observations = ObservationRegistry<ValueType>()
+    
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        self.removeAllObservers()
+    }
 }
 
 public class SwitchCell:BooleanCell, TappableTableCell  {

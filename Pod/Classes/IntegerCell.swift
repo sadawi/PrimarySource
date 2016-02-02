@@ -21,6 +21,11 @@ public class IntegerCell: FieldCell, Observable {
     
     public typealias ValueType = Int
     public var observations = ObservationRegistry<Int>()
+
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        self.removeAllObservers()
+    }
 }
 
 public class StepperCell: IntegerCell {

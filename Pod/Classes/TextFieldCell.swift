@@ -128,6 +128,11 @@ public class TextFieldCell: TextFieldInputCell, Observable {
     
     public typealias ValueType = String
     public var observations = ObservationRegistry<ValueType>()
+    
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        self.removeAllObservers()
+    }
 }
 
 public class EmailAddressCell: TextFieldCell {

@@ -30,7 +30,6 @@ public class PushFieldCell<ValueType:Equatable>: FieldCell, Observable {
     public var observations = ObservationRegistry<ValueType>()
     
     public var valueLabel:UILabel?
-//    public var showEditor:(Void -> Void)?
     
     override public func buildView() {
         super.buildView()
@@ -57,24 +56,9 @@ public class PushFieldCell<ValueType:Equatable>: FieldCell, Observable {
         }
         self.userInteractionEnabled = !self.readonly
     }
-//    
-//    func buildController<T where T:FieldCellEditor, T:UIViewController, T.ValueType == ValueType>() -> T? {
-//        return nil
-//    }
-    
-//    func handleTap() {
-//        self.showEditor?()
-//        
-////        if let presenter = self.dataSource?.presentationViewController() {
-////            if let controller = self.buildController() {
-////                
-//////                self.value = value
-//////                self.valueChanged()
-//////                presenter.navigationController?.popViewControllerAnimated(true)
-////                
-////                controller.title = self.title
-////                presenter.navigationController?.pushViewController(controller, animated: true)
-////            }
-////        }
-//    }
+
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        self.removeAllObservers()
+    }
 }
