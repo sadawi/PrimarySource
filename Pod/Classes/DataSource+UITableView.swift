@@ -69,6 +69,9 @@ extension DataSource: UITableViewDelegate, UITableViewDataSource {
     
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        UIApplication.sharedApplication().sendAction("resignFirstResponder", to:nil, from:nil, forEvent:nil)
+        
         self.item(atIndexPath: indexPath)?.onTap()
         
         if let tappable = tableView.cellForRowAtIndexPath(indexPath) as? TappableTableCell {
