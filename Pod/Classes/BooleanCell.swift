@@ -9,7 +9,7 @@
 import UIKit
 import MagneticFields
 
-public class BooleanCell:FieldCell, Observable {
+public class BooleanCell:FieldCell, Observable, Observer {
     public var value:Bool? = false {
         didSet {
             self.update()
@@ -25,6 +25,12 @@ public class BooleanCell:FieldCell, Observable {
     public override func prepareForReuse() {
         super.prepareForReuse()
         self.removeAllObservers()
+    }
+    
+    // MARK: - Observer
+    
+    public func valueChanged<ObservableType:Observable>(value:ValueType?, observable:ObservableType?) {
+        self.value = value
     }
 }
 

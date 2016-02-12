@@ -11,7 +11,7 @@ import PrimarySource
 import MagneticFields
 
 class FieldFormViewController: DataSourceViewController {
-    let name            = Field<String>()
+    let name            = Field<String>(value: "Bob")
     let active          = Field<Bool>(value: true)
     let emailAddress    = Field<String>()
     
@@ -20,14 +20,12 @@ class FieldFormViewController: DataSourceViewController {
             section <<< CollectionItem<TextFieldCell> { [unowned self] cell in
                 cell.title = "Name"
                 cell.placeholderText = "Enter a full name"
-                cell.value = self.name.value
-                cell --> self.name
+                cell <--> self.name
             }
             
             section <<< CollectionItem<SwitchCell> { [unowned self] cell in
                 cell.title = "Active"
-                cell.value = self.active.value
-                cell --> self.active
+                cell <--> self.active
             }
             
             section <<< CollectionItem<ButtonCell> { cell in

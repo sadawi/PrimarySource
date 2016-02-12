@@ -1,7 +1,7 @@
 PODS:
-  - MagneticFields (0.4.4)
+  - MagneticFields (0.4.5)
   - PrimarySource (0.7.0):
-    - MagneticFields (~> 0.4.0)
+    - MagneticFields (~> 0.4.5)
 
 DEPENDENCIES:
   - PrimarySource (from `../`)
@@ -11,7 +11,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  MagneticFields: 80df5519c0aa2267d836a2d378d11320a5df6631
-  PrimarySource: 5cb466fb50222b797d461f5e7891a1e112d94e17
+  MagneticFields: 46f0d45f5491540f500e74f76bf570821bb7bc55
+  PrimarySource: 36ceef09a6208d3c415748f976ff92c8c9a1015e
 
 COCOAPODS: 0.39.0

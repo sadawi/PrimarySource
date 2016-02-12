@@ -107,7 +107,7 @@ public class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCe
     A cell that uses a UITextField as an input and has a String value
 */
 
-public class TextFieldCell: TextFieldInputCell, Observable {
+public class TextFieldCell: TextFieldInputCell, Observable, Observer {
     public override var stringValue:String? {
         get {
             return self.value
@@ -132,6 +132,12 @@ public class TextFieldCell: TextFieldInputCell, Observable {
     public override func prepareForReuse() {
         super.prepareForReuse()
         self.removeAllObservers()
+    }
+    
+    // MARK: - Observer
+    
+    public func valueChanged<ObservableType:Observable>(value:ValueType?, observable:ObservableType?) {
+        self.value = value
     }
 }
 
