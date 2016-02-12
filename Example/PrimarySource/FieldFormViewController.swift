@@ -13,6 +13,7 @@ import MagneticFields
 class FieldFormViewController: DataSourceViewController {
     let name            = Field<String>(value: "Bob")
     let active          = Field<Bool>(value: true)
+    let count           = Field<Int>(value: 0)
     let emailAddress    = Field<String>()
     
     override func configureDataSource(dataSource: DataSource) {
@@ -27,6 +28,10 @@ class FieldFormViewController: DataSourceViewController {
                 cell.title = "Active"
                 cell <--> self.active
             }
+            section <<< CollectionItem<StepperCell> { [unowned self] cell in
+                cell.title = "Count"
+                cell <--> self.count
+            }
             
             section <<< CollectionItem<ButtonCell> { cell in
                 cell.title = "Submit"
@@ -38,7 +43,11 @@ class FieldFormViewController: DataSourceViewController {
     
     func showValues() {
         var parts: [String] = []
-        let fields: [String: FieldType] = ["name": self.name, "active": self.active]
+        let fields: [String: FieldType] = [
+            "name": self.name,
+            "active": self.active,
+            "count": self.count
+        ]
         for (key, field) in fields {
             if let value = field.anyObjectValue {
                 parts.append("\(key) = \(value)")

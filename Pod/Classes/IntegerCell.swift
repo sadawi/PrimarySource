@@ -9,7 +9,7 @@
 import UIKit
 import MagneticFields
 
-public class IntegerCell: FieldCell, Observable {
+public class IntegerCell: FieldCell, Observable, Observer {
     public var value:Int? {
         didSet {
             self.update()
@@ -26,6 +26,13 @@ public class IntegerCell: FieldCell, Observable {
         super.prepareForReuse()
         self.removeAllObservers()
     }
+    
+    // MARK: - Observer
+    
+    public func valueChanged<ObservableType:Observable>(value:ValueType?, observable:ObservableType?) {
+        self.value = value
+    }
+
 }
 
 public class StepperCell: IntegerCell {
@@ -40,7 +47,6 @@ public class StepperCell: IntegerCell {
         self.valueLabel = label
 
         let control = UIStepper(frame: self.controlView!.bounds)
-        control.value = 1
         control.stepValue = 1
         self.addControl(control, alignment:.Right)
         control.addTarget(self, action: Selector("stepperValueChanged"), forControlEvents: UIControlEvents.ValueChanged)
