@@ -19,6 +19,14 @@ class MenuViewController: DataSourceViewController {
                     let controller = FormViewController()
                     self.navigationController?.pushViewController(controller, animated: true)
             }
+
+            section <<< CollectionItem<TableCell> { cell in
+                cell.textLabel?.text = "Form with MagneticFields"
+                cell.accessoryType = .DisclosureIndicator
+                }.onTap { _ in
+                    let controller = FieldFormViewController()
+                    self.navigationController?.pushViewController(controller, animated: true)
+            }
             
             section <<< CollectionItem<TableCell> { cell in
                 cell.textLabel?.text = "Misc"

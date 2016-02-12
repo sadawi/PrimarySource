@@ -12,6 +12,7 @@
 		229471081C1140B9006E2138 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 229471071C1140B9006E2138 /* MapKit.framework */; };
 		22CB87211C4F28470076392E /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CB87201C4F28470076392E /* MenuViewController.swift */; };
 		22CB87241C4F29080076392E /* AnimationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CB87231C4F29080076392E /* AnimationsViewController.swift */; };
+		22EA0E411C6E65A100F7DB34 /* FieldFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EA0E401C6E65A100F7DB34 /* FieldFormViewController.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -39,6 +40,7 @@
 		229471071C1140B9006E2138 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		22CB87201C4F28470076392E /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		22CB87231C4F29080076392E /* AnimationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationsViewController.swift; sourceTree = "<group>"; };
+		22EA0E401C6E65A100F7DB34 /* FieldFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FieldFormViewController.swift; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* PrimarySource_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrimarySource_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				22CB87201C4F28470076392E /* MenuViewController.swift */,
 				22CB87231C4F29080076392E /* AnimationsViewController.swift */,
 				22803EF31C503393000D0145 /* FormViewController.swift */,
+				22EA0E401C6E65A100F7DB34 /* FieldFormViewController.swift */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				22CB87211C4F28470076392E /* MenuViewController.swift in Sources */,
+				22EA0E411C6E65A100F7DB34 /* FieldFormViewController.swift in Sources */,
 				22CB87241C4F29080076392E /* AnimationsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
