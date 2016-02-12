@@ -31,7 +31,7 @@ class ViewController: DataSourceViewController {
     
     override func configureDataSource(dataSource: DataSource) {
         dataSource <<< Section(title: "Cells") { section in
-            section <<< TableViewItem<TableCell> { cell in
+            section <<< CollectionItem<TableCell> { cell in
                 cell.textLabel?.text = "options"
                 cell.accessoryType = .DisclosureIndicator
                 }.onTap { _ in
@@ -43,11 +43,11 @@ class ViewController: DataSourceViewController {
                     self.navigationController?.pushViewController(c, animated: true)
             }
             
-            section <<< TableViewItem<MapCell> { cell in
+            section <<< CollectionItem<MapCell> { cell in
                 cell.mapHeight = 200
             }
             
-            section <<< TableViewItem<StackCell> { cell in
+            section <<< CollectionItem<StackCell> { cell in
                 var views:[UIView] = []
                 for i in 1...5 {
                     let view = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 40))
@@ -57,7 +57,7 @@ class ViewController: DataSourceViewController {
                 cell.arrangedSubviews = views
             }
             
-            section <<< TableViewItem<MultiColumnCell> { cell in
+            section <<< CollectionItem<MultiColumnCell> { cell in
                 cell.columns?.columnCount = 3
                 var views:[UIView] = []
                 for i in 1...10 {

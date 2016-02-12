@@ -11,7 +11,7 @@ import PrimarySource
 class FormViewController: DataSourceViewController {
     override func configureDataSource(dataSource: DataSource) {
         dataSource <<< Section(title: "Form") { section in
-            section <<< TableViewItem<TextFieldCell>(key: "name") { cell in
+            section <<< CollectionItem<TextFieldCell>(key: "name") { cell in
                 cell.labelPosition = .Top
                 cell.title = "Name"
                 cell.placeholderText = "Enter a full name"
@@ -19,19 +19,19 @@ class FormViewController: DataSourceViewController {
                     print("New value: \(cell?.value)")
                 }
             }
-            section <<< TableViewItem<SwitchCell>(key: "active") { cell in
+            section <<< CollectionItem<SwitchCell>(key: "active") { cell in
                 cell.title = "Active"
                 cell.onChange = { [unowned cell] in
                     print("New value: \(cell.value)")
                 }
             }
-            section <<< TableViewItem<EmailAddressCell>(key: "email") { cell in
+            section <<< CollectionItem<EmailAddressCell>(key: "email") { cell in
                 cell.title = "Email address"
                 cell.onChange = { [unowned cell] in
                     print("New value: \(cell.value)")
                 }
             }
-            section <<< TableViewItem<PhoneNumberCell>(key: "phone") { cell in
+            section <<< CollectionItem<PhoneNumberCell>(key: "phone") { cell in
                 cell.title = "Phone number"
                 cell.value = "948AAA"
                 cell.state = FieldState.Error(["Looks like this phone number is invalid!"])
@@ -39,19 +39,19 @@ class FormViewController: DataSourceViewController {
                     print("New value: \(cell.value)")
                 }
             }
-            section <<< TableViewItem<DateFieldCell>(key: "birthday") { cell in
+            section <<< CollectionItem<DateFieldCell>(key: "birthday") { cell in
                 cell.title = "Birthday"
                 cell.onChange = { [unowned cell] in
                     print("New value: \(cell.value)")
                 }
             }
-            section <<< TableViewItem<StepperCell>(key: "problems") { cell in
+            section <<< CollectionItem<StepperCell>(key: "problems") { cell in
                 cell.title = "Problems"
                 cell.onChange = { [unowned cell] in
                     print("New value: \(cell.value)")
                 }
             }
-            section <<< TableViewItem<PushSelectCell<String>>(key: "gender") { cell in
+            section <<< CollectionItem<PushSelectCell<String>>(key: "gender") { cell in
                 cell.title = "Gender"
                 cell.options = ["male", "female", "other"]
                 cell.onChange = { [unowned cell] in

@@ -12,7 +12,7 @@ import PrimarySource
 class MenuViewController: DataSourceViewController {
     override func configureDataSource(dataSource: DataSource) {
         dataSource <<< Section { section in
-            section <<< TableViewItem<TableCell> { cell in
+            section <<< CollectionItem<TableCell> { cell in
                 cell.textLabel?.text = "Form"
                 cell.accessoryType = .DisclosureIndicator
                 }.onTap { _ in
@@ -20,7 +20,7 @@ class MenuViewController: DataSourceViewController {
                     self.navigationController?.pushViewController(controller, animated: true)
             }
             
-            section <<< TableViewItem<TableCell> { cell in
+            section <<< CollectionItem<TableCell> { cell in
                 cell.textLabel?.text = "Misc"
                 cell.accessoryType = .DisclosureIndicator
                 }.onTap { _ in
@@ -28,7 +28,7 @@ class MenuViewController: DataSourceViewController {
                     self.navigationController?.pushViewController(controller, animated: true)
             }
             
-            section <<< TableViewItem<TableCell> { cell in
+            section <<< CollectionItem<TableCell> { cell in
                 cell.textLabel?.text = "Animations"
                 cell.accessoryType = .DisclosureIndicator
                 }.onTap { _ in

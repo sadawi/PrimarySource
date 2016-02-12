@@ -35,7 +35,7 @@ class AnimationsViewController: DataSourceViewController {
     override func configureDataSource(dataSource: DataSource) {
 
         dataSource <<< ListSection(values: self.numbers, title: "Numbers", key: "numbers") { value, index in
-            return TableViewItem<UITableViewCell> { cell in
+            return CollectionItem<UITableViewCell> { cell in
                 cell.textLabel?.text = "Value \(value)"
                 }.onTap { [weak self] _ in
                     self?.removeNumber(value)
@@ -45,39 +45,38 @@ class AnimationsViewController: DataSourceViewController {
         }
         
         dataSource <<< Section { section in
-            section <<< TableViewItem<ButtonCell> { cell in
+            section <<< CollectionItem<ButtonCell> { cell in
                 cell.title = "Add"
-                cell.onTap = { [weak self] in
+                }.onTap { [weak self] _ in
                     self?.addNumber()
-                }
             }
         }
         
         dataSource <<< Section(title: "Visibility", key: "visibility") { section in
-            section <<< TableViewItem<SwitchCell> { [weak self] cell in
+            section <<< CollectionItem<SwitchCell> { [weak self] cell in
                 cell.title = "Visible"
                 cell.value = self?.visible
                 cell.onChange = { [weak cell] in
                     self?.visible = cell?.value
                 }
             }
-            section <<< TableViewItem<TableCell>(key: "item") { cell in
+            section <<< CollectionItem<TableCell>(key: "item") { cell in
                 cell.textLabel?.text = "Item toggled by key"
             }
-            section <<< TableViewItem<SwitchCell> { [weak self] cell in
+            section <<< CollectionItem<SwitchCell> { [weak self] cell in
                 cell.title = "Visible 2"
                 cell.value = self?.visible2
                 cell.onChange = { [weak cell] in
                     self?.visible2 = cell?.value
                 }
             }
-            section <<< TableViewItem<TableCell> { cell in
+            section <<< CollectionItem<TableCell> { cell in
                 cell.textLabel?.text = "Item created with visibility condition"
                 }.show { [weak self] in
                     return self?.visible2 == true
             }
             
-            section <<< TableViewItem<SwitchCell> { [weak self] cell in
+            section <<< CollectionItem<SwitchCell> { [weak self] cell in
                 cell.title = "Section Visible"
                 cell.value = self?.sectionVisible
                 cell.onChange = { [weak cell] in
@@ -87,7 +86,7 @@ class AnimationsViewController: DataSourceViewController {
         }
         
         dataSource <<< Section(title: "Disappearing Section", key: "disappearing") { section in
-            section <<< TableViewItem<TableCell> { cell in
+            section <<< CollectionItem<TableCell> { cell in
                 cell.textLabel?.text = "Some item"
             }
             }.show { [weak self] in
