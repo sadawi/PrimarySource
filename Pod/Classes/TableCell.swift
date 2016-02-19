@@ -91,7 +91,7 @@ public class ActivityIndicatorCell: TableCell {
     }
 }
 
-public class ButtonCell: TableCell {
+public class ButtonCell: ContentCell {
     public var button:UIButton?
     
     public dynamic var buttonFont:UIFont?
@@ -105,22 +105,15 @@ public class ButtonCell: TableCell {
         }
     }
     
+    public override func buildContent() -> UIView {
+        let button = UIButton(type: .Custom)
+        self.button = button
+        return button
+    }
+    
     override public func buildView() {
         super.buildView()
-        let button = UIButton(type: .Custom)
-        
-        var frame = self.contentView.bounds
-        frame.origin.x = self.defaultContentInsets.left
-        frame.origin.y = self.defaultContentInsets.top
-        frame.size.width -= (frame.origin.x + self.defaultContentInsets.right)
-        frame.size.height -= (frame.origin.y + self.defaultContentInsets.bottom)
-        
-        button.frame = frame
-        button.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        self.contentView.addSubview(button)
         self.selectionStyle = .None
-        
-        self.button = button
     }
     
     // Let the CollectionItem handle taps
