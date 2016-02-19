@@ -43,6 +43,8 @@ public class TableCell: UITableViewCell {
     
     public func buildView() {
         self.clipsToBounds = true
+        self.textLabel?.numberOfLines = 0
+        self.textLabel?.lineBreakMode = .ByWordWrapping
     }
     
     override public func setSelected(selected: Bool, animated: Bool) {
@@ -116,6 +118,7 @@ public class ButtonCell: TableCell {
         button.frame = frame
         button.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         self.contentView.addSubview(button)
+        self.selectionStyle = .None
         
         self.button = button
     }
@@ -134,6 +137,15 @@ public class ButtonCell: TableCell {
         if let font = self.buttonFont {
             self.button?.titleLabel?.font = font
         }
-        self.button?.setTitleColor(self.tintColor, forState: UIControlState.Normal)
+        if self.button?.backgroundColor == nil || self.button?.backgroundColor == UIColor.clearColor() || self.button?.backgroundColor == self.button?.titleColorForState(.Normal) {
+            self.button?.setTitleColor(self.tintColor, forState: UIControlState.Normal)
+        }
     }
+}
+
+/**
+ This primarily exists so you can distinguish important buttons with UIAppearance selectors.
+*/
+public class PrimaryButtonCell: ButtonCell {
+    
 }
