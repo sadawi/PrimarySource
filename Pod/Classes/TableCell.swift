@@ -142,10 +142,3 @@ public class ButtonCell: TableCell {
         }
     }
 }
-
-/**
- This primarily exists so you can distinguish important buttons with UIAppearance selectors.
-*/
-public class PrimaryButtonCell: ButtonCell {
-    
-}
