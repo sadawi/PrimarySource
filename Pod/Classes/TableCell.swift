@@ -43,6 +43,8 @@ public class TableCell: UITableViewCell {
     
     public func buildView() {
         self.clipsToBounds = true
+        self.textLabel?.numberOfLines = 0
+        self.textLabel?.lineBreakMode = .ByWordWrapping
     }
     
     override public func setSelected(selected: Bool, animated: Bool) {
@@ -89,7 +91,7 @@ public class ActivityIndicatorCell: TableCell {
     }
 }
 
-public class ButtonCell: TableCell {
+public class ButtonCell: ContentCell {
     public var button:UIButton?
     
     public dynamic var buttonFont:UIFont?
@@ -103,21 +105,15 @@ public class ButtonCell: TableCell {
         }
     }
     
+    public override func buildContent() -> UIView {
+        let button = UIButton(type: .Custom)
+        self.button = button
+        return button
+    }
+    
     override public func buildView() {
         super.buildView()
-        let button = UIButton(type: .Custom)
-        
-        var frame = self.contentView.bounds
-        frame.origin.x = self.defaultContentInsets.left
-        frame.origin.y = self.defaultContentInsets.top
-        frame.size.width -= (frame.origin.x + self.defaultContentInsets.right)
-        frame.size.height -= (frame.origin.y + self.defaultContentInsets.bottom)
-        
-        button.frame = frame
-        button.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        self.contentView.addSubview(button)
-        
-        self.button = button
+        self.selectionStyle = .None
     }
     
     // Let the CollectionItem handle taps
@@ -134,6 +130,8 @@ public class ButtonCell: TableCell {
         if let font = self.buttonFont {
             self.button?.titleLabel?.font = font
         }
-        self.button?.setTitleColor(self.tintColor, forState: UIControlState.Normal)
+        if self.button?.backgroundColor == nil || self.button?.backgroundColor == UIColor.clearColor() || self.button?.backgroundColor == self.button?.titleColorForState(.Normal) {
+            self.button?.setTitleColor(self.tintColor, forState: UIControlState.Normal)
+        }
     }
 }
