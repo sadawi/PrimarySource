@@ -8,12 +8,71 @@
 
 import UIKit
 
+public struct TableCellSeparatorStyle: OptionSetType {
+    public let rawValue:Int
+    
+    public init(rawValue: Int) {
+        self.rawValue = rawValue
+    }
+    
+    public static let None     = TableCellSeparatorStyle(rawValue: 0)
+    public static let Top      = TableCellSeparatorStyle(rawValue: 1 << 1)
+    public static let Bottom   = TableCellSeparatorStyle(rawValue: 1 << 2)
+}
+
 protocol TappableTableCell {
     func handleTap()
 }
 
 public class TableCell: UITableViewCell {
     internal weak var dataSource:DataSource?
+    
+    private let internalSeparatorHeight: CGFloat = 0.5
+    
+    public dynamic var internalSeparatorColor: UIColor = UIColor.lightGrayColor() {
+        didSet {
+            self.updateSeparators()
+        }
+    }
+    
+    public var internalSeparatorStyle: TableCellSeparatorStyle = .None {
+        didSet {
+            self.updateSeparators()
+        }
+    }
+    
+    lazy private var topSeparator: UIView = {
+        let view = self.buildSeparator()
+        view.autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
+        self.addSubview(view)
+        return view
+    }()
+
+    lazy private var bottomSeparator: UIView = {
+        let view = self.buildSeparator()
+        view.autoresizingMask = [.FlexibleWidth, .FlexibleTopMargin]
+        var f = view.frame
+        f.origin.y = self.bounds.size.height - self.internalSeparatorHeight
+        view.frame = f
+        self.addSubview(view)
+        return view
+    }()
+    
+    private func buildSeparator() -> UIView {
+        let view = UIView()
+        let x = self.defaultContentInsets.left
+        view.frame = CGRect(x: x, y: 0, width: self.contentView.bounds.size.width-x, height: internalSeparatorHeight)
+        view.hidden = true
+        return view
+    }
+    
+    func updateSeparators() {
+        self.topSeparator.hidden = !self.internalSeparatorStyle.contains(.Top)
+        self.bottomSeparator.hidden = !self.internalSeparatorStyle.contains(.Bottom)
+        for separator in [self.topSeparator, self.bottomSeparator] {
+            separator.backgroundColor = self.internalSeparatorColor
+        }
+    }
     
     var defaultContentInsets:UIEdgeInsets {
         get {
@@ -45,6 +104,7 @@ public class TableCell: UITableViewCell {
         self.clipsToBounds = true
         self.textLabel?.numberOfLines = 0
         self.textLabel?.lineBreakMode = .ByWordWrapping
+        self.updateSeparators()
     }
     
     override public func setSelected(selected: Bool, animated: Bool) {
@@ -52,6 +112,11 @@ public class TableCell: UITableViewCell {
     }
     
     public func stylize() {
+    }
+    
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        self.internalSeparatorStyle = .None
     }
 }
 

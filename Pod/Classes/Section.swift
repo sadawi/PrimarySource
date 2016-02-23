@@ -16,6 +16,7 @@ public class Section {
     
     var items:[CollectionItemType] = []
     var visibleItems:[CollectionItemType] {
+        self.setListPositionsIfNeeded()
         return self.items.filter { $0.visible }
     }
     
@@ -25,6 +26,7 @@ public class Section {
     var title:String?
     var reorderable:Bool = true
     var reorder:ReorderAction?
+    var didSetListPositions = false
     
     weak var dataSource: DataSource?
     var tableView: UITableView? {
@@ -57,7 +59,26 @@ public class Section {
             self.itemLookup[key] = item
         }
         item.section = self
+        self.didSetListPositions = false
         return self
+    }
+    
+    func setListPositionsIfNeeded() {
+        if !self.didSetListPositions {
+            self.setListPositions()
+        }
+    }
+    
+    func setListPositions() {
+        for (i, item) in self.items.enumerate() {
+            if i == 0 {
+                item.listPosition = .Beginning
+            }
+            if i == self.itemCount {
+                item.listPosition = item.listPosition.union(.End)
+            }
+        }
+        self.didSetListPositions = true
     }
     
     public func deleteItemAtIndex(index:Int) {
@@ -78,10 +99,12 @@ public class Section {
     }
     
     public func itemAtIndex(index:Int) -> CollectionItemType? {
+        self.setListPositionsIfNeeded()
         return self.visibleItems[index]
     }
     
     public func itemForKey(key:String) -> CollectionItemType? {
+        self.setListPositionsIfNeeded()
         return self.itemLookup[key]
     }
     
@@ -98,6 +121,7 @@ public class Section {
     }
     
     public func eachItem(iterator: (CollectionItemType -> Void)) {
+        self.setListPositionsIfNeeded()
         for item in self.visibleItems {
             iterator(item)
         }

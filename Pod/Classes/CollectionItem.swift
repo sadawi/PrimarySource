@@ -8,6 +8,19 @@
 
 import Foundation
 
+public struct ListPosition: OptionSetType {
+    public let rawValue:Int
+    
+    public init(rawValue: Int) {
+        self.rawValue = rawValue
+    }
+    
+    public static let Middle    = ListPosition(rawValue: 0)
+    public static let Beginning = ListPosition(rawValue: 1 << 1)
+    public static let End       = ListPosition(rawValue: 1 << 2)
+}
+
+
 public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionItemType {
     weak public var section: Section?
     
@@ -24,6 +37,8 @@ public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, Collection
     var didDeleteAction:ItemAction?
     var willDeleteAction:ItemAction?
     
+    public var listPosition: ListPosition = .Middle
+    
     public var desiredSize: (Void -> CGSize)?
     
     public var handlesDelete: Bool {
@@ -38,7 +53,7 @@ public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, Collection
         return self.onTapAction != nil
     }
     
-    public init(key:String?=nil, nibName:String?=nil, reorderable:Bool=false, storyboardIdentifier:String?=nil, configure:(ViewType -> Void)?=nil) {
+    public init(key:String?=nil, nibName:String?=nil, reorderable:Bool=false, storyboardIdentifier:String?=nil, configure:(ViewType -> Void)?=nil, configureWithItem:((ViewType, CollectionItemType) -> Void)?=nil) {
         super.init()
         self.key = key
         self.nibName = nibName

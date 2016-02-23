@@ -21,7 +21,8 @@ public protocol CollectionItemType: class, ReusableItemType {
     var tappable: Bool { get }
     
     var desiredSize: (Void -> CGSize)? { get set }
-
+    var listPosition: ListPosition { get set }
+    
     func delete(action: ItemAction) -> CollectionItemType
     func didDelete(action: ItemAction) -> CollectionItemType
     func willDelete(action: ItemAction) -> CollectionItemType
