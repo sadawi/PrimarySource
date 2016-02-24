@@ -43,6 +43,14 @@ class MenuViewController: DataSourceViewController {
                     let controller = AnimationsViewController()
                     self.navigationController?.pushViewController(controller, animated: true)
             }
+
+            section <<< CollectionItem<TableCell> { cell in
+                cell.textLabel?.text = "List Positions"
+                cell.accessoryType = .DisclosureIndicator
+                }.onTap { _ in
+                    let controller = ListPositionsViewController()
+                    self.navigationController?.pushViewController(controller, animated: true)
+            }
             
         }
     }

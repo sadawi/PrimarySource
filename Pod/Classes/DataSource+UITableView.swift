@@ -118,13 +118,6 @@ extension DataSource: UITableViewDelegate, UITableViewDataSource {
             if let tableCell = cell as? TableCell {
                 tableCell.dataSource = self
             }
-            
-//            // Cell height may depend on cell width.  This ensure the cell knows the proper width as soon as possible.
-//            var f = cell.frame
-//            f.size.width = tableView.bounds.size.width
-//            cell.frame = f
-//            cell.layoutIfNeeded()
-
             item.configureView(cell)
             return cell
         } else {

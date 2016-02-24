@@ -16,7 +16,6 @@ public class Section {
     
     var items:[CollectionItemType] = []
     var visibleItems:[CollectionItemType] {
-        self.setListPositionsIfNeeded()
         return self.items.filter { $0.visible }
     }
     
@@ -69,13 +68,41 @@ public class Section {
         }
     }
     
+    /**
+     Go through the visible items in the section and assign list positions.  That is, tell the items whether they are at the .Beginning
+     or .End (or both) of their list.
+     
+     Items whose list membership is set to .NotContained will be considered terminators; any items immediately before or after them
+     will be given positions .End or .Beginning, respectively.
+     */
     func setListPositions() {
-        for (i, item) in self.items.enumerate() {
-            if i == 0 {
-                item.listPosition = .Beginning
-            }
-            if i == self.itemCount {
-                item.listPosition = item.listPosition.union(.End)
+        var start = true
+        for (i, item) in self.visibleItems.enumerate() {
+            switch item.listMembership {
+            case .NotContained:
+                start = true
+            case .Contained:
+                var position:ListPosition = .Middle
+                
+                if start {
+                    position = position.union(.Beginning)
+                }
+                var end = false
+                if i+1 < self.itemCount {
+                    let next = self.visibleItems[i+1]
+                    if next.listMembership == .NotContained {
+                        end = true
+                    }
+                }
+                if i+1 == self.itemCount {
+                    end = true
+                }
+                if end {
+                    position = position.union(.End)
+                }
+                
+                item.listMembership = ListMembership.Contained(position: position)
+                start = false
             }
         }
         self.didSetListPositions = true

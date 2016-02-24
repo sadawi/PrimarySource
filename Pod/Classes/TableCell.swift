@@ -8,48 +8,71 @@
 
 import UIKit
 
-public struct TableCellSeparatorStyle: OptionSetType {
-    public let rawValue:Int
+//public struct TableCellSeparatorStyle: OptionSetType {
+//    public let rawValue:Int
+//    
+//    public init(rawValue: Int) {
+//        self.rawValue = rawValue
+//    }
+//    
+//    public static let None     = TableCellSeparatorStyle(rawValue: 0)
+//    public static let Top      = TableCellSeparatorStyle(rawValue: 1 << 1)
+//    public static let Bottom   = TableCellSeparatorStyle(rawValue: 1 << 2)
+//}
+//
+
+public enum Visibility {
+    case None
+    case Auto
+    case Always
+}
+
+public struct BorderStyle {
+    public var top: Visibility = .None
+    public var bottom: Visibility = .None
     
-    public init(rawValue: Int) {
-        self.rawValue = rawValue
+    public init(top: Visibility, bottom: Visibility) {
+        self.top = top
+        self.bottom = bottom
     }
-    
-    public static let None     = TableCellSeparatorStyle(rawValue: 0)
-    public static let Top      = TableCellSeparatorStyle(rawValue: 1 << 1)
-    public static let Bottom   = TableCellSeparatorStyle(rawValue: 1 << 2)
 }
 
 protocol TappableTableCell {
     func handleTap()
 }
 
-public class TableCell: UITableViewCell {
+public class TableCell: UITableViewCell, ListMember {
     internal weak var dataSource:DataSource?
     
     private let internalSeparatorHeight: CGFloat = 0.5
     
-    public dynamic var internalSeparatorColor: UIColor = UIColor.lightGrayColor() {
+    public var listMembership: ListMembership = .NotContained {
         didSet {
-            self.updateSeparators()
+            self.updateBorders()
         }
     }
     
-    public var internalSeparatorStyle: TableCellSeparatorStyle = .None {
+    public dynamic var borderColor: UIColor = UIColor.lightGrayColor() {
         didSet {
-            self.updateSeparators()
+            self.updateBorders()
         }
     }
     
-    lazy private var topSeparator: UIView = {
-        let view = self.buildSeparator()
+    public var borderStyle: BorderStyle = BorderStyle(top: .None, bottom: .None) {
+        didSet {
+            self.updateBorders()
+        }
+    }
+    
+    lazy private var topBorder: UIView = {
+        let view = self.buildBorder()
         view.autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
         self.addSubview(view)
         return view
     }()
 
-    lazy private var bottomSeparator: UIView = {
-        let view = self.buildSeparator()
+    lazy private var bottomBorder: UIView = {
+        let view = self.buildBorder()
         view.autoresizingMask = [.FlexibleWidth, .FlexibleTopMargin]
         var f = view.frame
         f.origin.y = self.bounds.size.height - self.internalSeparatorHeight
@@ -58,7 +81,7 @@ public class TableCell: UITableViewCell {
         return view
     }()
     
-    private func buildSeparator() -> UIView {
+    private func buildBorder() -> UIView {
         let view = UIView()
         let x = self.defaultContentInsets.left
         view.frame = CGRect(x: x, y: 0, width: self.contentView.bounds.size.width-x, height: internalSeparatorHeight)
@@ -66,11 +89,28 @@ public class TableCell: UITableViewCell {
         return view
     }
     
-    func updateSeparators() {
-        self.topSeparator.hidden = !self.internalSeparatorStyle.contains(.Top)
-        self.bottomSeparator.hidden = !self.internalSeparatorStyle.contains(.Bottom)
-        for separator in [self.topSeparator, self.bottomSeparator] {
-            separator.backgroundColor = self.internalSeparatorColor
+    func updateBorders() {
+
+        switch self.borderStyle.top {
+        case .None:
+            self.topBorder.hidden = true
+        case .Always: 
+            self.topBorder.hidden = false
+        case .Auto:
+            self.topBorder.hidden = !(self.listMembership == ListMembership.Contained(position: .Middle) || self.listMembership == ListMembership.Contained(position: .End))
+        }
+        
+        switch self.borderStyle.bottom {
+        case .None:
+            self.bottomBorder.hidden = true
+        case .Always:
+            self.bottomBorder.hidden = false
+        case .Auto:
+            self.bottomBorder.hidden = true
+        }
+        
+        for border in [self.bottomBorder, self.topBorder] {
+            border.backgroundColor = self.borderColor
         }
     }
     
@@ -104,7 +144,7 @@ public class TableCell: UITableViewCell {
         self.clipsToBounds = true
         self.textLabel?.numberOfLines = 0
         self.textLabel?.lineBreakMode = .ByWordWrapping
-        self.updateSeparators()
+        self.updateBorders()
     }
     
     override public func setSelected(selected: Bool, animated: Bool) {
@@ -116,7 +156,7 @@ public class TableCell: UITableViewCell {
     
     public override func prepareForReuse() {
         super.prepareForReuse()
-        self.internalSeparatorStyle = .None
+        self.borderStyle = BorderStyle(top: .None, bottom: .None)
     }
 }
 

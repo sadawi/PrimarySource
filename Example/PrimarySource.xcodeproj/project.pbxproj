@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		223CAD801C7D44EB00894A02 /* ListPositionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223CAD7F1C7D44EB00894A02 /* ListPositionsViewController.swift */; };
 		224CC2261C03C46100E80B8E /* CustomButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224CC2251C03C46100E80B8E /* CustomButtonCell.swift */; };
 		22803EF41C503393000D0145 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22803EF31C503393000D0145 /* FormViewController.swift */; };
 		229471081C1140B9006E2138 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 229471071C1140B9006E2138 /* MapKit.framework */; };
@@ -35,6 +36,7 @@
 
 /* Begin PBXFileReference section */
 		025DD3AAB74D38760077DCAD /* Pods_PrimarySource_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PrimarySource_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		223CAD7F1C7D44EB00894A02 /* ListPositionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListPositionsViewController.swift; sourceTree = "<group>"; };
 		224CC2251C03C46100E80B8E /* CustomButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButtonCell.swift; sourceTree = "<group>"; };
 		22803EF31C503393000D0145 /* FormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
 		229471071C1140B9006E2138 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -97,6 +99,7 @@
 				22CB87231C4F29080076392E /* AnimationsViewController.swift */,
 				22803EF31C503393000D0145 /* FormViewController.swift */,
 				22EA0E401C6E65A100F7DB34 /* FieldFormViewController.swift */,
+				223CAD7F1C7D44EB00894A02 /* ListPositionsViewController.swift */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -399,6 +402,7 @@
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				22CB87211C4F28470076392E /* MenuViewController.swift in Sources */,
+				223CAD801C7D44EB00894A02 /* ListPositionsViewController.swift in Sources */,
 				22EA0E411C6E65A100F7DB34 /* FieldFormViewController.swift in Sources */,
 				22CB87241C4F29080076392E /* AnimationsViewController.swift in Sources */,
 			);

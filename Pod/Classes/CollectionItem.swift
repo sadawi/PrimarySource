@@ -8,7 +8,11 @@
 
 import Foundation
 
-public struct ListPosition: OptionSetType {
+/**
+ An option set representing relative positions in a list.  An item may be at the .Beginning or .End of a list, or both;
+ if it is neither, it is considered to be in the .Middle.
+*/
+public struct ListPosition: OptionSetType, CustomStringConvertible {
     public let rawValue:Int
     
     public init(rawValue: Int) {
@@ -18,8 +22,54 @@ public struct ListPosition: OptionSetType {
     public static let Middle    = ListPosition(rawValue: 0)
     public static let Beginning = ListPosition(rawValue: 1 << 1)
     public static let End       = ListPosition(rawValue: 1 << 2)
+    
+    public var description: String {
+        var parts: [String] = []
+        if self == .Middle {
+            parts.append("middle")
+        }
+        if self.contains(.Beginning) {
+            parts.append("beginning")
+        }
+        if self.contains(.End) {
+            parts.append("end")
+        }
+        return parts.joinWithSeparator(", ")
+    }
 }
 
+/**
+ List membership determines whether this item participates in ListPosition tracking.  If it does not, consider it .NotContained.
+ Otherwise, it is .Contained with an associated type of where in the list (or rather, sub-list of other contiguous .Contained items) it lives.
+ */
+public enum ListMembership: Equatable {
+    case NotContained
+    case Contained(position: ListPosition)
+    
+    public func addingPosition(addedPosition: ListPosition) -> ListMembership {
+        switch self {
+        case .NotContained:
+            return self
+        case .Contained(let position):
+            return .Contained(position: position.union(addedPosition))
+        }
+    }
+    
+}
+public func ==(left:ListMembership, right:ListMembership) -> Bool {
+    switch (left, right) {
+    case (.NotContained, .NotContained):
+        return true
+    case (.Contained(let leftPosition), .Contained(let rightPosition)):
+        return leftPosition == rightPosition
+    default:
+        return false
+    }
+}
+
+public protocol ListMember: class {
+    var listMembership: ListMembership { get set }
+}
 
 public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionItemType {
     weak public var section: Section?
@@ -37,7 +87,7 @@ public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, Collection
     var didDeleteAction:ItemAction?
     var willDeleteAction:ItemAction?
     
-    public var listPosition: ListPosition = .Middle
+    public var listMembership = ListMembership.NotContained
     
     public var desiredSize: (Void -> CGSize)?
     
@@ -53,7 +103,7 @@ public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, Collection
         return self.onTapAction != nil
     }
     
-    public init(key:String?=nil, nibName:String?=nil, reorderable:Bool=false, storyboardIdentifier:String?=nil, configure:(ViewType -> Void)?=nil, configureWithItem:((ViewType, CollectionItemType) -> Void)?=nil) {
+    public init(key:String?=nil, nibName:String?=nil, reorderable:Bool=false, storyboardIdentifier:String?=nil, configure:(ViewType -> Void)?=nil) {
         super.init()
         self.key = key
         self.nibName = nibName
@@ -174,5 +224,14 @@ public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, Collection
                 self.hide()
             }
         }
+    }
+    
+    // MARK: - Configuration
+    
+    public override func configureView(view: UIView) {
+        if let listMember = view as? ListMember {
+            listMember.listMembership = self.listMembership
+        }
+        super.configureView(view)
     }
 }

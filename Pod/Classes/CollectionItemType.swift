@@ -10,7 +10,7 @@ import Foundation
 
 public typealias ItemAction = (CollectionItemType -> Void)
 
-public protocol CollectionItemType: class, ReusableItemType {
+public protocol CollectionItemType: class, ReusableItemType, ListMember {
     var reorderable:Bool { get set }
     var key: String? { get }
     var visible: Bool { get }
@@ -21,7 +21,6 @@ public protocol CollectionItemType: class, ReusableItemType {
     var tappable: Bool { get }
     
     var desiredSize: (Void -> CGSize)? { get set }
-    var listPosition: ListPosition { get set }
     
     func delete(action: ItemAction) -> CollectionItemType
     func didDelete(action: ItemAction) -> CollectionItemType
