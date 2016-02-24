@@ -87,7 +87,7 @@ public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, Collection
     var didDeleteAction:ItemAction?
     var willDeleteAction:ItemAction?
     
-    public var listMembership = ListMembership.NotContained
+    public var listMembership = ListMembership.Contained(position: .Middle)
     
     public var desiredSize: (Void -> CGSize)?
     

@@ -44,7 +44,12 @@ protocol TappableTableCell {
 public class TableCell: UITableViewCell, ListMember {
     internal weak var dataSource:DataSource?
     
-    private let internalSeparatorHeight: CGFloat = 0.5
+    private let borderThickness: CGFloat = 0.5
+    public var borderInsets: UIEdgeInsets = UIEdgeInsetsZero {
+        didSet {
+            self.updateBorders()
+        }
+    }
     
     public var listMembership: ListMembership = .NotContained {
         didSet {
@@ -75,7 +80,7 @@ public class TableCell: UITableViewCell, ListMember {
         let view = self.buildBorder()
         view.autoresizingMask = [.FlexibleWidth, .FlexibleTopMargin]
         var f = view.frame
-        f.origin.y = self.bounds.size.height - self.internalSeparatorHeight
+        f.origin.y = self.bounds.size.height - self.borderThickness
         view.frame = f
         self.addSubview(view)
         return view
@@ -83,8 +88,9 @@ public class TableCell: UITableViewCell, ListMember {
     
     private func buildBorder() -> UIView {
         let view = UIView()
-        let x = self.defaultContentInsets.left
-        view.frame = CGRect(x: x, y: 0, width: self.contentView.bounds.size.width-x, height: internalSeparatorHeight)
+        let x = self.borderInsets.left
+        // frame will correctly updated later
+        view.frame = CGRect(x: x, y: 0, width: 0, height: self.borderThickness)
         view.hidden = true
         return view
     }
@@ -111,6 +117,10 @@ public class TableCell: UITableViewCell, ListMember {
         
         for border in [self.bottomBorder, self.topBorder] {
             border.backgroundColor = self.borderColor
+            var f = border.frame
+            f.origin.x = self.borderInsets.left
+            f.size.width = self.bounds.size.width - f.origin.x - self.borderInsets.right
+            border.frame = f
         }
     }
     
@@ -144,6 +154,7 @@ public class TableCell: UITableViewCell, ListMember {
         self.clipsToBounds = true
         self.textLabel?.numberOfLines = 0
         self.textLabel?.lineBreakMode = .ByWordWrapping
+        self.borderInsets = UIEdgeInsets(top: 0, left: self.defaultContentInsets.left, bottom: 0, right: 0)
         self.updateBorders()
     }
     
