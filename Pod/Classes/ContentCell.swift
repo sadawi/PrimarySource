@@ -8,6 +8,10 @@
 
 import Foundation
 
+
+/**
+ A TableCell with a single view that fills its content and determines its size.
+ */
 public class ContentCell: TableCell {
     var content:UIView?
     
