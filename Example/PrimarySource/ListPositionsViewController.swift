@@ -14,6 +14,9 @@ class ListPositionsViewController: DataSourceViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.tableView.separatorStyle = .None
+        
         self.items = [
             .Contained(position: .End),
             .NotContained,
@@ -28,10 +31,14 @@ class ListPositionsViewController: DataSourceViewController {
         dataSource <<< Section() { section in
             for item in self.items {
                 let collectionItem = CollectionItem<TableCell> { cell in
+                    cell.borderStyle = BorderStyle(top: .Auto, bottom: .Auto)
+                    
                     switch cell.listMembership {
                     case .NotContained:
                         cell.textLabel?.text = "Not contained"
+                        cell.backgroundColor = UIColor(white: 0.9, alpha: 1)
                     case .Contained(let position):
+                        cell.backgroundColor = UIColor.clearColor()
                         cell.textLabel?.text = "\(position)"
                     }
                 }
