@@ -143,12 +143,6 @@ public class FieldCell: TableCell {
         self.mainContent?.addSubview(titleLabel)
         self.titleLabel = titleLabel
 
-//        let errorIcon = UIImageView(frame: CGRect(x: 0, y: 0, width: 32, height: 32))
-//        errorIcon.contentMode = .ScaleAspectFit
-//        errorIcon.translatesAutoresizingMaskIntoConstraints = false
-//        self.detailContent?.addSubview(errorIcon)
-//        self.errorIcon = errorIcon
-
         let errorLabel = UILabel(frame: detailContent.bounds)
         errorLabel.numberOfLines = 0
         errorLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -163,7 +157,6 @@ public class FieldCell: TableCell {
         self.controlView = controlView
         
         
-//        let views = ["error":errorLabel, "main":mainContent, "detail":detailContent, "errorIcon": errorIcon]
         let views = ["error":errorLabel, "main":mainContent, "detail":detailContent]
         let metrics = [
             "left": self.defaultContentInsets.left,
@@ -173,11 +166,9 @@ public class FieldCell: TableCell {
             "icon": 20
         ]
         
-//        self.detailContent?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[errorIcon(icon)]-[error]-right-|", options: .AlignAllTop, metrics: metrics, views: views))
         self.detailContent?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[error]-right-|", options: .AlignAllTop, metrics: metrics, views: views))
         
         self.detailContent?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[error]|", options: .AlignAllTop, metrics: metrics, views: views))
-//        self.detailContent?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[errorIcon]|", options: .AlignAllTop, metrics: metrics, views: views))
         
         var constraints:[NSLayoutConstraint] = []
         constraints += NSLayoutConstraint.constraintsWithVisualFormat("H:|[main]|", options: .AlignAllTop, metrics: metrics, views: views)
@@ -205,10 +196,6 @@ public class FieldCell: TableCell {
     
     override public func stylize() {
         super.stylize()
-        
-//        self.controlView?.backgroundColor = UIColor.greenColor()
-//        self.titleLabel?.backgroundColor = UIColor.yellowColor()
-//        self.errorLabel?.backgroundColor = UIColor.grayColor()
         
         switch self.labelPosition {
         case .Left:
