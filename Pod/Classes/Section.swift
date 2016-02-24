@@ -25,6 +25,7 @@ public class Section {
     var title:String?
     var reorderable:Bool = true
     var reorder:ReorderAction?
+    var didSetListPositions = false
     
     weak var dataSource: DataSource?
     var tableView: UITableView? {
@@ -57,7 +58,54 @@ public class Section {
             self.itemLookup[key] = item
         }
         item.section = self
+        self.didSetListPositions = false
         return self
+    }
+    
+    func setListPositionsIfNeeded() {
+        if !self.didSetListPositions {
+            self.setListPositions()
+        }
+    }
+    
+    /**
+     Go through the visible items in the section and assign list positions.  That is, tell the items whether they are at the .Beginning
+     or .End (or both) of their list.
+     
+     Items whose list membership is set to .NotContained will be considered terminators; any items immediately before or after them
+     will be given positions .End or .Beginning, respectively.
+     */
+    func setListPositions() {
+        var start = true
+        for (i, item) in self.visibleItems.enumerate() {
+            switch item.listMembership {
+            case .NotContained:
+                start = true
+            case .Contained:
+                var position:ListPosition = .Middle
+                
+                if start {
+                    position = position.union(.Beginning)
+                }
+                var end = false
+                if i+1 < self.itemCount {
+                    let next = self.visibleItems[i+1]
+                    if next.listMembership == .NotContained {
+                        end = true
+                    }
+                }
+                if i+1 == self.itemCount {
+                    end = true
+                }
+                if end {
+                    position = position.union(.End)
+                }
+                
+                item.listMembership = ListMembership.Contained(position: position)
+                start = false
+            }
+        }
+        self.didSetListPositions = true
     }
     
     public func deleteItemAtIndex(index:Int) {
@@ -78,10 +126,12 @@ public class Section {
     }
     
     public func itemAtIndex(index:Int) -> CollectionItemType? {
+        self.setListPositionsIfNeeded()
         return self.visibleItems[index]
     }
     
     public func itemForKey(key:String) -> CollectionItemType? {
+        self.setListPositionsIfNeeded()
         return self.itemLookup[key]
     }
     
@@ -98,6 +148,7 @@ public class Section {
     }
     
     public func eachItem(iterator: (CollectionItemType -> Void)) {
+        self.setListPositionsIfNeeded()
         for item in self.visibleItems {
             iterator(item)
         }
