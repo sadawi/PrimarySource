@@ -9,13 +9,6 @@
 import UIKit
 import MagneticFields
 
-//public protocol FieldCellEditor {
-//    typealias ValueType
-//    
-//    var value:ValueType? { get set }
-//    var didSelectValue:(ValueType? -> Void)? { get set }
-//}
-
 /**
  A cell that pushes another view controller for data entry.
 */
