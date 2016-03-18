@@ -32,6 +32,12 @@ class FieldFormViewController: DataSourceViewController {
                 cell.title = "Count"
                 cell <--> self.count
             }
+
+            section <<< CollectionItem<ButtonCell> { cell in
+                cell.title = "Increment Count"
+                }.onTap { [weak self] _ in
+                    self?.count.value = (self?.count.value ?? 0) + 1
+            }
             
             section <<< CollectionItem<ButtonCell> { cell in
                 cell.title = "Submit"

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "PrimarySource"
-  s.version          = "0.8.0"
+  s.version          = "0.8.1"
   s.summary          = "Collection data sources"
   s.homepage         = "https://github.com/sadawi/PrimarySource"
   s.license          = 'MIT'
@@ -14,5 +14,5 @@ Pod::Spec.new do |s|
   s.resource_bundles = {
     'PrimarySource' => ['Pod/Assets/*']
   }
-  s.dependency 'MagneticFields', "~> 0.4.5"
+  s.dependency 'MagneticFields', "~> 0.5.1"
 end
