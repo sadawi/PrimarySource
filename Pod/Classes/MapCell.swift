@@ -27,7 +27,7 @@ public class MapCell: TableCell {
     public override func buildView() {
         super.buildView()
         
-        let view = MKMapView()
+        let view = MKMapView(frame: self.contentView.bounds)
         view.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(view)
         let views = ["v": view]
