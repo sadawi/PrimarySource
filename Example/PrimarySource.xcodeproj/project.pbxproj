@@ -11,6 +11,7 @@
 		224CC2261C03C46100E80B8E /* CustomButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224CC2251C03C46100E80B8E /* CustomButtonCell.swift */; };
 		22803EF41C503393000D0145 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22803EF31C503393000D0145 /* FormViewController.swift */; };
 		229471081C1140B9006E2138 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 229471071C1140B9006E2138 /* MapKit.framework */; };
+		22A462031CA0CD0E00406302 /* ReloadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A462021CA0CD0E00406302 /* ReloadViewController.swift */; };
 		22CB87211C4F28470076392E /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CB87201C4F28470076392E /* MenuViewController.swift */; };
 		22CB87241C4F29080076392E /* AnimationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CB87231C4F29080076392E /* AnimationsViewController.swift */; };
 		22EA0E411C6E65A100F7DB34 /* FieldFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EA0E401C6E65A100F7DB34 /* FieldFormViewController.swift */; };
@@ -40,6 +41,7 @@
 		224CC2251C03C46100E80B8E /* CustomButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButtonCell.swift; sourceTree = "<group>"; };
 		22803EF31C503393000D0145 /* FormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
 		229471071C1140B9006E2138 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		22A462021CA0CD0E00406302 /* ReloadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReloadViewController.swift; sourceTree = "<group>"; };
 		22CB87201C4F28470076392E /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		22CB87231C4F29080076392E /* AnimationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationsViewController.swift; sourceTree = "<group>"; };
 		22EA0E401C6E65A100F7DB34 /* FieldFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FieldFormViewController.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 				22803EF31C503393000D0145 /* FormViewController.swift */,
 				22EA0E401C6E65A100F7DB34 /* FieldFormViewController.swift */,
 				223CAD7F1C7D44EB00894A02 /* ListPositionsViewController.swift */,
+				22A462021CA0CD0E00406302 /* ReloadViewController.swift */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -404,6 +407,7 @@
 				22CB87211C4F28470076392E /* MenuViewController.swift in Sources */,
 				223CAD801C7D44EB00894A02 /* ListPositionsViewController.swift in Sources */,
 				22EA0E411C6E65A100F7DB34 /* FieldFormViewController.swift in Sources */,
+				22A462031CA0CD0E00406302 /* ReloadViewController.swift in Sources */,
 				22CB87241C4F29080076392E /* AnimationsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

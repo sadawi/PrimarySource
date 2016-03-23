@@ -52,6 +52,15 @@ class MenuViewController: DataSourceViewController {
                     self.navigationController?.pushViewController(controller, animated: true)
             }
             
+            section <<< CollectionItem<TableCell> { cell in
+                cell.textLabel?.text = "Reload test"
+                cell.accessoryType = .DisclosureIndicator
+                }.onTap { _ in
+                    let controller = ReloadViewController()
+                    self.navigationController?.pushViewController(controller, animated: true)
+            }
+
+            
         }
     }
 }
