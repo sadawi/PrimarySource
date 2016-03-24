@@ -35,7 +35,9 @@ public class SelectCell<ValueType:Equatable>: FieldCell, Observable {
 public class PushSelectCell<ValueType:Equatable>: SelectCell<ValueType>, TappableTableCell {
     // TODO: there's some duplicated code between here and PushFieldCell.  Maybe this should inherit from that instead of SelectCell?
     
-    public var includeNil:String?
+    public var includeNil:Bool = false
+    public var textForNil: String?
+    
     public var valueLabel:UILabel?
     public var configureSelectViewController: (SelectViewController<ValueType> -> ())?
     
@@ -75,6 +77,7 @@ public class PushSelectCell<ValueType:Equatable>: SelectCell<ValueType>, Tappabl
             controller.title = self.title
             controller.options = self.options
             controller.includeNil = self.includeNil
+            controller.textForNil = self.textForNil
             self.configureSelectViewController?(controller)
             presenter.navigationController?.pushViewController(controller, animated: true)
         }

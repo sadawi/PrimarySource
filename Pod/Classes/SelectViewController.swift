@@ -14,16 +14,17 @@ public class SelectViewController<ValueType:Equatable>: DataSourceViewController
     public var textForValue:(ValueType -> String?) = { value in
         return String(value)
     }
-    public var includeNil: String?
-    public var didSelectValue:(ValueType? -> Void)?
+    public var textForNil: String?
+    public var includeNil: Bool = false
+    public var didSelectValue:(ValueType? -> ())?
+    
+    public var loadOptions: ((()->()) -> ())?
     
     public var options:[ValueType] = [] {
         didSet {
             self.buildDataSource()
         }
     }
-
-    
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -46,12 +47,11 @@ public class SelectViewController<ValueType:Equatable>: DataSourceViewController
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        self.buildDataSource()
     }
     
     public override func configureDataSource(dataSource:DataSource) {
         var options:[ValueType?] = []
-        if self.includeNil != nil {
+        if self.includeNil {
             options.append(nil)
         }
         for v in self.options {
@@ -64,7 +64,7 @@ public class SelectViewController<ValueType:Equatable>: DataSourceViewController
                     let text:String?
                     if let value = option {
                         text = self.textForValue(value)
-                    } else if let nilText = self.includeNil {
+                    } else if let nilText = self.textForNil {
                         text = nilText
                     } else {
                         text = ""
