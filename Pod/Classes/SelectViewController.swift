@@ -8,7 +8,9 @@
 
 import UIKit
 
-public class SelectViewController<ValueType:Equatable>: DataSourceViewController {
+public class SelectViewController<T:Equatable>: DataSourceViewController {
+    public typealias ValueType = T
+    
     public var value:ValueType?
     public var multiple:Bool = false
     public var textForValue:(ValueType -> String?) = { value in
@@ -18,13 +20,15 @@ public class SelectViewController<ValueType:Equatable>: DataSourceViewController
     public var includeNil: Bool = false
     public var didSelectValue:(ValueType? -> ())?
     
-    public var loadOptions: ((()->()) -> ())?
+    var loading = false
     
-    public var options:[ValueType] = [] {
-        didSet {
-            self.buildDataSource()
-        }
-    }
+    /**
+     If options need more complicated logic to load (e.g., loading from a server), that can be done with this closure.
+     The closure should take a completion block that is to be called when options are ready.
+     */
+    public var loadOptions: ((([ValueType])->()) -> ())?
+    
+    public var options:[ValueType] = []
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -46,10 +50,21 @@ public class SelectViewController<ValueType:Equatable>: DataSourceViewController
     }
 
     public override func viewDidLoad() {
+        if let loadOptions = self.loadOptions {
+            self.loading = true
+            loadOptions { [weak self] options in
+                self?.options = options
+                self?.loading = false
+                self?.reloadData()
+            }
+        }
+        
         super.viewDidLoad()
     }
     
     public override func configureDataSource(dataSource:DataSource) {
+        guard self.loading == false else { return }
+        
         var options:[ValueType?] = []
         if self.includeNil {
             options.append(nil)
