@@ -8,22 +8,27 @@
 
 import UIKit
 
-public class SelectViewController<ValueType:Equatable>: DataSourceViewController {
+public class SelectViewController<T:Equatable>: DataSourceViewController {
+    public typealias ValueType = T
+    
     public var value:ValueType?
     public var multiple:Bool = false
     public var textForValue:(ValueType -> String?) = { value in
         return String(value)
     }
-    public var includeNil: String?
-    public var didSelectValue:(ValueType? -> Void)?
+    public var textForNil: String?
+    public var includeNil: Bool = false
+    public var didSelectValue:(ValueType? -> ())?
     
-    public var options:[ValueType] = [] {
-        didSet {
-            self.buildDataSource()
-        }
-    }
-
+    var loading = false
     
+    /**
+     If options need more complicated logic to load (e.g., loading from a server), that can be done with this closure.
+     The closure should take a completion block that is to be called when options are ready.
+     */
+    public var loadOptions: ((([ValueType])->()) -> ())?
+    
+    public var options:[ValueType] = []
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -45,13 +50,23 @@ public class SelectViewController<ValueType:Equatable>: DataSourceViewController
     }
 
     public override func viewDidLoad() {
+        if let loadOptions = self.loadOptions {
+            self.loading = true
+            loadOptions { [weak self] options in
+                self?.options = options
+                self?.loading = false
+                self?.reloadData()
+            }
+        }
+        
         super.viewDidLoad()
-        self.buildDataSource()
     }
     
     public override func configureDataSource(dataSource:DataSource) {
+        guard self.loading == false else { return }
+        
         var options:[ValueType?] = []
-        if self.includeNil != nil {
+        if self.includeNil {
             options.append(nil)
         }
         for v in self.options {
@@ -64,7 +79,7 @@ public class SelectViewController<ValueType:Equatable>: DataSourceViewController
                     let text:String?
                     if let value = option {
                         text = self.textForValue(value)
-                    } else if let nilText = self.includeNil {
+                    } else if let nilText = self.textForNil {
                         text = nilText
                     } else {
                         text = ""
