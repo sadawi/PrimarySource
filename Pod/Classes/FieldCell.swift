@@ -40,7 +40,7 @@ public class FieldCell: TableCell {
         }
     }
     
-    var controlView:UIStackView?
+    public var controlView:UIStackView?
     
     public var blank:Bool {
         get { return true }
