@@ -14,5 +14,5 @@ Pod::Spec.new do |s|
   s.resource_bundles = {
     'PrimarySource' => ['Pod/Assets/*']
   }
-  s.dependency 'MagneticFields', "~> 0.5.1"
+  s.dependency 'MagneticFields', "~> 0.6.0"
 end
