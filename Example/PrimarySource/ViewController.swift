@@ -36,7 +36,8 @@ class ViewController: DataSourceViewController {
                 cell.accessoryType = .DisclosureIndicator
                 }.onTap { _ in
                     let c = SelectViewController(options: [1, 2, 3], value: nil)
-                    c.includeNil = "any number"
+                    c.includeNil = true
+                    c.textForNil = "any number"
                     c.textForValue = { value in
                         return "number \(value)"
                     }
