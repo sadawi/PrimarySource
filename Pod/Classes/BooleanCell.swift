@@ -51,8 +51,10 @@ public class SwitchCell:BooleanCell, TappableTableCell  {
         self.valueChanged()
     }
     
-    public func toggle(animated:Bool=true) {
-        self.value = (self.value != true)
+    public func toggle(animated animated:Bool=true) {
+        let newValue = (self.value != true)
+        self.switchControl?.setOn(newValue, animated: animated)
+        self.value = newValue
         self.valueChanged()
     }
     
@@ -63,6 +65,6 @@ public class SwitchCell:BooleanCell, TappableTableCell  {
     }
     
     func handleTap() {
-        self.toggle()
+        self.toggle(animated: true)
     }
 }
