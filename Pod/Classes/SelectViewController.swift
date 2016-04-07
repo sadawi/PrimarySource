@@ -13,7 +13,7 @@ public class SelectViewController<T:Equatable>: DataSourceViewController {
     
     public var value:ValueType?
     public var multiple:Bool = false
-    public var textForValue:(ValueType -> String?) = { value in
+    public var textForValue:(ValueType -> String) = { value in
         return String(value)
     }
     public var textForNil: String?

@@ -9,6 +9,14 @@
 import PrimarySource
 
 class FormViewController: DataSourceViewController {
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Changing values may change cell heights.  This is needed to update them correctly. 
+        self.reloadData()
+    }
+    
     override func configureDataSource(dataSource: DataSource) {
         dataSource <<< Section(title: "Form") { section in
             section <<< CollectionItem<TextFieldCell>(key: "name") { cell in
@@ -54,6 +62,23 @@ class FormViewController: DataSourceViewController {
             section <<< CollectionItem<PushSelectCell<String>>(key: "gender") { cell in
                 cell.title = "Gender"
                 cell.options = ["male", "female", "other"]
+                cell.onChange = { [unowned cell] in
+                    print("New value: \(cell.value)")
+                }
+            }
+
+            section <<< CollectionItem<PushSelectCell<String>>(key: "long") { cell in
+                cell.title = "String"
+                cell.options = ["short", "a very long string that has no hope of staying within the bounds initially created for it, but should still be displayable"]
+                cell.onChange = { [unowned cell] in
+                    print("New value: \(cell.value)")
+                }
+            }
+            
+            section <<< CollectionItem<PushSelectCell<String>>(key: "long") { cell in
+                cell.title = "String"
+                cell.labelPosition = .Top
+                cell.options = ["short", "a very long string that has no hope of staying within the bounds initially created for it, but should still be displayable"]
                 cell.onChange = { [unowned cell] in
                     print("New value: \(cell.value)")
                 }

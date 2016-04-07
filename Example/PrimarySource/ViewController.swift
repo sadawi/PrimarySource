@@ -31,6 +31,15 @@ class ViewController: DataSourceViewController {
     
     override func configureDataSource(dataSource: DataSource) {
         dataSource <<< Section(title: "Cells") { section in
+            section <<< CollectionItem<TitleTextCell> { cell in
+                cell.title = "TitleTextCell"
+                cell.value = "string value"
+            }
+            section <<< CollectionItem<TitleTextCell> { cell in
+                cell.title = "TitleTextCell"
+                cell.value = "a very long string value that will probably be too long for its container.  sorry about that!"
+            }
+            
             section <<< CollectionItem<TableCell> { cell in
                 cell.textLabel?.text = "options"
                 cell.accessoryType = .DisclosureIndicator
@@ -68,6 +77,7 @@ class ViewController: DataSourceViewController {
                 }
                 cell.columns?.items = views
             }
+            
         }
     }
     
