@@ -25,6 +25,10 @@ public class TitleDetailsCell: TableCell {
     public dynamic var topTitleTextColor:UIColor? = UIColor.blackColor()
     public dynamic var topTitleFont:UIFont = UIFont.boldSystemFontOfSize(11)
     
+    // Doesn't quite belong here, but many subclasses use this.  Convenience!
+    public dynamic var valueTextColor:UIColor? = UIColor(white: 0.4, alpha: 1)
+    public dynamic var valueFont:UIFont = UIFont.systemFontOfSize(17)
+
     public var labelPosition:FieldLabelPosition = .Left {
         didSet {
             self.setupConstraints()
@@ -59,8 +63,9 @@ public class TitleDetailsCell: TableCell {
         self.contentView.addSubview(detailContent)
         self.detailContent = detailContent
         
-        let titleLabel = UILabel(frame: CGRect.zero)
+        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: .Horizontal)
         self.mainContent?.addSubview(titleLabel)
         self.titleLabel = titleLabel
         
@@ -119,6 +124,8 @@ public class TitleDetailsCell: TableCell {
             "right": self.defaultContentInsets.right,
             "top": self.defaultContentInsets.top,
             "bottom": self.defaultContentInsets.bottom,
+            "minTitleWidth": 10,
+            "hSpacing": 10,
             "controlHeight": 10
         ]
         
@@ -130,7 +137,7 @@ public class TitleDetailsCell: TableCell {
         
         switch self.labelPosition {
         case .Left:
-            newConstraints += NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[title]-[controls]-right-|", options: .AlignAllTop, metrics: metrics, views: views)
+            newConstraints += NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[title(>=minTitleWidth)]-(hSpacing)-[controls]-right-|", options: .AlignAllTop, metrics: metrics, views: views)
             newConstraints += NSLayoutConstraint.constraintsWithVisualFormat("V:|-top-[title]|", options: .AlignAllTop, metrics: metrics, views: views)
             newConstraints += NSLayoutConstraint.constraintsWithVisualFormat("V:|-top-[controls]|", options: .AlignAllTop, metrics: metrics, views: views)
         case .Top:

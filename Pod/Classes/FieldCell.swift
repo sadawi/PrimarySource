@@ -48,9 +48,6 @@ public class FieldCell: TitleDetailsCell {
     
     public dynamic var errorTextColor:UIColor? = UIColor.redColor()
     
-    public dynamic var valueTextColor:UIColor? = UIColor(white: 0.4, alpha: 1)
-    public dynamic var valueFont:UIFont = UIFont.systemFontOfSize(17)
-    
     lazy var accessoryToolbar:UIToolbar = {
         let toolbar = UIToolbar(frame: CGRectMake(0, 0, self.bounds.size.width, 36))
         self.configureAccessoryToolbar(toolbar)

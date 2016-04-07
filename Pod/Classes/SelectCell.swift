@@ -50,6 +50,7 @@ public class SelectCell<ValueType:Equatable>: FieldCell, Observable {
 
 public class PushSelectCell<ValueType:Equatable>: SelectCell<ValueType>, TappableTableCell {
     // TODO: there's some duplicated code between here and PushFieldCell.  Maybe this should inherit from that instead of SelectCell?
+    // Also duplication between this and TitleTextCell (both have valueLabels)
     
     public var includeNil:Bool = false
     
@@ -58,10 +59,12 @@ public class PushSelectCell<ValueType:Equatable>: SelectCell<ValueType>, Tappabl
     
     override public func buildView() {
         super.buildView()
-        
-        let valueLabel = UILabel(frame: CGRect.zero)
-        self.addControl(valueLabel)
+        let valueLabel = UILabel()
+        valueLabel.textAlignment = .Right
+        valueLabel.numberOfLines = 0
+        valueLabel.lineBreakMode = .ByWordWrapping
         self.valueLabel = valueLabel
+        self.addControl(valueLabel)
     }
     
     override public func stylize() {
@@ -70,6 +73,13 @@ public class PushSelectCell<ValueType:Equatable>: SelectCell<ValueType>, Tappabl
         self.valueLabel?.font = self.valueFont
         self.valueLabel?.textColor = self.valueTextColor
         self.accessoryType = .DisclosureIndicator
+
+        switch self.labelPosition {
+        case .Left:
+            self.valueLabel?.textAlignment = .Right
+        case .Top:
+            self.valueLabel?.textAlignment = .Left
+        }
     }
     
     override func update() {
