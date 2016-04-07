@@ -131,12 +131,18 @@ public class TableCell: UITableViewCell, ListMember {
         }
     }
     
+    public func useAppearance() -> Bool {
+        return true
+    }
+    
     public dynamic var textLabelFont:UIFont? {
         get {
             return self.textLabel?.font
         }
         set {
-            self.textLabel?.font = newValue
+            if self.useAppearance() {
+                self.textLabel?.font = newValue
+            }
         }
     }
     
