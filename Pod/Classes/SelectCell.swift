@@ -22,6 +22,22 @@ public class SelectCell<ValueType:Equatable>: FieldCell, Observable {
         }
     }
     
+    public var textForNil: String?
+    
+    public var textForValue:(ValueType -> String)?
+    
+    func formatValue(value: ValueType?) -> String {
+        if let value = value {
+            if let formatter = self.textForValue {
+                return formatter(value)
+            } else {
+                return String(value)
+            }
+        } else {
+            return self.textForNil ?? ""
+        }
+    }
+    
     // If this is a regular (non-lazy) property, I get EXC_BAD_ACCESS whenever I try to access self.observations (e.g., in notifyObservers).
     // I'm not sure why.
     lazy public var observations = ObservationRegistry<ValueType>()
@@ -36,7 +52,6 @@ public class PushSelectCell<ValueType:Equatable>: SelectCell<ValueType>, Tappabl
     // TODO: there's some duplicated code between here and PushFieldCell.  Maybe this should inherit from that instead of SelectCell?
     
     public var includeNil:Bool = false
-    public var textForNil: String?
     
     public var valueLabel:UILabel?
     public var configureSelectViewController: (SelectViewController<ValueType> -> ())?
@@ -59,11 +74,7 @@ public class PushSelectCell<ValueType:Equatable>: SelectCell<ValueType>, Tappabl
     
     override func update() {
         super.update()
-        if let value = self.value {
-            self.valueLabel?.text = String(value)
-        } else {
-            self.valueLabel?.text = nil
-        }
+        self.valueLabel?.text = self.formatValue(self.value)
         self.userInteractionEnabled = !self.readonly
     }
     
@@ -120,7 +131,7 @@ public class SegmentedSelectCell<ValueType:Equatable>: SelectCell<ValueType> {
         super.update()
         self.segmentedControl?.removeAllSegments()
         for i in 0..<self.options.count {
-            let title = String(self.options[i])
+            let title = self.formatValue(self.options[i])
             self.segmentedControl?.insertSegmentWithTitle(title, atIndex: i, animated: false)
         }
         if let value = self.value, index = self.options.indexOf(value) {

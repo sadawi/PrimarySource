@@ -21,7 +21,10 @@ public class TitleDetailsCell: TableCell {
     
     public dynamic var titleTextColor:UIColor? = UIColor.blackColor()
     public dynamic var titleFont:UIFont = UIFont.boldSystemFontOfSize(17)
-
+    
+    public dynamic var topTitleTextColor:UIColor? = UIColor.blackColor()
+    public dynamic var topTitleFont:UIFont = UIFont.boldSystemFontOfSize(11)
+    
     public var labelPosition:FieldLabelPosition = .Left {
         didSet {
             self.setupConstraints()
@@ -99,11 +102,11 @@ public class TitleDetailsCell: TableCell {
         
         switch self.labelPosition {
         case .Left:
-            self.titleLabel?.font = self.titleFont
-            self.titleLabel?.textColor = self.titleTextColor
+            self.titleLabel?.font       = self.titleFont
+            self.titleLabel?.textColor  = self.titleTextColor
         case .Top:
-            self.titleLabel?.textColor = UIColor(white: 0.5, alpha: 1)
-            self.titleLabel?.font = UIFont.boldSystemFontOfSize(11)
+            self.titleLabel?.font       = self.topTitleFont
+            self.titleLabel?.textColor  = self.topTitleTextColor
         }
     }
     
