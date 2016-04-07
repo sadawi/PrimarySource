@@ -142,11 +142,13 @@ public class TableCell: UITableViewCell, ListMember {
     
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.setDefaults()
         self.buildView()
     }
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        self.setDefaults()
         self.buildView()
     }
     
@@ -156,6 +158,9 @@ public class TableCell: UITableViewCell, ListMember {
         self.textLabel?.lineBreakMode = .ByWordWrapping
         self.borderInsets = UIEdgeInsets(top: 0, left: self.defaultContentInsets.left, bottom: 0, right: 0)
         self.updateBorders()
+    }
+    
+    public func setDefaults() {
     }
     
     override public func setSelected(selected: Bool, animated: Bool) {

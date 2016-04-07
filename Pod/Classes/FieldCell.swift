@@ -59,11 +59,11 @@ public class FieldCell: TitleDetailsCell {
     
     func configureAccessoryToolbar(toolbar:UIToolbar) {
         var items:[UIBarButtonItem] = []
-        if toolbarShowsCancelButton() {
+        if self.toolbarShowsCancelButton {
             items.append(UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: Selector("cancel")))
         }
-        if toolbarShowsClearButton() {
-            items.append(UIBarButtonItem(title: "Clear", style: .Done, target: self, action: Selector("clear")))
+        if self.toolbarShowsClearButton {
+            items.append(UIBarButtonItem(title: "Clear", style: .Plain, target: self, action: Selector("clear")))
         }
         
         items.append(UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil))
@@ -72,13 +72,8 @@ public class FieldCell: TitleDetailsCell {
         toolbar.items = items
     }
     
-    func toolbarShowsCancelButton() -> Bool {
-        return false
-    }
-    
-    func toolbarShowsClearButton() -> Bool {
-        return true
-    }
+    var toolbarShowsCancelButton = false
+    var toolbarShowsClearButton = false
     
     public func commit() {
     }
