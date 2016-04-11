@@ -89,7 +89,6 @@ public class ColumnStackView: UIView {
             column.axis = .Vertical
             column.distribution = .FillEqually
             column.translatesAutoresizingMaskIntoConstraints = false
-//            column.spacing = 0
             columnStack.addArrangedSubview(column)
         }
         
@@ -102,8 +101,12 @@ public class ColumnStackView: UIView {
     }
     
     private func removeAllArrangedSubviews() {
-        for view in self.items {
-            view.removeFromSuperview()
+        guard let columnStack = self.columnStack else { return }
+        
+        for column in columnStack.arrangedSubviews {
+            for view in column.subviews {
+                view.removeFromSuperview()
+            }
         }
     }
     
