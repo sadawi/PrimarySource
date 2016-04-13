@@ -106,6 +106,7 @@ public class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCe
         
         self.stringValue = nil
         self.textField?.text = nil
+        self.textField?.enabled = true
     }
 }
 
