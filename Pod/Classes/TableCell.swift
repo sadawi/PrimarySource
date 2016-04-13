@@ -174,6 +174,7 @@ public class TableCell: UITableViewCell, ListMember {
     }
     
     public func stylize() {
+        self.accessoryType = .None
     }
     
     public override func prepareForReuse() {

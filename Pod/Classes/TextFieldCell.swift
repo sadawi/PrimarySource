@@ -101,6 +101,12 @@ public class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCe
         self.textField?.becomeFirstResponder()
     }
    
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        self.stringValue = nil
+        self.textField?.text = nil
+    }
 }
 
 /**

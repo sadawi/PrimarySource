@@ -138,4 +138,11 @@ public class FieldCell: TitleDetailsCell {
             onChange()
         }
     }
+    
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        self.accessoryType = .None
+        self.placeholderText = nil
+    }
 }
