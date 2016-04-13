@@ -73,6 +73,7 @@ public class StepperCell: IntegerCell {
         
         if let value = self.value {
             self.valueLabel?.text = String(value)
+            self.stepper?.value = Double(value)
         } else {
             self.valueLabel?.text = nil
         }
