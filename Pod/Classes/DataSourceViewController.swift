@@ -9,6 +9,8 @@
 import UIKit
 
 public class DataSourceViewController: UIViewController, DataSourceDelegate {
+    private var originalBottomMargin: CGFloat = 0
+    
     lazy public var dataSource:DataSource = {
         let dataSource = DataSource()
         dataSource.delegate = self
@@ -44,6 +46,9 @@ public class DataSourceViewController: UIViewController, DataSourceDelegate {
         self.tableView.delegate = self.dataSource
         self.tableView.dataSource = self.dataSource
 
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name:UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name:UIKeyboardWillHideNotification, object: nil)
+        
         self.reloadData()
     }
     
@@ -65,6 +70,26 @@ public class DataSourceViewController: UIViewController, DataSourceDelegate {
     
     public func presentationViewControllerForDataSource(dataSource: DataSource) -> UIViewController? {
         return self
+    }
+    
+    // MARK: Keyboard
+    
+    func keyboardWillShow(notification:NSNotification) {
+        
+        var userInfo = notification.userInfo!
+        var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
+        keyboardFrame = self.view.convertRect(keyboardFrame, fromView: nil)
+        
+        var contentInset:UIEdgeInsets = self.tableView.contentInset
+        self.originalBottomMargin = contentInset.bottom
+        contentInset.bottom = keyboardFrame.size.height
+        self.tableView.contentInset = contentInset
+    }
+    
+    func keyboardWillHide(notification:NSNotification) {
+        var contentInset:UIEdgeInsets = self.tableView.contentInset
+        contentInset.bottom = self.originalBottomMargin
+        self.tableView.contentInset = contentInset
     }
     
 }
