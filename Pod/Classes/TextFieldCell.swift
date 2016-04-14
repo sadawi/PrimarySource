@@ -25,7 +25,11 @@ public class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCe
         The string that is set by and displayed in the text field, but isn't necessarily the primary value of this cell.
         Subclasses should override this with getters and setters that translate it to their primary value type.
     */
-    public var stringValue:String?
+    public var stringValue:String? {
+        didSet {
+            self.stringValueChanged()
+        }
+    }
     
     override public func buildView() {
         super.buildView()
@@ -63,6 +67,10 @@ public class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCe
             // TODO: could be more accurate about this.  Maybe keep track of whether user actually changed the value
             self.valueChanged()
         }
+    }
+    
+    public func stringValueChanged() {
+        // Nothing here.
     }
     
     public func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
@@ -107,13 +115,61 @@ public class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCe
         self.stringValue = nil
         self.textField?.text = nil
         self.textField?.enabled = true
+        self.textField?.keyboardType = .Default
     }
+}
+
+public class TextFieldValueCell<ValueType>: TextFieldInputCell {
+    public var value: ValueType? {
+        didSet {
+            self.update()
+        }
+    }
+    
+    public var textForValue:(ValueType -> String)?
+    public var valueForText:(String -> ValueType?)?
+
+    func formatValue(value: ValueType?) -> String? {
+        if let value = value {
+            if let formatter = self.textForValue {
+                return formatter(value)
+            } else {
+                return String(value)
+            }
+        } else {
+            return nil // textfield will use placeholderText
+        }
+    }
+    
+    func importText(text: String?) -> ValueType? {
+        if let text = text, let importer = self.valueForText {
+            return importer(text)
+        } else {
+            return nil
+        }
+    }
+    
+    public override func update() {
+        super.update()
+        self.textField?.text = self.formatValue(self.value)
+    }
+    
+    public override func stringValueChanged() {
+        super.stringValueChanged()
+        self.value = self.importText(self.stringValue)
+    }
+    
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        self.textForValue = nil
+        self.valueForText = nil
+    }
+    
 }
 
 /**
     A cell that uses a UITextField as an input and has a String value
 */
-
 public class TextFieldCell: TextFieldInputCell, Observable, Observer {
     public override var stringValue:String? {
         get {

@@ -85,5 +85,32 @@ class FormViewController: DataSourceViewController {
             }
         }
         
+        dataSource <<< Section(title: "Convert to & from strings") { section in
+            section <<< CollectionItem<TextFieldValueCell<String>> { cell in
+                cell.title = "String"
+                cell.textForValue = { value in
+                    return value.uppercaseString
+                }
+                cell.valueForText = { value in
+                    return value.lowercaseString
+                }
+                cell.onChange = { [weak cell] in
+                    print("cell value changed to: ", cell?.value)
+                }
+            }
+            section <<< CollectionItem<TextFieldValueCell<Int>> { cell in
+                cell.title = "Int"
+                cell.textForValue = { value in
+                    return String(value)
+                }
+                cell.valueForText = { value in
+                    return Int(value)
+                }
+                cell.onChange = { [weak cell] in
+                    print("cell value changed to: ", cell?.value)
+                }
+            }
+        }
+        
     }
 }
