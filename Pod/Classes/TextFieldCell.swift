@@ -115,6 +115,7 @@ public class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCe
         self.stringValue = nil
         self.textField?.text = nil
         self.textField?.enabled = true
+        self.textField?.keyboardType = .Default
     }
 }
 
@@ -156,6 +157,12 @@ public class TextFieldValueCell<ValueType>: TextFieldInputCell {
     public override func stringValueChanged() {
         super.stringValueChanged()
         self.value = self.importText(self.stringValue)
+    }
+    
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        self.textForValue = nil
+        self.valueForText = nil
     }
     
 }
