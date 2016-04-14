@@ -174,12 +174,12 @@ public class TableCell: UITableViewCell, ListMember {
     }
     
     public func stylize() {
-        self.accessoryType = .None
     }
     
     public override func prepareForReuse() {
         super.prepareForReuse()
         self.borderStyle = BorderStyle(top: .None, bottom: .None)
+        self.accessoryType = .None
     }
 }
 
