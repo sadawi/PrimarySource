@@ -147,10 +147,16 @@ public class Section {
         }
     }
     
-    public func eachItem(iterator: (CollectionItemType -> Void)) {
+    public func eachItem(includeHidden includeHidden:Bool = false, iterator: (CollectionItemType -> Void)) {
         self.setListPositionsIfNeeded()
-        for item in self.visibleItems {
-            iterator(item)
+        if includeHidden {
+            for item in self.items {
+                iterator(item)
+            }
+        } else {
+            for item in self.visibleItems {
+                iterator(item)
+            }
         }
     }
     

@@ -134,7 +134,7 @@ public class DataSource: NSObject {
                 }
             }
             
-            section.eachItem { item in
+            section.eachItem(includeHidden: true) { item in
                 if let rowClass = item.viewType, identifier = item.reuseIdentifier {
                     
                     // If we've explicitly specified an identifier, we'll just use the storyboard prototype
