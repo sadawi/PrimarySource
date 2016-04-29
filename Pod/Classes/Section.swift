@@ -180,11 +180,15 @@ public class Section {
     
     // MARK: - 
     
-    public func refreshDisplay(sectionHideAnimation sectionHideAnimation:UITableViewRowAnimation = .Fade, sectionShowAnimation:UITableViewRowAnimation = .Fade) {
+    public func refreshDisplay(sectionHideAnimation sectionHideAnimation:UITableViewRowAnimation = .Fade,
+                                                    sectionShowAnimation:UITableViewRowAnimation = .Fade,
+                                                    rowHideAnimation:UITableViewRowAnimation = .Automatic,
+                                                    rowShowAnimation:UITableViewRowAnimation = .Automatic
+        ) {
         self.updateVisibility(hideAnimation: sectionHideAnimation, showAnimation: sectionShowAnimation)
         if self.visible {
             for item in self.items {
-                item.updateVisibility()
+                item.updateVisibility(hideAnimation: rowHideAnimation, showAnimation: rowShowAnimation)
             }
         }
     }

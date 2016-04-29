@@ -163,11 +163,14 @@ public class DataSource: NSObject {
      - parameter sectionHideAnimation: The animation to be used to hide a section
      - parameter sectionShowAnimation: The animation to be used to show a section
      */
-    public func refreshDisplay(sectionHideAnimation sectionHideAnimation:UITableViewRowAnimation = .Fade, sectionShowAnimation:UITableViewRowAnimation = .Fade) {
+    public func refreshDisplay(sectionHideAnimation sectionHideAnimation:UITableViewRowAnimation = .Fade,
+                                                    sectionShowAnimation:UITableViewRowAnimation = .Fade,
+                                                    rowHideAnimation:UITableViewRowAnimation = .Automatic,
+                                                    rowShowAnimation:UITableViewRowAnimation = .Automatic) {
         self.didRegisterReuseIdentifiers = false
         
         for section in self.sections {
-            section.refreshDisplay(sectionHideAnimation: sectionHideAnimation, sectionShowAnimation:sectionShowAnimation)
+            section.refreshDisplay(sectionHideAnimation: sectionHideAnimation, sectionShowAnimation:sectionShowAnimation, rowHideAnimation: rowHideAnimation, rowShowAnimation: rowShowAnimation)
         }
     }
 }

@@ -187,23 +187,30 @@ public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, Collection
     }
     
     // MARK: - Visibility
-    
     public func show() {
+        self.show(animation: .Automatic)
+    }
+    
+    public func show(animation animation: UITableViewRowAnimation) {
         let oldIndexPath = self.indexPath
         self.visible = true
         let newIndexPath = self.indexPath
         if newIndexPath != nil && oldIndexPath == nil {
-            self.tableView?.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
+            self.tableView?.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: animation)
             // TODO: collectionView
         }
     }
     
     public func hide() {
+        self.hide(animation: .Automatic)
+    }
+    
+    public func hide(animation animation: UITableViewRowAnimation) {
         let oldIndexPath = self.indexPath
         self.visible = false
         let newIndexPath = self.indexPath
         if newIndexPath == nil && oldIndexPath != nil {
-            self.tableView?.deleteRowsAtIndexPaths([oldIndexPath!], withRowAnimation: .Automatic)
+            self.tableView?.deleteRowsAtIndexPaths([oldIndexPath!], withRowAnimation: animation)
             // TODO: collectionView
         }
     }
@@ -215,13 +222,13 @@ public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, Collection
         return self
     }
     
-    public func updateVisibility() {
+    public func updateVisibility(hideAnimation hideAnimation:UITableViewRowAnimation, showAnimation:UITableViewRowAnimation) {
         if let condition = self.visibleCondition {
             let value = condition()
             if value {
-                self.show()
+                self.show(animation: showAnimation)
             } else {
-                self.hide()
+                self.hide(animation: hideAnimation)
             }
         }
     }
