@@ -14,6 +14,7 @@ public protocol CollectionItemType: class, ReusableItemType, ListMember {
     var reorderable:Bool { get set }
     var key: String? { get }
     var visible: Bool { get }
+    var hasVisibilityCondition:Bool { get }
     var section: Section? { get set }
     
     var deletable: Bool { get }

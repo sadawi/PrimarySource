@@ -79,6 +79,10 @@ public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, Collection
     
     var visibleCondition:(Void -> Bool)?
     
+    public var hasVisibilityCondition:Bool {
+        return self.visibleCondition != nil
+    }
+    
     public var reorderable:Bool = false
     
     var onTapAction:ItemAction?
