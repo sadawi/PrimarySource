@@ -56,6 +56,13 @@ public protocol CollectionItemType: class, ReusableItemType, ListMember {
     func hide(animation animation: UITableViewRowAnimation)
 
     /**
+     Reloads this item's view
+     */
+    func reload()
+    func reload(animation animation: UITableViewRowAnimation)
+
+    
+    /**
      Updates the visible state of this item, and propagates that to the view with the appropriate animation.
      */
     func updateVisibility(hideAnimation hideAnimation:UITableViewRowAnimation, showAnimation:UITableViewRowAnimation)

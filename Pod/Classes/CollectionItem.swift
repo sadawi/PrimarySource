@@ -186,6 +186,16 @@ public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, Collection
         }
     }
     
+    public func reload() {
+        self.reload(animation: .Automatic)
+    }
+    
+    public func reload(animation animation: UITableViewRowAnimation) {
+        if let indexPath = self.indexPath {
+            self.tableView?.reloadRowsAtIndexPaths([indexPath], withRowAnimation: animation)
+        }
+    }
+    
     // MARK: - Visibility
     public func show() {
         self.show(animation: .Automatic)
@@ -214,7 +224,6 @@ public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, Collection
             // TODO: collectionView
         }
     }
-    
     
     public func show(condition: (Void -> Bool)) -> CollectionItemType {
         self.visibleCondition = condition
