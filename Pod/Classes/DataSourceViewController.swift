@@ -29,6 +29,11 @@ public class DataSourceViewController: UIViewController, DataSourceDelegate {
         self.configure = configure
     }
     
+    public override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.originalBottomMargin = self.tableView.contentInset.bottom
+    }
+    
     override public func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,10 +47,10 @@ public class DataSourceViewController: UIViewController, DataSourceDelegate {
         
         // Hide trailing separators
         self.tableView.tableFooterView = UIView()
-
+        
         self.tableView.delegate = self.dataSource
         self.tableView.dataSource = self.dataSource
-
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name:UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name:UIKeyboardWillHideNotification, object: nil)
         
@@ -62,7 +67,7 @@ public class DataSourceViewController: UIViewController, DataSourceDelegate {
         self.buildDataSource()
         self.tableView.reloadData()
     }
-
+    
     public func buildDataSource() {
         self.dataSource.sections = []
         self.configureDataSource(dataSource)
@@ -75,6 +80,9 @@ public class DataSourceViewController: UIViewController, DataSourceDelegate {
     // MARK: Keyboard
     
     func keyboardWillShow(notification:NSNotification) {
+        if let navigationController = self.navigationController where navigationController.topViewController !== self {
+            return
+        }
         
         var userInfo = notification.userInfo!
         var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
@@ -87,6 +95,10 @@ public class DataSourceViewController: UIViewController, DataSourceDelegate {
     }
     
     func keyboardWillHide(notification:NSNotification) {
+        if let navigationController = self.navigationController where navigationController.topViewController !== self {
+            return
+        }
+        
         var contentInset:UIEdgeInsets = self.tableView.contentInset
         contentInset.bottom = self.originalBottomMargin
         self.tableView.contentInset = contentInset
