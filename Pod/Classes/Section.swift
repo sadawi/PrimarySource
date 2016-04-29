@@ -147,10 +147,16 @@ public class Section {
         }
     }
     
-    public func eachItem(iterator: (CollectionItemType -> Void)) {
+    public func eachItem(includeHidden includeHidden:Bool = false, iterator: (CollectionItemType -> Void)) {
         self.setListPositionsIfNeeded()
-        for item in self.visibleItems {
-            iterator(item)
+        if includeHidden {
+            for item in self.items {
+                iterator(item)
+            }
+        } else {
+            for item in self.visibleItems {
+                iterator(item)
+            }
         }
     }
     
@@ -174,11 +180,15 @@ public class Section {
     
     // MARK: - 
     
-    public func refreshDisplay(sectionHideAnimation sectionHideAnimation:UITableViewRowAnimation = .Fade, sectionShowAnimation:UITableViewRowAnimation = .Fade) {
+    public func refreshDisplay(sectionHideAnimation sectionHideAnimation:UITableViewRowAnimation = .Fade,
+                                                    sectionShowAnimation:UITableViewRowAnimation = .Fade,
+                                                    rowHideAnimation:UITableViewRowAnimation = .Automatic,
+                                                    rowShowAnimation:UITableViewRowAnimation = .Automatic
+        ) {
         self.updateVisibility(hideAnimation: sectionHideAnimation, showAnimation: sectionShowAnimation)
         if self.visible {
             for item in self.items {
-                item.updateVisibility()
+                item.updateVisibility(hideAnimation: rowHideAnimation, showAnimation: rowShowAnimation)
             }
         }
     }

@@ -14,6 +14,7 @@ public protocol CollectionItemType: class, ReusableItemType, ListMember {
     var reorderable:Bool { get set }
     var key: String? { get }
     var visible: Bool { get }
+    var hasVisibilityCondition:Bool { get }
     var section: Section? { get set }
     
     var deletable: Bool { get }
@@ -47,15 +48,24 @@ public protocol CollectionItemType: class, ReusableItemType, ListMember {
      Sets this item's `visible` flag to true, and animates it into the view.
      */
     func show()
+    func show(animation animation: UITableViewRowAnimation)
 
     /**
      Sets this item's `visible` flag to false, and animates it out of the view.
      */
     func hide()
+    func hide(animation animation: UITableViewRowAnimation)
 
+    /**
+     Reloads this item's view
+     */
+    func reload()
+    func reload(animation animation: UITableViewRowAnimation)
+
+    
     /**
      Updates the visible state of this item, and propagates that to the view with the appropriate animation.
      */
-    func updateVisibility()
+    func updateVisibility(hideAnimation hideAnimation:UITableViewRowAnimation, showAnimation:UITableViewRowAnimation)
 }
 

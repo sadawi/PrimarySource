@@ -79,6 +79,10 @@ public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, Collection
     
     var visibleCondition:(Void -> Bool)?
     
+    public var hasVisibilityCondition:Bool {
+        return self.visibleCondition != nil
+    }
+    
     public var reorderable:Bool = false
     
     var onTapAction:ItemAction?
@@ -186,28 +190,44 @@ public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, Collection
         }
     }
     
-    // MARK: - Visibility
+    public func reload() {
+        self.reload(animation: .Automatic)
+    }
     
+    public func reload(animation animation: UITableViewRowAnimation) {
+        if let indexPath = self.indexPath {
+            self.tableView?.reloadRowsAtIndexPaths([indexPath], withRowAnimation: animation)
+        }
+    }
+    
+    // MARK: - Visibility
     public func show() {
+        self.show(animation: .Automatic)
+    }
+    
+    public func show(animation animation: UITableViewRowAnimation) {
         let oldIndexPath = self.indexPath
         self.visible = true
         let newIndexPath = self.indexPath
         if newIndexPath != nil && oldIndexPath == nil {
-            self.tableView?.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
+            self.tableView?.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: animation)
             // TODO: collectionView
         }
     }
     
     public func hide() {
+        self.hide(animation: .Automatic)
+    }
+    
+    public func hide(animation animation: UITableViewRowAnimation) {
         let oldIndexPath = self.indexPath
         self.visible = false
         let newIndexPath = self.indexPath
         if newIndexPath == nil && oldIndexPath != nil {
-            self.tableView?.deleteRowsAtIndexPaths([oldIndexPath!], withRowAnimation: .Automatic)
+            self.tableView?.deleteRowsAtIndexPaths([oldIndexPath!], withRowAnimation: animation)
             // TODO: collectionView
         }
     }
-    
     
     public func show(condition: (Void -> Bool)) -> CollectionItemType {
         self.visibleCondition = condition
@@ -215,13 +235,13 @@ public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, Collection
         return self
     }
     
-    public func updateVisibility() {
+    public func updateVisibility(hideAnimation hideAnimation:UITableViewRowAnimation, showAnimation:UITableViewRowAnimation) {
         if let condition = self.visibleCondition {
             let value = condition()
             if value {
-                self.show()
+                self.show(animation: showAnimation)
             } else {
-                self.hide()
+                self.hide(animation: hideAnimation)
             }
         }
     }
