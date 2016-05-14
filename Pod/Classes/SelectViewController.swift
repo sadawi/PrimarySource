@@ -11,6 +11,9 @@ import UIKit
 public class SelectViewController<T:Equatable>: DataSourceViewController {
     public typealias ValueType = T
     
+    // Overloading `==` for your class will not work.
+    public var valuesAreEqual:((T?, T?)->Bool)?
+    
     public var value:ValueType?
     public var multiple:Bool = false
     public var textForValue:(ValueType -> String) = { value in
@@ -86,7 +89,15 @@ public class SelectViewController<T:Equatable>: DataSourceViewController {
                     }
                     
                     cell.textLabel?.text = text
-                    cell.accessoryType = self.value == option ? .Checkmark : .None
+                    
+                    let selected:Bool
+                    if let test = self.valuesAreEqual {
+                        selected = test(self.value, option)
+                    } else {
+                        selected = self.value == option
+                    }
+                    
+                    cell.accessoryType = selected ? .Checkmark : .None
                     }.onTap { [unowned self] _ in
                         self.value = option
                         self.commit()
