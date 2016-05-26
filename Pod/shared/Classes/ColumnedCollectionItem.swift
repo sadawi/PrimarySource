@@ -9,6 +9,9 @@
 import Foundation
 
 public protocol ColumnedCollectionItemType: CollectionItemType {
+    // TODO: should this be its own category?
+    var children:[ColumnedCollectionItemType] { get }
+    
     // TODO: move this to CollectionItemType
     func configureIfNecessary()
     
@@ -24,6 +27,9 @@ public class ColumnedCollectionItem<ViewType:CollectionItemView>: CollectionItem
         }
     }
     var needsConfiguration: Bool = true
+    
+    weak var parent:ColumnedCollectionItemType?
+    public var children:[ColumnedCollectionItemType] = []
     
     public var columns:[ColumnIdentifier:CollectionItemType] = [:]
 

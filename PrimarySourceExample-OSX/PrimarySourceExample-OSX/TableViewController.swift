@@ -36,8 +36,8 @@ class TableViewController: NSViewController {
     }
     
     func configureDataSource(dataSource: ColumnedDataSource) {
-        dataSource <<< Column(identifier: kNameColumnIdentifier, title: "Name")
-        dataSource <<< Column(identifier: kAgeColumnIdentifier, title: "Age")
+//        dataSource <<< Column(identifier: kNameColumnIdentifier, title: "Name")
+//        dataSource <<< Column(identifier: kAgeColumnIdentifier, title: "Age")
         
         dataSource <<< Section(title: "Section 1") { section in
             for person in self.people {
@@ -52,12 +52,5 @@ class TableViewController: NSViewController {
             }
         }
     }
-    
-    override var representedObject: AnyObject? {
-        didSet {
-            // Update the view, if already loaded.
-        }
-    }
-    
     
 }
