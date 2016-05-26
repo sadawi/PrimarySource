@@ -9,8 +9,8 @@
 import Cocoa
 import PrimarySource
 
-let kNameColumnIdentifier = "name"
-let kAgeColumnIdentifier = "age"
+let kNameColumnIdentifier = "Name"
+let kAgeColumnIdentifier = "Age"
 
 class ViewController: NSViewController {
 
@@ -18,6 +18,14 @@ class ViewController: NSViewController {
     @IBOutlet var outlineView: NSOutlineView!
     
     var dataSource = ColumnedDataSource()
+    
+    var people: [Person] = {
+        return [
+            Person(name: "Alice", age: 49),
+            Person(name: "Bob", age: 50),
+            Person(name: "Martha", age: 22),
+        ]
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,10 +40,16 @@ class ViewController: NSViewController {
         dataSource <<< Column(identifier: kAgeColumnIdentifier, title: "Age")
         
         dataSource <<< Section(title: "Section 1") { section in
-            section <<< ColumnedCollectionItem<NSTableRowView>(storyboardIdentifier: "NormalRow", configureItem: { item in
-                item[kNameColumnIdentifier] = CollectionItem<NSTableCellView> { cell in
+            for person in self.people {
+                section <<< ColumnedCollectionItem<NSTableRowView> { item -> () in
+                    item[kNameColumnIdentifier] = CollectionItem<NSTableCellView>(storyboardIdentifier: "NameCellView") { cell in
+                        cell.textField?.stringValue = person.name
+                    }
+                    item[kAgeColumnIdentifier] = CollectionItem<NSTableCellView>(storyboardIdentifier: "AgeCellView") { cell -> () in
+                        cell.textField?.integerValue = person.age
+                    }
                 }
-            })
+            }
         }
     }
     

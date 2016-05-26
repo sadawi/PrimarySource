@@ -90,8 +90,22 @@ extension ColumnedDataSource: NSTableViewDataSource, NSTableViewDelegate {
         self.lookupRow(row) { item in
             if let columnedItem = item as? ColumnedCollectionItemType {
                 columnedItem.configureIfNecessary()
+                
+                // TODO: should I round-trip this through the datasource's column list?
+                if let columnIdentifier = tableColumn?.identifier, cellItem = columnedItem[columnIdentifier] {
+                    if let identifier = cellItem.storyboardIdentifier {
+                        if let view = tableView.makeViewWithIdentifier(identifier, owner: self) {
+                            cellItem.configureView(view)
+                            result = view
+                        }
+                    } else if let nibName = cellItem.nibName {
+                        // TODO: load from nib
+                    }
+                }
             }
         }
-        return tableView.makeViewWithIdentifier("TEST", owner: self)
+        // TODO: error state?
+        
+        return result
     }
 }

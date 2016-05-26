@@ -13,6 +13,8 @@ public protocol ColumnedCollectionItemType: CollectionItemType {
     
     // TODO: move this to CollectionItemType
     func configureIfNecessary()
+    
+    subscript(columnIdentifier: ColumnIdentifier) -> CollectionItemType? { get }
 }
 
 public class ColumnedCollectionItem<ViewType:CollectionItemView>: CollectionItem<ViewType>, ColumnedCollectionItemType {
@@ -27,7 +29,7 @@ public class ColumnedCollectionItem<ViewType:CollectionItemView>: CollectionItem
     }
     var needsConfiguration: Bool = true
     
-    var columns:[ColumnIdentifier:CollectionItemType] = [:]
+    public var columns:[ColumnIdentifier:CollectionItemType] = [:]
 
     public init(key: String?=nil, nibName: String?=nil, reorderable: Bool=false, storyboardIdentifier: String?=nil, columnSpan: Int=1, configureItem: ItemConfiguration?) {
         self.columnSpan = columnSpan
@@ -47,6 +49,7 @@ public class ColumnedCollectionItem<ViewType:CollectionItemView>: CollectionItem
     
     public subscript(columnIdentifier: ColumnIdentifier) -> CollectionItemType? {
         get {
+            self.configureIfNecessary()
             return self.columns[columnIdentifier]
         }
         set {

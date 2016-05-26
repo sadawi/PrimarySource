@@ -9,6 +9,6 @@
 import Foundation
 import Cocoa
 
-extension NSTableCellView: CollectionItemView {
+extension NSView: CollectionItemView {
     
 }
