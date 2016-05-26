@@ -44,11 +44,7 @@ public class DataSource: NSObject {
     public override init() {
         
     }
-    
-    public func scrollViewDidScroll(scrollView: UIScrollView) {
-        self.didScroll?()
-    }
-    
+        
     public func serialize() -> [String:AnyObject] {
         let result:[String:AnyObject] = [:]
         // TODO
