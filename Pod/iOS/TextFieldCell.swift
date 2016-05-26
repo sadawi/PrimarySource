@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import MagneticFields
 
 public enum TextEditingMode {
     case Inline
@@ -170,7 +169,7 @@ public class TextFieldValueCell<ValueType>: TextFieldInputCell {
 /**
     A cell that uses a UITextField as an input and has a String value
 */
-public class TextFieldCell: TextFieldInputCell, Observable, Observer {
+public class TextFieldCell: TextFieldInputCell {
     public override var stringValue:String? {
         get {
             return self.value
@@ -183,24 +182,15 @@ public class TextFieldCell: TextFieldInputCell, Observable, Observer {
     public var value:String? {
         didSet {
             self.update()
-            self.notifyObservers()
         }
     }
 
     // MARK: - Observable
     
     public typealias ValueType = String
-    public var observations = ObservationRegistry<ValueType>()
     
     public override func prepareForReuse() {
         super.prepareForReuse()
-        self.removeAllObservers()
-    }
-    
-    // MARK: - Observer
-    
-    public func valueChanged<ObservableType:Observable>(value:ValueType?, observable:ObservableType?) {
-        self.value = value
     }
 }
 
