@@ -13,7 +13,7 @@ public protocol HeaderItemType: ReusableItemType {
 }
 
 // TODO: genericize for collectionViews too
-public class HeaderItem<ViewType:UITableViewHeaderFooterView>: ReusableItem<ViewType>, HeaderItemType {
+public class HeaderItem<ViewType:CollectionHeaderView>: ReusableItem<ViewType>, HeaderItemType {
     public var height:CGFloat?
     
     public init(nibName:String?=nil, storyboardIdentifier:String?=nil, reuseIdentifier:String?=nil, height:CGFloat?=nil, configure:(ViewType -> Void)?=nil) {
