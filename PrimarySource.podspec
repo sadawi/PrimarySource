@@ -14,7 +14,12 @@ Pod::Spec.new do |s|
   s.osx.source_files = 'Pod/OSX/**/*'
   s.ios.source_files = 'Pod/iOS/**/*'
 
-  s.resource_bundles = {
+  s.osx.resource_bundles = {
     'PrimarySource' => ['Pod/shared/Assets/*']
   }
+
+  s.ios.resource_bundles = {
+    'PrimarySource' => ['Pod/shared/Assets/*']
+  }
+
 end

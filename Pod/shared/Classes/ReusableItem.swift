@@ -19,7 +19,10 @@ public protocol ReusableItemType {
 }
 
 public class ReusableItem<ViewType:CollectionItemView>: ReusableItemType {
-    var configure: (ViewType -> Void)?
+    public typealias ViewConfiguration = ((ViewType) -> ())
+
+    var configure: ViewConfiguration?
+    
     public var storyboardIdentifier:String?
     public var nibName:String?
     public var identifier:String?

@@ -14,6 +14,16 @@ public enum ReorderingMode {
     case WithinSections
 }
 
+public func <<<(dataSource:DataSource, section:Section) {
+    dataSource.addSection(section)
+}
+
+public func <<<(dataSource:DataSource, section:Section?) {
+    if let section = section {
+        dataSource.addSection(section)
+    }
+}
+
 public class DataSource: NSObject {
     var sections:[Section] = []
     var visibleSections:[Section] {

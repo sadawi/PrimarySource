@@ -10,6 +10,16 @@ import Foundation
 
 public typealias ReorderAction = ((NSIndexPath, NSIndexPath) -> Void)
 
+public func <<<(left:Section, right:CollectionItemType) {
+    left.addItem(right)
+}
+
+public func <<<(left:Section, right:CollectionItemType?) {
+    if let right = right {
+        left.addItem(right)
+    }
+}
+
 public class Section {
     var visible: Bool = true
     var visibleCondition:(Void -> Bool)?
@@ -30,6 +40,10 @@ public class Section {
     weak var dataSource: DataSource?
     var presenter: CollectionPresenter? {
         return self.dataSource?.presenter
+    }
+    
+    var showsHeader: Bool {
+        return self.title != nil || self.header != nil
     }
 
     public var itemCount:Int {
@@ -124,7 +138,11 @@ public class Section {
     
     public func itemAtIndex(index:Int) -> CollectionItemType? {
         self.setListPositionsIfNeeded()
-        return self.visibleItems[index]
+        if self.visibleItems.count > index {
+            return self.visibleItems[index]
+        } else {
+            return nil
+        }
     }
     
     public func itemForKey(key:String) -> CollectionItemType? {

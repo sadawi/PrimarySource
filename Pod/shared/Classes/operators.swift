@@ -10,22 +10,3 @@ import Foundation
 
 infix operator <<< { associativity left precedence 95 }
 
-public func <<<(left:DataSource, right:Section) {
-    left.addSection(right)
-}
-
-public func <<<(left:DataSource, right:Section?) {
-    if let right = right {
-        left.addSection(right)
-    }
-}
-
-public func <<<(left:Section, right:CollectionItemType) {
-    left.addItem(right)
-}
-
-public func <<<(left:Section, right:CollectionItemType?) {
-    if let right = right {
-        left.addItem(right)
-    }
-}
