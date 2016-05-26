@@ -71,7 +71,7 @@ public protocol ListMember: class {
     var listMembership: ListMembership { get set }
 }
 
-public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, CollectionItemType {
+public class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>, CollectionItemType {
     weak public var section: Section?
     
     internal(set) public var key:String?
@@ -243,7 +243,7 @@ public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, Collection
     
     // MARK: - Configuration
     
-    public override func configureView(view: UIView) {
+    public override func configureView(view: CollectionItemView) {
         if let listMember = view as? ListMember {
             listMember.listMembership = self.listMembership
         }

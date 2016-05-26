@@ -15,10 +15,10 @@ public protocol ReusableItemType {
     var reuseIdentifier:String? { get }
     var viewType:AnyClass? { get }
     
-    func configureView(view:UIView)
+    func configureView(view:CollectionItemView)
 }
 
-public class ReusableItem<ViewType:UIView>: ReusableItemType {
+public class ReusableItem<ViewType:CollectionItemView>: ReusableItemType {
     var configure: (ViewType -> Void)?
     public var storyboardIdentifier:String?
     public var nibName:String?
@@ -44,7 +44,7 @@ public class ReusableItem<ViewType:UIView>: ReusableItemType {
         return ViewType.self
     }
     
-    public func configureView(view: UIView) {
+    public func configureView(view: CollectionItemView) {
         if let view = view as? ViewType {
             self.configureView(view)
         }
