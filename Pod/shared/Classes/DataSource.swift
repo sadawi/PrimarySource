@@ -14,10 +14,6 @@ public enum ReorderingMode {
     case WithinSections
 }
 
-public protocol DataSourceDelegate: class {
-    func presentationViewControllerForDataSource(dataSource:DataSource) -> UIViewController?
-}
-
 public class DataSource: NSObject {
     var sections:[Section] = []
     var visibleSections:[Section] {
@@ -27,8 +23,6 @@ public class DataSource: NSObject {
     var didRegisterReuseIdentifiers = false
     var defaultHeaderHeight:CGFloat = 30.0
     
-    public weak var delegate:DataSourceDelegate?
-
     var sectionLookup:[String:Section] = [:]
     
     weak var presenter:CollectionPresenter?
@@ -49,10 +43,6 @@ public class DataSource: NSObject {
         let result:[String:AnyObject] = [:]
         // TODO
         return result
-    }
-    
-    internal func presentationViewController() -> UIViewController? {
-        return self.delegate?.presentationViewControllerForDataSource(self)
     }
     
     public func addSection(section:Section) {
