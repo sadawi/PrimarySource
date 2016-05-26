@@ -167,12 +167,8 @@ public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, Collection
     
     // MARK: - Indices etc.
     
-    var tableView:UITableView? {
-        return self.section?.tableView
-    }
-    
-    var collectionView:UICollectionView? {
-        return self.section?.collectionView
+    var presenter: CollectionPresenter? {
+        return self.section?.presenter
     }
     
     var index:Int? {
@@ -194,9 +190,9 @@ public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, Collection
         self.reload(animation: .Automatic)
     }
     
-    public func reload(animation animation: UITableViewRowAnimation) {
+    public func reload(animation animation: CollectionPresenterAnimation) {
         if let indexPath = self.indexPath {
-            self.tableView?.reloadRowsAtIndexPaths([indexPath], withRowAnimation: animation)
+            self.presenter?.reloadItem(indexPath: indexPath, animation: animation)
         }
     }
     
@@ -205,12 +201,12 @@ public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, Collection
         self.show(animation: .Automatic)
     }
     
-    public func show(animation animation: UITableViewRowAnimation) {
+    public func show(animation animation: CollectionPresenterAnimation) {
         let oldIndexPath = self.indexPath
         self.visible = true
         let newIndexPath = self.indexPath
         if newIndexPath != nil && oldIndexPath == nil {
-            self.tableView?.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: animation)
+            self.presenter?.insertItem(indexPath: newIndexPath!, animation: animation)
             // TODO: collectionView
         }
     }
@@ -219,13 +215,12 @@ public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, Collection
         self.hide(animation: .Automatic)
     }
     
-    public func hide(animation animation: UITableViewRowAnimation) {
+    public func hide(animation animation: CollectionPresenterAnimation) {
         let oldIndexPath = self.indexPath
         self.visible = false
         let newIndexPath = self.indexPath
         if newIndexPath == nil && oldIndexPath != nil {
-            self.tableView?.deleteRowsAtIndexPaths([oldIndexPath!], withRowAnimation: animation)
-            // TODO: collectionView
+            self.presenter?.removeItem(indexPath: oldIndexPath!, animation: animation)
         }
     }
     
@@ -235,7 +230,7 @@ public class CollectionItem<ViewType:UIView>: ReusableItem<ViewType>, Collection
         return self
     }
     
-    public func updateVisibility(hideAnimation hideAnimation:UITableViewRowAnimation, showAnimation:UITableViewRowAnimation) {
+    public func updateVisibility(hideAnimation hideAnimation:CollectionPresenterAnimation, showAnimation:CollectionPresenterAnimation) {
         if let condition = self.visibleCondition {
             let value = condition()
             if value {

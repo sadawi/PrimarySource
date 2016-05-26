@@ -28,11 +28,8 @@ public class Section {
     var didSetListPositions = false
     
     weak var dataSource: DataSource?
-    var tableView: UITableView? {
-        return self.dataSource?.tableView
-    }
-    var collectionView: UICollectionView? {
-        return self.dataSource?.collectionView
+    var presenter: CollectionPresenter? {
+        return self.dataSource?.presenter
     }
 
     public var itemCount:Int {
@@ -180,10 +177,10 @@ public class Section {
     
     // MARK: - 
     
-    public func refreshDisplay(sectionHideAnimation sectionHideAnimation:UITableViewRowAnimation = .Fade,
-                                                    sectionShowAnimation:UITableViewRowAnimation = .Fade,
-                                                    rowHideAnimation:UITableViewRowAnimation = .Automatic,
-                                                    rowShowAnimation:UITableViewRowAnimation = .Automatic
+    public func refreshDisplay(sectionHideAnimation sectionHideAnimation:CollectionPresenterAnimation = .Fade,
+                                                    sectionShowAnimation:CollectionPresenterAnimation = .Fade,
+                                                    rowHideAnimation:CollectionPresenterAnimation = .Automatic,
+                                                    rowShowAnimation:CollectionPresenterAnimation = .Automatic
         ) {
         self.updateVisibility(hideAnimation: sectionHideAnimation, showAnimation: sectionShowAnimation)
         if self.visible {
@@ -195,21 +192,21 @@ public class Section {
 
     // MARK: - Visibility
     
-    public func show(animation animation:UITableViewRowAnimation = .Fade) {
+    public func show(animation animation:CollectionPresenterAnimation = .Fade) {
         let oldIndex = self.index
         self.visible = true
         let newIndex = self.index
         if newIndex != nil && oldIndex == nil {
-            self.tableView?.insertSections(NSIndexSet(index: newIndex!), withRowAnimation: animation)
+            self.presenter?.insertSection(index: newIndex!, animation: animation)
         }
     }
     
-    public func hide(animation animation:UITableViewRowAnimation = .Fade) {
+    public func hide(animation animation:CollectionPresenterAnimation = .Fade) {
         let oldIndex = self.index
         self.visible = false
         let newIndex = self.index
         if newIndex == nil && oldIndex != nil {
-            self.tableView?.deleteSections(NSIndexSet(index: oldIndex!), withRowAnimation: animation)
+            self.presenter?.removeSection(index: oldIndex!, animation: animation)
         }
     }
     
@@ -219,7 +216,7 @@ public class Section {
         return self
     }
     
-    public func updateVisibility(hideAnimation hideAnimation:UITableViewRowAnimation = .Fade, showAnimation:UITableViewRowAnimation = .Fade) {
+    public func updateVisibility(hideAnimation hideAnimation:CollectionPresenterAnimation = .Fade, showAnimation:CollectionPresenterAnimation = .Fade) {
         if let condition = self.visibleCondition {
             let value = condition()
             if value {

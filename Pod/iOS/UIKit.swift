@@ -11,7 +11,3 @@ import UIKit
 extension CollectionItem {
     
 }
-
-extension UITableView: CollectionPresenter {
-    
-}

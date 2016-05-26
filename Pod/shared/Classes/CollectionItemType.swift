@@ -48,24 +48,24 @@ public protocol CollectionItemType: class, ReusableItemType, ListMember {
      Sets this item's `visible` flag to true, and animates it into the view.
      */
     func show()
-    func show(animation animation: UITableViewRowAnimation)
+    func show(animation animation: CollectionPresenterAnimation)
 
     /**
      Sets this item's `visible` flag to false, and animates it out of the view.
      */
     func hide()
-    func hide(animation animation: UITableViewRowAnimation)
+    func hide(animation animation: CollectionPresenterAnimation)
 
     /**
      Reloads this item's view
      */
     func reload()
-    func reload(animation animation: UITableViewRowAnimation)
+    func reload(animation animation: CollectionPresenterAnimation)
 
     
     /**
      Updates the visible state of this item, and propagates that to the view with the appropriate animation.
      */
-    func updateVisibility(hideAnimation hideAnimation:UITableViewRowAnimation, showAnimation:UITableViewRowAnimation)
+    func updateVisibility(hideAnimation hideAnimation:CollectionPresenterAnimation, showAnimation:CollectionPresenterAnimation)
 }
 

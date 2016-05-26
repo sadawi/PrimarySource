@@ -31,8 +31,7 @@ public class DataSource: NSObject {
 
     var sectionLookup:[String:Section] = [:]
     
-    weak var tableView:UITableView?
-    weak var collectionView:UICollectionView?
+    weak var presenter:CollectionPresenter?
 
     public var reorderingMode:ReorderingMode = .WithinSections
     public var reorder:((NSIndexPath, NSIndexPath) -> Void)?
@@ -115,22 +114,18 @@ public class DataSource: NSObject {
     
     // MARK: - 
     
-    public func registerReuseIdentifiers(view: CollectionViewType) {
-        if let collectionView = view as? UICollectionView {
-            self.collectionView = collectionView
-        } else if let tableView = view as? UITableView {
-            self.tableView = tableView
-        }
+    public func registerReuseIdentifiers(view: CollectionPresenter) {
+        self.presenter = view
         
         for section in self.sections {
             
             if let header = section.header, identifier = header.reuseIdentifier {
                 if let nibName = header.nibName {
                     if NSBundle.mainBundle().pathForResource(nibName, ofType: "nib") != nil {
-                        view.registerHeaderNib(UINib(nibName: nibName, bundle: nil), reuseIdentifier: identifier)
+                        view.registerHeader(nibName: nibName, reuseIdentifier: identifier)
                     }
                 } else {
-                    view.registerHeaderClass(header.viewType, reuseIdentifier: identifier)
+                    view.registerHeader(viewClass: header.viewType, reuseIdentifier: identifier)
                 }
             }
             
@@ -142,10 +137,10 @@ public class DataSource: NSObject {
                         
                         if let nibName = item.nibName {
                             if NSBundle.mainBundle().pathForResource(nibName, ofType: "nib") != nil {
-                                view.registerCellNib(UINib(nibName: nibName, bundle: nil), reuseIdentifier: identifier)
+                                view.registerCell(nibName: nibName, reuseIdentifier: identifier)
                             }
                         } else {
-                            view.registerCellClass(rowClass, reuseIdentifier: identifier)
+                            view.registerCell(viewClass: rowClass, reuseIdentifier: identifier)
                         }
                     }
                     
@@ -163,10 +158,10 @@ public class DataSource: NSObject {
      - parameter sectionHideAnimation: The animation to be used to hide a section
      - parameter sectionShowAnimation: The animation to be used to show a section
      */
-    public func refreshDisplay(sectionHideAnimation sectionHideAnimation:UITableViewRowAnimation = .Fade,
-                                                    sectionShowAnimation:UITableViewRowAnimation = .Fade,
-                                                    rowHideAnimation:UITableViewRowAnimation = .Automatic,
-                                                    rowShowAnimation:UITableViewRowAnimation = .Automatic) {
+    public func refreshDisplay(sectionHideAnimation sectionHideAnimation:CollectionPresenterAnimation = .Fade,
+                                                    sectionShowAnimation:CollectionPresenterAnimation = .Fade,
+                                                    rowHideAnimation:CollectionPresenterAnimation = .Automatic,
+                                                    rowShowAnimation:CollectionPresenterAnimation = .Automatic) {
         self.didRegisterReuseIdentifiers = false
         
         for section in self.sections {
