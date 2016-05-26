@@ -9,34 +9,6 @@
 import Foundation
 import Cocoa
 
-extension Section {
-    func lookupRow(offset offset: Int, ifSectionHeader:((Section)->())?=nil, ifItem:((CollectionItemType)->())?=nil) -> Bool {
-        if self.showsHeader {
-            if offset == 0 {
-                ifSectionHeader?(self)
-                return true
-            } else {
-                if let item = self.itemAtIndex(offset-1) {
-                    ifItem?(item)
-                    return true
-                }
-            }
-        } else if let item = self.itemAtIndex(offset) {
-            ifItem?(item)
-            return true
-        }
-        return false
-    }
-    var rowCount: Int {
-        var count = self.visibleItems.count
-        if self.showsHeader {
-            count += 1
-        }
-        return count
-    }
-}
-
-
 extension ColumnedDataSource: NSTableViewDataSource, NSTableViewDelegate {
     func columnForTableColumn(tableColumn: NSTableColumn?) -> Column? {
         if let identifier = tableColumn?.identifier {

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		223B692A1CF76E7E002A6389 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223B69291CF76E7E002A6389 /* Person.swift */; };
+		223B692C1CF7760B002A6389 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223B692B1CF7760B002A6389 /* TableViewController.swift */; };
+		223B692E1CF77613002A6389 /* OutlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223B692D1CF77613002A6389 /* OutlineViewController.swift */; };
 		22DC48C51CF64E4100D366DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DC48C41CF64E4100D366DD /* AppDelegate.swift */; };
 		22DC48C71CF64E4100D366DD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DC48C61CF64E4100D366DD /* ViewController.swift */; };
 		22DC48C91CF64E4100D366DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22DC48C81CF64E4100D366DD /* Assets.xcassets */; };
@@ -31,6 +33,8 @@
 /* Begin PBXFileReference section */
 		0108AA8784ED026B4DB6EEAD /* Pods-PrimarySourceExample-OSX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PrimarySourceExample-OSX.release.xcconfig"; path = "Pods/Target Support Files/Pods-PrimarySourceExample-OSX/Pods-PrimarySourceExample-OSX.release.xcconfig"; sourceTree = "<group>"; };
 		223B69291CF76E7E002A6389 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
+		223B692B1CF7760B002A6389 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		223B692D1CF77613002A6389 /* OutlineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutlineViewController.swift; sourceTree = "<group>"; };
 		22DC48C11CF64E4100D366DD /* PrimarySourceExample-OSX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PrimarySourceExample-OSX.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		22DC48C41CF64E4100D366DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		22DC48C61CF64E4100D366DD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -68,6 +72,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		223B692F1CF776E7002A6389 /* controllers */ = {
+			isa = PBXGroup;
+			children = (
+				22DC48C61CF64E4100D366DD /* ViewController.swift */,
+				223B692B1CF7760B002A6389 /* TableViewController.swift */,
+				223B692D1CF77613002A6389 /* OutlineViewController.swift */,
+			);
+			name = controllers;
+			sourceTree = "<group>";
+		};
 		22DC48B81CF64E4100D366DD = {
 			isa = PBXGroup;
 			children = (
@@ -93,7 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				22DC48C41CF64E4100D366DD /* AppDelegate.swift */,
-				22DC48C61CF64E4100D366DD /* ViewController.swift */,
+				223B692F1CF776E7002A6389 /* controllers */,
 				22DC48C81CF64E4100D366DD /* Assets.xcassets */,
 				22DC48CA1CF64E4100D366DD /* Main.storyboard */,
 				22DC48CD1CF64E4100D366DD /* Info.plist */,
@@ -334,6 +348,8 @@
 				223B692A1CF76E7E002A6389 /* Person.swift in Sources */,
 				22DC48C71CF64E4100D366DD /* ViewController.swift in Sources */,
 				22DC48C51CF64E4100D366DD /* AppDelegate.swift in Sources */,
+				223B692E1CF77613002A6389 /* OutlineViewController.swift in Sources */,
+				223B692C1CF7760B002A6389 /* TableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
