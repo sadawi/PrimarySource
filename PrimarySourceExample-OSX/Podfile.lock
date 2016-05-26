@@ -9,6 +9,6 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  PrimarySource: 3b73a6a85062ca71372dd74989c37ac0c020102b
+  PrimarySource: aa94c58eb42ca522013c1f062cff9ecc8ac1db21
 
 COCOAPODS: 0.39.0
