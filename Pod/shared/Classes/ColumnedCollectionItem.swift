@@ -9,8 +9,6 @@
 import Foundation
 
 public protocol ColumnedCollectionItemType: CollectionItemType {
-    var columnSpan:Int { get }
-    
     // TODO: move this to CollectionItemType
     func configureIfNecessary()
     
@@ -19,8 +17,6 @@ public protocol ColumnedCollectionItemType: CollectionItemType {
 
 public class ColumnedCollectionItem<ViewType:CollectionItemView>: CollectionItem<ViewType>, ColumnedCollectionItemType {
     public typealias ItemConfiguration = ((ColumnedCollectionItem<ViewType>) -> ())
-    
-    public var columnSpan:Int
     
     var configureItem: ItemConfiguration? {
         didSet {
@@ -31,8 +27,7 @@ public class ColumnedCollectionItem<ViewType:CollectionItemView>: CollectionItem
     
     public var columns:[ColumnIdentifier:CollectionItemType] = [:]
 
-    public init(key: String?=nil, nibName: String?=nil, reorderable: Bool=false, storyboardIdentifier: String?=nil, columnSpan: Int=1, configureItem: ItemConfiguration?) {
-        self.columnSpan = columnSpan
+    public init(key: String?=nil, nibName: String?=nil, reorderable: Bool=false, storyboardIdentifier: String?=nil, configureItem: ItemConfiguration?) {
         self.configureItem = configureItem
         super.init(key: key, nibName: nibName, reorderable: reorderable, storyboardIdentifier: storyboardIdentifier)
     }
