@@ -7,12 +7,14 @@ Pod::Spec.new do |s|
   s.author           = { "Sam Williams" => "samuel.williams@gmail.com" }
   s.source           = { :git => "https://github.com/sadawi/PrimarySource.git", :tag => s.version.to_s }
 
-  s.platform     = :ios, '9.0'
+  s.platforms        = { :ios => '9.0', :osx => '10.7' }
   s.requires_arc = true
 
-  s.source_files = 'Pod/Classes/**/*'
+  s.source_files = 'Pod/shared/**/*'
+  s.osx.source_files = 'Pod/OSX/**/*'
+  s.ios.source_files = 'Pod/iOS/**/*'
+
   s.resource_bundles = {
     'PrimarySource' => ['Pod/Assets/*']
   }
-  s.dependency 'MagneticFields', "~> 0.6.0"
 end

@@ -7,13 +7,11 @@
 //
 
 import UIKit
-import MagneticFields
 
-public class SelectCell<ValueType:Equatable>: FieldCell, Observable {
+public class SelectCell<ValueType:Equatable>: FieldCell {
     public var value:ValueType? {
         didSet {
             self.update()
-            self.notifyObservers()
         }
     }
     public var options:[ValueType] = [] {
@@ -38,13 +36,8 @@ public class SelectCell<ValueType:Equatable>: FieldCell, Observable {
         }
     }
     
-    // If this is a regular (non-lazy) property, I get EXC_BAD_ACCESS whenever I try to access self.observations (e.g., in notifyObservers).
-    // I'm not sure why.
-    lazy public var observations = ObservationRegistry<ValueType>()
-    
     public override func prepareForReuse() {
         super.prepareForReuse()
-        self.removeAllObservers()
     }
 }
 

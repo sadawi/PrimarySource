@@ -7,20 +7,16 @@
 //
 
 import UIKit
-import MagneticFields
 
 /**
  A cell that pushes another view controller for data entry.
 */
-public class PushFieldCell<ValueType:Equatable>: FieldCell, Observable {
+public class PushFieldCell<ValueType:Equatable>: FieldCell {
     public var value:ValueType? {
         didSet {
             self.update()
-            self.notifyObservers()
         }
     }
-    
-    public var observations = ObservationRegistry<ValueType>()
     
     public var valueLabel:UILabel?
     
@@ -52,6 +48,5 @@ public class PushFieldCell<ValueType:Equatable>: FieldCell, Observable {
 
     public override func prepareForReuse() {
         super.prepareForReuse()
-        self.removeAllObservers()
     }
 }

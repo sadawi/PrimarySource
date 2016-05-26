@@ -26,11 +26,9 @@ class FieldFormViewController: DataSourceViewController {
             
             section <<< CollectionItem<SwitchCell> { [unowned self] cell in
                 cell.title = "Active"
-                cell <--> self.active
             }
             section <<< CollectionItem<StepperCell> { [unowned self] cell in
                 cell.title = "Count"
-                cell <--> self.count
             }
 
             section <<< CollectionItem<ButtonCell> { cell in

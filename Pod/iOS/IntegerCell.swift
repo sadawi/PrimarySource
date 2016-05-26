@@ -7,32 +7,22 @@
 //
 
 import UIKit
-import MagneticFields
 
-public class IntegerCell: FieldCell, Observable, Observer {
+public class IntegerCell: FieldCell {
     public var value:Int? {
         didSet {
             self.update()
-            self.notifyObservers()
         }
     }
 
     // MARK: - Observable
     
     public typealias ValueType = Int
-    public var observations = ObservationRegistry<Int>()
 
     public override func prepareForReuse() {
         super.prepareForReuse()
-        self.removeAllObservers()
     }
     
-    // MARK: - Observer
-    
-    public func valueChanged<ObservableType:Observable>(value:ValueType?, observable:ObservableType?) {
-        self.value = value
-    }
-
 }
 
 public class StepperCell: IntegerCell {

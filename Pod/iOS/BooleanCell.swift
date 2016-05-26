@@ -7,30 +7,20 @@
 //
 
 import UIKit
-import MagneticFields
 
-public class BooleanCell:FieldCell, Observable, Observer {
+public class BooleanCell:FieldCell {
     public var value:Bool? = false {
         didSet {
             self.update()
-            self.notifyObservers()
         }
     }
 
     // MARK: - Observable
     
     public typealias ValueType = Bool
-    public var observations = ObservationRegistry<ValueType>()
     
     public override func prepareForReuse() {
         super.prepareForReuse()
-        self.removeAllObservers()
-    }
-    
-    // MARK: - Observer
-    
-    public func valueChanged<ObservableType:Observable>(value:ValueType?, observable:ObservableType?) {
-        self.value = value
     }
 }
 
