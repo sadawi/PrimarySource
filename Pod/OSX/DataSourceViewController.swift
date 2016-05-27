@@ -10,7 +10,21 @@ import Foundation
 import Cocoa
 import PrimarySource
 
-protocol DataSourceViewController {
-    var presenterView: CollectionPresenter? { get }
+public protocol TableDataSourceViewController {
+    var dataSource: ColumnedDataSource { get }
+    var tableView: NSTableView? { get }
     func configureDataSource(dataSource: ColumnedDataSource)
+}
+
+extension TableDataSourceViewController {
+    public func rebuildData() {
+        self.dataSource.reset()
+        self.configureDataSource(self.dataSource)
+        
+        self.tableView?.setDataSource(self.dataSource)
+        self.tableView?.setDelegate(self.dataSource)
+        
+        self.dataSource.presenter = self.tableView
+        self.tableView?.reloadData()
+    }
 }

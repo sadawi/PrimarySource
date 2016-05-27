@@ -14,6 +14,7 @@ public enum CollectionPresenterAnimation {
 }
 
 public protocol CollectionPresenter: class {
+    func reloadData()
 }
 
 public protocol RegisterableCollectionPresenter: CollectionPresenter {
