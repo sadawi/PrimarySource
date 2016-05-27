@@ -10,9 +10,9 @@ import UIKit
 
 extension DataSource: UITableViewDelegate, UITableViewDataSource {
     
-    func registerReuseIdentifiersIfNeeded(tableView tableView:UITableView) {
-        if !self.didRegisterReuseIdentifiers {
-            self.registerReuseIdentifiers(tableView)
+    func registerPresenterIfNeeded(tableView tableView:UITableView) {
+        if !self.didRegisterPresenter {
+            self.registerPresenter(tableView)
         }
     }
     
@@ -112,7 +112,7 @@ extension DataSource: UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        self.registerReuseIdentifiersIfNeeded(tableView: tableView)
+        self.registerPresenterIfNeeded(tableView: tableView)
         
         if let item = self.item(atIndexPath: indexPath), let identifier = item.reuseIdentifier, cell = tableView.dequeueReusableCellWithIdentifier(identifier) {
             if let tableCell = cell as? TableCell {

@@ -14,12 +14,17 @@ public enum CollectionPresenterAnimation {
 }
 
 public protocol CollectionPresenter: class {
+}
+
+public protocol RegisterableCollectionPresenter: CollectionPresenter {
     func registerHeader(nibName nibName: String, reuseIdentifier identifier: String)
     func registerHeader(viewClass viewClass: AnyClass?, reuseIdentifier identifier: String)
     
     func registerCell(nibName nibName: String, reuseIdentifier identifier: String)
     func registerCell(viewClass viewClass: AnyClass?, reuseIdentifier identifier: String)
-    
+}
+
+public protocol AnimatableCollectionPresenter: CollectionPresenter {
     func insertSection(index index: Int, animation: CollectionPresenterAnimation)
     func removeSection(index index: Int, animation: CollectionPresenterAnimation)
     

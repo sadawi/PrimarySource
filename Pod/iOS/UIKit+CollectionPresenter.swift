@@ -22,24 +22,9 @@ extension CollectionPresenterAnimation {
 }
 
 extension UICollectionView: CollectionPresenter {
-    public func registerHeader(nibName nibName: String, reuseIdentifier identifier: String) {
-        let nib = UINib(nibName: nibName, bundle: nil)
-        self.registerNib(nib, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: identifier)
-    }
-    
-    public func registerHeader(viewClass viewClass: AnyClass?, reuseIdentifier identifier: String) {
-        self.registerClass(viewClass, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: identifier)
-    }
+}
 
-    public func registerCell(viewClass viewClass: AnyClass?, reuseIdentifier identifier: String) {
-        self.registerClass(viewClass, forCellWithReuseIdentifier: identifier)
-    }
-
-    public func registerCell(nibName nibName: String, reuseIdentifier identifier: String) {
-        let nib = UINib(nibName: nibName, bundle: nil)
-        self.registerNib(nib, forCellWithReuseIdentifier: identifier)
-    }
-    
+extension UICollectionView: AnimatableCollectionPresenter {
     public func insertSection(index index: Int, animation: CollectionPresenterAnimation) {
         // TODO
     }
@@ -61,25 +46,30 @@ extension UICollectionView: CollectionPresenter {
     }
 }
 
-extension UITableView: CollectionPresenter {
+extension UICollectionView: RegisterableCollectionPresenter {
     public func registerHeader(nibName nibName: String, reuseIdentifier identifier: String) {
         let nib = UINib(nibName: nibName, bundle: nil)
-        self.registerNib(nib, forHeaderFooterViewReuseIdentifier: identifier)
+        self.registerNib(nib, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: identifier)
     }
     
     public func registerHeader(viewClass viewClass: AnyClass?, reuseIdentifier identifier: String) {
-        self.registerClass(viewClass, forHeaderFooterViewReuseIdentifier: identifier)
-    }
-
-    public func registerCell(nibName nibName: String, reuseIdentifier identifier: String) {
-        let nib = UINib(nibName: nibName, bundle: nil)
-        self.registerNib(nib, forCellReuseIdentifier: identifier)
+        self.registerClass(viewClass, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: identifier)
     }
     
     public func registerCell(viewClass viewClass: AnyClass?, reuseIdentifier identifier: String) {
-        self.registerClass(viewClass, forCellReuseIdentifier: identifier)
+        self.registerClass(viewClass, forCellWithReuseIdentifier: identifier)
     }
     
+    public func registerCell(nibName nibName: String, reuseIdentifier identifier: String) {
+        let nib = UINib(nibName: nibName, bundle: nil)
+        self.registerNib(nib, forCellWithReuseIdentifier: identifier)
+    }
+}
+
+extension UITableView: CollectionPresenter {
+}
+
+extension UITableView: AnimatableCollectionPresenter {
     public func insertSection(index index: Int, animation: CollectionPresenterAnimation) {
         self.insertSections(NSIndexSet(index: index), withRowAnimation: animation.tableAnimation)
     }
@@ -99,6 +89,25 @@ extension UITableView: CollectionPresenter {
     public func removeItem(indexPath indexPath: NSIndexPath, animation: CollectionPresenterAnimation) {
         self.deleteRowsAtIndexPaths([indexPath], withRowAnimation: animation.tableAnimation)
     }
+}
+
+extension UITableView: RegisterableCollectionPresenter {
+    public func registerHeader(nibName nibName: String, reuseIdentifier identifier: String) {
+        let nib = UINib(nibName: nibName, bundle: nil)
+        self.registerNib(nib, forHeaderFooterViewReuseIdentifier: identifier)
+    }
     
+    public func registerHeader(viewClass viewClass: AnyClass?, reuseIdentifier identifier: String) {
+        self.registerClass(viewClass, forHeaderFooterViewReuseIdentifier: identifier)
+    }
+    
+    public func registerCell(nibName nibName: String, reuseIdentifier identifier: String) {
+        let nib = UINib(nibName: nibName, bundle: nil)
+        self.registerNib(nib, forCellReuseIdentifier: identifier)
+    }
+    
+    public func registerCell(viewClass viewClass: AnyClass?, reuseIdentifier identifier: String) {
+        self.registerClass(viewClass, forCellReuseIdentifier: identifier)
+    }
 }
 

@@ -51,7 +51,9 @@ public class ListSection<T:Equatable>: Section {
         self.items.removeAtIndex(index)
         if updateView {
             if let indexPath = self.indexPathForIndex(index) {
-                self.presenter?.removeItem(indexPath: indexPath, animation: .Automatic)
+                if let animatablePresenter = self.presenter as? AnimatableCollectionPresenter {
+                    animatablePresenter.removeItem(indexPath: indexPath, animation: .Automatic)
+                }
             }
         }
     }
@@ -83,7 +85,9 @@ public class ListSection<T:Equatable>: Section {
         
         if updateView {
             if let indexPath = self.indexPathForIndex(index) {
-                self.presenter?.insertItem(indexPath: indexPath, animation: .Automatic)
+                if let animatablePresenter = self.presenter as? AnimatableCollectionPresenter {
+                    animatablePresenter.insertItem(indexPath: indexPath, animation: .Automatic)
+                }
             }
         }
         

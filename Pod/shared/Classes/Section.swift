@@ -211,20 +211,24 @@ public class Section {
     // MARK: - Visibility
     
     public func show(animation animation:CollectionPresenterAnimation = .Fade) {
-        let oldIndex = self.index
-        self.visible = true
-        let newIndex = self.index
-        if newIndex != nil && oldIndex == nil {
-            self.presenter?.insertSection(index: newIndex!, animation: animation)
+        if let animatablePresenter = self.presenter as? AnimatableCollectionPresenter {
+            let oldIndex = self.index
+            self.visible = true
+            let newIndex = self.index
+            if newIndex != nil && oldIndex == nil {
+                animatablePresenter.insertSection(index: newIndex!, animation: animation)
+            }
         }
     }
     
     public func hide(animation animation:CollectionPresenterAnimation = .Fade) {
-        let oldIndex = self.index
-        self.visible = false
-        let newIndex = self.index
-        if newIndex == nil && oldIndex != nil {
-            self.presenter?.removeSection(index: oldIndex!, animation: animation)
+        if let animatablePresenter = self.presenter as? AnimatableCollectionPresenter {
+            let oldIndex = self.index
+            self.visible = false
+            let newIndex = self.index
+            if newIndex == nil && oldIndex != nil {
+                animatablePresenter.removeSection(index: oldIndex!, animation: animation)
+            }
         }
     }
     

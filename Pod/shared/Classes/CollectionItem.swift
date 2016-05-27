@@ -13,6 +13,8 @@ public class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>
     
     internal(set) public var key:String?
     internal(set) public var visible: Bool = true
+
+    public var value: AnyObject?
     
     var visibleCondition:(Void -> Bool)?
     
@@ -128,8 +130,10 @@ public class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>
     }
     
     public func reload(animation animation: CollectionPresenterAnimation) {
-        if let indexPath = self.indexPath {
-            self.presenter?.reloadItem(indexPath: indexPath, animation: animation)
+        if let animatablePresenter = self.presenter as? AnimatableCollectionPresenter {
+            if let indexPath = self.indexPath {
+                animatablePresenter.reloadItem(indexPath: indexPath, animation: animation)
+            }
         }
     }
     
@@ -139,12 +143,13 @@ public class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>
     }
     
     public func show(animation animation: CollectionPresenterAnimation) {
-        let oldIndexPath = self.indexPath
-        self.visible = true
-        let newIndexPath = self.indexPath
-        if newIndexPath != nil && oldIndexPath == nil {
-            self.presenter?.insertItem(indexPath: newIndexPath!, animation: animation)
-            // TODO: collectionView
+        if let animatablePresenter = self.presenter as? AnimatableCollectionPresenter {
+            let oldIndexPath = self.indexPath
+            self.visible = true
+            let newIndexPath = self.indexPath
+            if newIndexPath != nil && oldIndexPath == nil {
+                animatablePresenter.insertItem(indexPath: newIndexPath!, animation: animation)
+            }
         }
     }
     
@@ -153,11 +158,13 @@ public class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>
     }
     
     public func hide(animation animation: CollectionPresenterAnimation) {
-        let oldIndexPath = self.indexPath
-        self.visible = false
-        let newIndexPath = self.indexPath
-        if newIndexPath == nil && oldIndexPath != nil {
-            self.presenter?.removeItem(indexPath: oldIndexPath!, animation: animation)
+        if let animatablePresenter = self.presenter as? AnimatableCollectionPresenter {
+            let oldIndexPath = self.indexPath
+            self.visible = false
+            let newIndexPath = self.indexPath
+            if newIndexPath == nil && oldIndexPath != nil {
+                animatablePresenter.removeItem(indexPath: oldIndexPath!, animation: animation)
+            }
         }
     }
     

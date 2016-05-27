@@ -10,9 +10,9 @@ import UIKit
 
 extension DataSource: UICollectionViewDelegate, UICollectionViewDataSource {
     
-    func registerReuseIdentifiersIfNeeded(collectionView collectionView:UICollectionView) {
-        if !self.didRegisterReuseIdentifiers {
-            self.registerReuseIdentifiers(collectionView)
+    func registerPresenterIfNeeded(collectionView collectionView:UICollectionView) {
+        if self.presenter == nil {
+            self.presenter = collectionView
         }
     }
 
@@ -27,7 +27,7 @@ extension DataSource: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        self.registerReuseIdentifiersIfNeeded(collectionView: collectionView)
+        self.registerPresenterIfNeeded(collectionView: collectionView)
         
         if let item = self.item(atIndexPath: indexPath), let identifier = item.reuseIdentifier {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(identifier, forIndexPath: indexPath)

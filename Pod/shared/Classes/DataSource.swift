@@ -25,17 +25,19 @@ public func <<<(dataSource:DataSource, section:Section?) {
 }
 
 public class DataSource: NSObject {
+    public var selectionChangedHandler: (([AnyObject])->())?
+    
     var sections:[Section] = []
     var visibleSections:[Section] {
         return self.sections.filter { $0.visible }
     }
 
-    var didRegisterReuseIdentifiers = false
+    var didRegisterPresenter = false
     var defaultHeaderHeight:CGFloat = 30.0
     
     var sectionLookup:[String:Section] = [:]
     
-    weak var presenter:CollectionPresenter?
+    public weak var presenter:CollectionPresenter?
 
     public var reorderingMode:ReorderingMode = .WithinSections
     public var reorder:((NSIndexPath, NSIndexPath) -> Void)?
@@ -55,13 +57,17 @@ public class DataSource: NSObject {
         return result
     }
     
+    public func reset() {
+        self.sections = []
+    }
+    
     public func addSection(section:Section) {
         section.dataSource = self
         self.sections.append(section)
         if let key = section.key {
             self.sectionLookup[key] = section
         }
-        self.didRegisterReuseIdentifiers = false
+        self.didRegisterPresenter = false
     }
     
     public func sectionAtIndex(index:Int) -> Section? {
@@ -110,18 +116,18 @@ public class DataSource: NSObject {
     
     // MARK: - 
     
-    public func registerReuseIdentifiers(view: CollectionPresenter) {
-        self.presenter = view
+    public func registerPresenter(presenter: RegisterableCollectionPresenter) {
+        self.presenter = presenter
         
         for section in self.sections {
             
             if let header = section.header, identifier = header.reuseIdentifier {
                 if let nibName = header.nibName {
                     if NSBundle.mainBundle().pathForResource(nibName, ofType: "nib") != nil {
-                        view.registerHeader(nibName: nibName, reuseIdentifier: identifier)
+                        presenter.registerHeader(nibName: nibName, reuseIdentifier: identifier)
                     }
                 } else {
-                    view.registerHeader(viewClass: header.viewType, reuseIdentifier: identifier)
+                    presenter.registerHeader(viewClass: header.viewType, reuseIdentifier: identifier)
                 }
             }
             
@@ -133,17 +139,17 @@ public class DataSource: NSObject {
                         
                         if let nibName = item.nibName {
                             if NSBundle.mainBundle().pathForResource(nibName, ofType: "nib") != nil {
-                                view.registerCell(nibName: nibName, reuseIdentifier: identifier)
+                                presenter.registerCell(nibName: nibName, reuseIdentifier: identifier)
                             }
                         } else {
-                            view.registerCell(viewClass: rowClass, reuseIdentifier: identifier)
+                            presenter.registerCell(viewClass: rowClass, reuseIdentifier: identifier)
                         }
                     }
                     
                 }
             }
         }
-        self.didRegisterReuseIdentifiers = true
+        self.didRegisterPresenter = true
     }
     
     public func indexOfSection(section:Section) -> Int? {
@@ -158,7 +164,7 @@ public class DataSource: NSObject {
                                                     sectionShowAnimation:CollectionPresenterAnimation = .Fade,
                                                     rowHideAnimation:CollectionPresenterAnimation = .Automatic,
                                                     rowShowAnimation:CollectionPresenterAnimation = .Automatic) {
-        self.didRegisterReuseIdentifiers = false
+        self.didRegisterPresenter = false
         
         for section in self.sections {
             section.refreshDisplay(sectionHideAnimation: sectionHideAnimation, sectionShowAnimation:sectionShowAnimation, rowHideAnimation: rowHideAnimation, rowShowAnimation: rowShowAnimation)

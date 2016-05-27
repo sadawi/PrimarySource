@@ -9,7 +9,7 @@
 import Foundation
 import Cocoa
 
-extension DataSource {
+extension ColumnedDataSource {
     func columnedCollectionItem(item: AnyObject?) -> ColumnedCollectionItemType? {
         return item as? ColumnedCollectionItemType
     }
