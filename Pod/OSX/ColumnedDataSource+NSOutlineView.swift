@@ -8,7 +8,7 @@
 
 import Cocoa
 
-extension ColumnedDataSource: NSOutlineViewDelegate, NSOutlineViewDataSource {
+extension ColumnedDataSource: NSOutlineViewDelegate, OutlineViewDataSource {
     public func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
         return self.children(item).count > 0
     }
@@ -33,6 +33,12 @@ extension ColumnedDataSource: NSOutlineViewDelegate, NSOutlineViewDataSource {
         } else {
             return []
         }
+    }
+    
+    public func outlineView(outlineView: NSOutlineView, columnSpanForItem item: AnyObject, column: NSTableColumn) -> Int {
+        guard let collectionItem = self.columnedCollectionItem(item) else { return 1 }
+        guard let columnItem = collectionItem[column.identifier] as? CollectionColumnItemType else { return 1 }
+        return columnItem.columnSpan
     }
     
     public func outlineView(outlineView: NSOutlineView, viewForTableColumn tableColumn: NSTableColumn?, item: AnyObject) -> NSView? {

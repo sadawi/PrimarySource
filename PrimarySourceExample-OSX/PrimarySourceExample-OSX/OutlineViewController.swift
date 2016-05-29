@@ -49,12 +49,14 @@ class OutlineViewController: NSViewController {
     }
     
     func configureDataSource(dataSource: ColumnedDataSource) {
-//        dataSource <<< Column(identifier: kNameColumnIdentifier, title: "Name")
-//        dataSource <<< Column(identifier: kAgeColumnIdentifier, title: "Age")
-        
         dataSource <<< Section(title: "Section 1") { section in
             for place in self.places {
                 section <<< self.buildRow(place: place)
+            }
+            section <<< ColumnedCollectionItem<NSTableRowView> { item in
+                item[kNameColumnIdentifier] = CollectionColumnItem<NSTableCellView>(storyboardIdentifier: "NameCellView", columnSpan: 2) { cell in
+                    cell.textField?.stringValue = "This cell spans two columns"
+                }
             }
         }
     }

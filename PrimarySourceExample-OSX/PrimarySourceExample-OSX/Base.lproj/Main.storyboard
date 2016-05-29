@@ -839,10 +839,10 @@
                             <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SwN-hu-hhJ">
                                 <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                                 <clipView key="contentView" id="K44-cj-6Ex">
-                                    <rect key="frame" x="0.0" y="23" width="450" height="277"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="ZHX-ps-oPx" viewBased="YES" indentationPerLevel="16" outlineTableColumn="teS-EJ-pWA" id="9B2-uV-1wg">
+                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="ZHX-ps-oPx" viewBased="YES" indentationPerLevel="16" outlineTableColumn="teS-EJ-pWA" id="9B2-uV-1wg" customClass="OutlineView" customModule="PrimarySource">
                                             <rect key="frame" x="0.0" y="0.0" width="450" height="277"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -866,8 +866,8 @@
                                                             <rect key="frame" x="1" y="1" width="116" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jGR-Wf-Qog">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="17"/>
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="jGR-Wf-Qog">
+                                                                    <rect key="frame" x="-2" y="0.0" width="120" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="yMo-oq-1uy">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -875,6 +875,12 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                             </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="jGR-Wf-Qog" firstAttribute="top" secondItem="gCo-Y2-2FX" secondAttribute="top" id="P0o-kU-CnG"/>
+                                                                <constraint firstAttribute="trailing" secondItem="jGR-Wf-Qog" secondAttribute="trailing" id="XeZ-hx-Wdc"/>
+                                                                <constraint firstItem="jGR-Wf-Qog" firstAttribute="leading" secondItem="gCo-Y2-2FX" secondAttribute="leading" id="i0Y-T1-9nG"/>
+                                                                <constraint firstAttribute="bottom" secondItem="jGR-Wf-Qog" secondAttribute="bottom" id="nxG-Hr-tBa"/>
+                                                            </constraints>
                                                             <connections>
                                                                 <outlet property="textField" destination="jGR-Wf-Qog" id="CWP-ke-iIP"/>
                                                             </connections>
@@ -898,8 +904,8 @@
                                                             <rect key="frame" x="120" y="1" width="328" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cBz-k2-6aD">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="17"/>
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="cBz-k2-6aD">
+                                                                    <rect key="frame" x="-2" y="0.0" width="332" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="i8X-Wz-qmc">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -907,6 +913,12 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                             </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="cBz-k2-6aD" firstAttribute="leading" secondItem="k7u-xL-ar1" secondAttribute="leading" id="4AN-Wn-K3j"/>
+                                                                <constraint firstItem="cBz-k2-6aD" firstAttribute="top" secondItem="k7u-xL-ar1" secondAttribute="top" id="btd-d1-QVj"/>
+                                                                <constraint firstAttribute="bottom" secondItem="cBz-k2-6aD" secondAttribute="bottom" id="dlp-bM-xAm"/>
+                                                                <constraint firstAttribute="trailing" secondItem="cBz-k2-6aD" secondAttribute="trailing" id="k4F-cj-dPw"/>
+                                                            </constraints>
                                                             <connections>
                                                                 <outlet property="textField" destination="cBz-k2-6aD" id="XAH-wr-a5V"/>
                                                             </connections>
@@ -922,7 +934,7 @@
                                     <rect key="frame" x="1" y="119" width="223" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="RbS-jc-R23">
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="RbS-jc-R23">
                                     <rect key="frame" x="224" y="17" width="15" height="102"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
