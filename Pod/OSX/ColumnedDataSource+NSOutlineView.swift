@@ -59,5 +59,17 @@ extension ColumnedDataSource: NSOutlineViewDelegate, NSOutlineViewDataSource {
         }
         return results
     }
+    
+    public func outlineViewItemDidExpand(notification: NSNotification) {
+        if let item = notification.userInfo?["NSObject"] as? ColumnedCollectionItemType {
+            item.didExpand()
+        }
+    }
+    
+    public func outlineViewItemDidCollapse(notification: NSNotification) {
+        if let item = notification.userInfo?["NSObject"] as? ColumnedCollectionItemType {
+            item.didCollapse()
+        }
+    }
 
 }

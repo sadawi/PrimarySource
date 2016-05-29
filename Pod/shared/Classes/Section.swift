@@ -10,13 +10,19 @@ import Foundation
 
 public typealias ReorderAction = ((NSIndexPath, NSIndexPath) -> Void)
 
-public func <<<(left:Section, right:CollectionItemType) {
-    left.addItem(right)
+public func <<<(section:Section, item:CollectionItemType) {
+    section.addItem(item)
 }
 
-public func <<<(left:Section, right:CollectionItemType?) {
-    if let right = right {
-        left.addItem(right)
+public func <<<(section:Section, item:CollectionItemType?) {
+    if let item = item {
+        section.addItem(item)
+    }
+}
+
+public func <<<(section:Section, items:[CollectionItemType]) {
+    for item in items {
+        section.addItem(item)
     }
 }
 

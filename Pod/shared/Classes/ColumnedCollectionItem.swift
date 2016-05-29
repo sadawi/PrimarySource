@@ -10,16 +10,22 @@ import Foundation
 
 public protocol ColumnedCollectionItemType: CollectionItemType {
     // TODO: should this be its own category?
+    var parent: ColumnedCollectionItemType? { get set }
     var children:[ColumnedCollectionItemType] { get }
     
     // TODO: move this to CollectionItemType
     func configureIfNecessary()
     
     subscript(columnIdentifier: ColumnIdentifier) -> CollectionItemType? { get }
+    
+    func didCollapse()
+    func didExpand()
+    func reload(columnIdentifiers columnIdentifiers: [ColumnIdentifier], reloadChildren: Bool)
 }
 
 public class ColumnedCollectionItem<ViewType:CollectionItemView>: CollectionItem<ViewType>, ColumnedCollectionItemType {
     public typealias ItemConfiguration = ((ColumnedCollectionItem<ViewType>) -> ())
+    public typealias ActionHandler = ((ColumnedCollectionItemType)->())
     
     var configureItem: ItemConfiguration? {
         didSet {
@@ -28,8 +34,39 @@ public class ColumnedCollectionItem<ViewType:CollectionItemView>: CollectionItem
     }
     var needsConfiguration: Bool = true
     
-    weak var parent:ColumnedCollectionItemType?
-    public var children:[ColumnedCollectionItemType] = []
+    // Tree properties.  Not sure they belong here.
+    weak public var parent:ColumnedCollectionItemType?
+    public var children:[ColumnedCollectionItemType] = [] {
+        didSet {
+            for child in self.children {
+                child.parent = self
+            }
+        }
+    }
+    var isExpanded: Bool = false
+    
+    var didExpandHandler:ActionHandler?
+    var didCollapseHandler:ActionHandler?
+    override public var presenter: CollectionPresenter? {
+        return self.parent?.presenter ?? super.presenter
+    }
+
+    public func didCollapse() {
+        self.didCollapseHandler?(self)
+    }
+    public func didExpand() {
+        self.didExpandHandler?(self)
+    }
+    
+    public func didCollapse(handler: ActionHandler) -> Self {
+        self.didCollapseHandler = handler
+        return self
+    }
+
+    public func didExpand(handler: ActionHandler) -> Self {
+        self.didExpandHandler = handler
+        return self
+    }
     
     public var columns:[ColumnIdentifier:CollectionItemType] = [:]
 
@@ -57,4 +94,12 @@ public class ColumnedCollectionItem<ViewType:CollectionItemView>: CollectionItem
             self.columns[columnIdentifier] = newValue
         }
     }
+    
+    public func reload(columnIdentifiers columnIdentifiers: [ColumnIdentifier], reloadChildren: Bool = false) {
+        Swift.print("PRESENTER: ", self.presenter)
+        if let columnPresenter = self.presenter as? ColumnReloadableCollectionPresenter {
+            columnPresenter.reloadItem(self, columnIdentifiers: columnIdentifiers, reloadChildren: reloadChildren)
+        }
+    }
+
 }

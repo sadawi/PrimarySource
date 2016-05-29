@@ -33,3 +33,7 @@ public protocol AnimatableCollectionPresenter: CollectionPresenter {
     func insertItem(indexPath indexPath: NSIndexPath, animation: CollectionPresenterAnimation)
     func removeItem(indexPath indexPath: NSIndexPath, animation: CollectionPresenterAnimation)
 }
+
+public protocol ColumnReloadableCollectionPresenter: CollectionPresenter {
+    func reloadItem(item: AnyObject?, columnIdentifiers:[String], reloadChildren:Bool)
+}

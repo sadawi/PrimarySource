@@ -68,5 +68,7 @@ public protocol CollectionItemType: class, ReusableItemType, ListMember {
      Updates the visible state of this item, and propagates that to the view with the appropriate animation.
      */
     func updateVisibility(hideAnimation hideAnimation:CollectionPresenterAnimation, showAnimation:CollectionPresenterAnimation)
+    
+    var presenter: CollectionPresenter? { get }
 }
 

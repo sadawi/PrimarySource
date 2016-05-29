@@ -106,7 +106,7 @@ public class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>
     
     // MARK: - Indices etc.
     
-    var presenter: CollectionPresenter? {
+    public var presenter: CollectionPresenter? {
         return self.section?.presenter
     }
     
