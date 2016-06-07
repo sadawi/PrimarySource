@@ -32,4 +32,19 @@ public class ColumnedDataSource: DataSource {
     func columnForIdentifier(identifier: ColumnIdentifier) -> Column? {
         return self.columnLookup[identifier]
     }
+    
+    func present() {
+        self.presenter?.reloadData()
+        
+        if let expandable = self.presenter as? ExpandableCollectionPresenter {
+            for section in self.sections {
+                for item in section.items {
+                    // This is weird.  Why is it columned?  Probably should make another protocol for expandable items.
+                    if let item = item as? ColumnedCollectionItemType {
+                        item.restoreExpansion()
+                    }
+                }
+            }
+        }
+    }
 }

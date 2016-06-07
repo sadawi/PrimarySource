@@ -21,7 +21,7 @@ public protocol ReusableItemType {
 public class ReusableItem<ViewType:CollectionItemView>: ReusableItemType {
     public typealias ViewConfiguration = ((ViewType) -> ())
 
-    var configure: ViewConfiguration?
+    public var configure: ViewConfiguration?
     
     public var storyboardIdentifier:String?
     public var nibName:String?

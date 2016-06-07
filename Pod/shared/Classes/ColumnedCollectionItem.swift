@@ -12,14 +12,16 @@ public protocol ColumnedCollectionItemType: CollectionItemType {
     // TODO: should this be its own category?
     var parent: ColumnedCollectionItemType? { get set }
     var children:[ColumnedCollectionItemType] { get }
+    var buildChildren: ((ColumnedCollectionItemType)->[ColumnedCollectionItemType])? { get set }
     
     // TODO: move this to CollectionItemType
     func configureIfNecessary()
     
     subscript(columnIdentifier: ColumnIdentifier) -> CollectionItemType? { get }
-    
+    var isExpanded: Bool { get set }
     func didCollapse()
     func didExpand()
+    func restoreExpansion()
     func reload(columnIdentifiers columnIdentifiers: [ColumnIdentifier], reloadChildren: Bool)
 }
 
@@ -36,14 +38,26 @@ public class ColumnedCollectionItem<ViewType:CollectionItemView>: CollectionItem
     
     // Tree properties.  Not sure they belong here.
     weak public var parent:ColumnedCollectionItemType?
-    public var children:[ColumnedCollectionItemType] = [] {
+    
+    public var buildChildren: ((ColumnedCollectionItemType)->[ColumnedCollectionItemType])?
+    
+    public var children: [ColumnedCollectionItemType] {
+        if _children == nil {
+            _children = self.buildChildren?(self) ?? []
+        }
+        return _children!
+    }
+    
+    private var _children:[ColumnedCollectionItemType]? {
         didSet {
-            for child in self.children {
-                child.parent = self
+            if let children = self._children {
+                for child in children {
+                    child.parent = self
+                }
             }
         }
     }
-    var isExpanded: Bool = false
+    public var isExpanded: Bool = false
     
     var didExpandHandler:ActionHandler?
     var didCollapseHandler:ActionHandler?
@@ -96,9 +110,27 @@ public class ColumnedCollectionItem<ViewType:CollectionItemView>: CollectionItem
     }
     
     public func reload(columnIdentifiers columnIdentifiers: [ColumnIdentifier], reloadChildren: Bool = false) {
-        Swift.print("PRESENTER: ", self.presenter)
+        if reloadChildren {
+            // Forces a rebuild when `children` is accessed
+            _children = nil
+        }
         if let columnPresenter = self.presenter as? ColumnReloadableCollectionPresenter {
             columnPresenter.reloadItem(self, columnIdentifiers: columnIdentifiers, reloadChildren: reloadChildren)
+            self.restoreExpansion()
+        }
+    }
+    
+    public func restoreExpansion() {
+        self.needsConfiguration = true
+        self.configureIfNecessary()
+        
+        if let expandablePresenter = self.presenter as? ExpandableCollectionPresenter {
+            if self.isExpanded {
+                expandablePresenter.expandItem(self)
+                for child in self.children {
+                    child.restoreExpansion()
+                }
+            }
         }
     }
 

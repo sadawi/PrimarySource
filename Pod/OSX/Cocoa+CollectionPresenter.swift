@@ -24,10 +24,17 @@ extension NSOutlineView: ColumnReloadableCollectionPresenter {
             }
             
             if reloadChildren {
-                // TODO: tell datasource to regenerate children, then reload
+//                self.reloadData()
+                // TODO: which?
+                self.reloadItem(item, reloadChildren: true)
+                
             }
         }
     }
+}
+
+extension NSOutlineView: ExpandableCollectionPresenter {
+    // Already implements the methods
 }
 
 protocol ColumnSpannable {

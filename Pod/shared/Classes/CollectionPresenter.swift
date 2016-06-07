@@ -37,3 +37,8 @@ public protocol AnimatableCollectionPresenter: CollectionPresenter {
 public protocol ColumnReloadableCollectionPresenter: CollectionPresenter {
     func reloadItem(item: AnyObject?, columnIdentifiers:[String], reloadChildren:Bool)
 }
+
+public protocol ExpandableCollectionPresenter: CollectionPresenter {
+    func expandItem(item: AnyObject?)
+    func collapseItem(item: AnyObject?)
+}
