@@ -53,6 +53,12 @@ class FormViewController: DataSourceViewController {
                     print("New value: \(cell.value)")
                 }
             }
+            section <<< CollectionItem<MonthYearPickerCell>(key: "expiration") { cell in
+                cell.title = "Expiration Date"
+                cell.onChange = { [unowned cell] in
+                    print("New value: \(cell.value)")
+                }
+            }
             section <<< CollectionItem<StepperCell>(key: "problems") { cell in
                 cell.title = "Problems"
                 cell.onChange = { [unowned cell] in
