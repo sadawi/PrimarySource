@@ -1,11 +1,11 @@
 source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 
-target 'PrimarySource_Example', :exclusive => true do
+target 'PrimarySource_Example' do
   pod "PrimarySource", :path => "../"
 end
 
-target 'PrimarySource_Tests', :exclusive => true do
+target 'PrimarySource_Tests' do
   pod "PrimarySource", :path => "../"
 
   
