@@ -21,11 +21,7 @@ public class PickerCell: TextFieldInputCell {
         super.buildView()
         self.picker = self.buildPicker()
         self.textField?.inputView = self.picker
-    }
-    
-    public override func setDefaults() {
-        super.setDefaults()
-        self.toolbarShowsClearButton = true
+        self.textField?.tintColor = UIColor.clearColor()
     }
     
     func pickerValueChanged() {

@@ -56,7 +56,7 @@ class FormViewController: DataSourceViewController {
             section <<< CollectionItem<MonthYearPickerCell>(key: "expiration") { cell in
                 cell.title = "Expiration Date"
                 cell.onChange = { [unowned cell] in
-                    print("New value: \(cell.value)")
+                    print("New value: \(cell.dateValue)")
                 }
             }
             section <<< CollectionItem<StepperCell>(key: "problems") { cell in

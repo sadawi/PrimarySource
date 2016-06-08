@@ -26,14 +26,21 @@ public class MonthYearPickerCell: PickerCell {
         self.toolbarShowsClearButton = false
     }
     
-    public var value: NSDateComponents? {
+    public var dateComponentsValue: NSDateComponents? {
         get {
             return self.monthYearPicker?.dateComponents
         }
         set {
-            if let value = newValue {
-                self.monthYearPicker?.dateComponents = value
-            }
+            self.monthYearPicker?.dateComponents = newValue
+        }
+    }
+    
+    public var dateValue: NSDate? {
+        get {
+            return self.monthYearPicker?.date
+        }
+        set {
+            self.monthYearPicker?.date = newValue
         }
     }
     
