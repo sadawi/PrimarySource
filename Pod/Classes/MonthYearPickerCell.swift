@@ -10,9 +10,9 @@ import Foundation
 import UIKit
 
 public class MonthYearPickerCell: PickerCell {
-    var dateFormatter: NSDateFormatter = NSDateFormatter()
+    public var dateFormatter: NSDateFormatter = NSDateFormatter()
     
-    var monthYearPicker: MonthYearPicker? {
+    public var monthYearPicker: MonthYearPicker? {
         return self.picker as? MonthYearPicker
     }
     
@@ -47,9 +47,7 @@ public class MonthYearPickerCell: PickerCell {
     
     public override var stringValue: String? {
         get {
-            var components = self.value ?? NSDateComponents()
-            components.day = 1
-            if let date = NSCalendar.currentCalendar().dateFromComponents(components) {
+            if let date = self.monthYearPicker?.date {
                 return self.dateFormatter.stringFromDate(date)
             }
             return nil

@@ -10,19 +10,37 @@ import Foundation
 import UIKit
 
 public class MonthYearPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
-    var minimumDate: NSDate? = NSDate() {
+    public var minimumDate: NSDate? = NSDate() {
         didSet {
             self.updateData()
         }
     }
-    var maximumDate: NSDate? {
+    public var maximumDate: NSDate? {
         didSet {
             self.updateData()
         }
     }
-    var dateComponents: NSDateComponents? = MonthYearPicker.componentsForDate(NSDate()) {
+    public var dateComponents: NSDateComponents? {
         didSet {
             self.updateData()
+        }
+    }
+    
+    public var date: NSDate? {
+        get {
+            if let components = self.dateComponents {
+                components.day = 1
+                return NSCalendar.currentCalendar().dateFromComponents(components)
+            }
+            return nil
+        }
+        set {
+            if let date = newValue {
+                let components = NSCalendar.currentCalendar().components([.Month, .Year], fromDate: date)
+                self.dateComponents = components
+            } else {
+                self.dateComponents = nil
+            }
         }
     }
     
@@ -57,7 +75,7 @@ public class MonthYearPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDa
         }
     }
     
-    var onValueChange: ((NSDateComponents?)->Void)?
+    public var onValueChange: ((NSDateComponents?)->Void)?
     
     // In theory, this could change based on locale.
     var monthComponentIndex: Int {
@@ -118,6 +136,10 @@ public class MonthYearPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDa
     }
     
     public func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if self.dateComponents == nil {
+            self.date = NSDate()
+        }
+        
         switch component {
         case self.monthComponentIndex:
             self.dateComponents?.month = row + 1
@@ -126,6 +148,8 @@ public class MonthYearPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDa
         default:
             break
         }
+        
+        self.updateData()
         
         self.onValueChange?(self.dateComponents)
     }
