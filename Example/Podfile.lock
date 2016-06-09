@@ -1,6 +1,6 @@
 PODS:
   - MagneticFields (0.6.0)
-  - PrimarySource (0.9.12):
+  - PrimarySource (0.9.13):
     - MagneticFields (~> 0.6.0)
 
 DEPENDENCIES:
@@ -12,7 +12,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   MagneticFields: aa0f010a67b4282f5af11ee9f08fa4b3952815ad
-  PrimarySource: 8750a7214103f046651c0aa9eb07b6ec6689a94b
+  PrimarySource: d8f235ad544a0802e0734354a060ddc87061b291
 
 PODFILE CHECKSUM: 410a794c550cfffbac75c077ba240dea0d02f6e3
 

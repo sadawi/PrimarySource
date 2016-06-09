@@ -32,6 +32,7 @@ public class MonthYearPickerCell: PickerCell {
         }
         set {
             self.monthYearPicker?.dateComponents = newValue
+            self.update()
         }
     }
     
@@ -41,6 +42,7 @@ public class MonthYearPickerCell: PickerCell {
         }
         set {
             self.monthYearPicker?.date = newValue
+            self.update()
         }
     }
     

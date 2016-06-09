@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "PrimarySource"
-  s.version          = "0.9.12"
+  s.version          = "0.9.13"
   s.summary          = "Collection data sources"
   s.homepage         = "https://github.com/sadawi/PrimarySource"
   s.license          = 'MIT'
