@@ -55,6 +55,7 @@ class FormViewController: DataSourceViewController {
             }
             section <<< CollectionItem<MonthYearPickerCell>(key: "expiration") { cell in
                 cell.title = "Expiration Date"
+                cell.dateValue = NSDate()
                 cell.onChange = { [unowned cell] in
                     print("New value: \(cell.dateValue)")
                 }
