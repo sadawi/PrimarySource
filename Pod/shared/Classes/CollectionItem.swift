@@ -24,6 +24,8 @@ public class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>
     
     public var reorderable:Bool = false
     
+    public var isSelected: ((CollectionItemType)->Bool)?
+    
     var onTapAction:ItemAction?
     var onAccessoryTapAction:ItemAction?
     var deleteAction:ItemAction?

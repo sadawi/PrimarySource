@@ -119,6 +119,17 @@ extension DataSource: UITableViewDelegate, UITableViewDataSource {
                 tableCell.dataSource = self
             }
             item.configureView(cell)
+            
+            // Might be nice to have this handled by cell or item somehow
+            if let isSselected = item.isSelected {
+                let selected = isSselected(item)
+                if selected {
+                    cell.accessoryType = .Checkmark
+                } else {
+                    cell.accessoryType = .None
+                }
+            }
+            
             return cell
         } else {
             // This is an error state.  TODO: only on debug

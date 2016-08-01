@@ -83,6 +83,15 @@ public class SelectViewController<T:Equatable>: DataSourceViewController {
         dataSource <<< Section { [weak self] section in
             for option in options {
                 let item = self?.buildCollectionItem(option: option)
+                
+                item?.isSelected = { _ in
+                    if let test = self?.valuesAreEqual {
+                        return test(self?.value, option)
+                    } else {
+                        return self?.value == option
+                    }
+                }
+                
                 item?.onTap { _ in
                     self?.value = option
                     self?.commit()
@@ -111,15 +120,6 @@ public class SelectViewController<T:Equatable>: DataSourceViewController {
                 }
                 
                 cell.textLabel?.text = text
-                
-                let selected:Bool
-                if let test = self.valuesAreEqual {
-                    selected = test(self.value, option)
-                } else {
-                    selected = self.value == option
-                }
-                
-                cell.accessoryType = selected ? .Checkmark : .None
             }
         }
     }

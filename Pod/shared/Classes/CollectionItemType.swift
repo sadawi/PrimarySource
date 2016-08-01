@@ -21,6 +21,7 @@ public protocol CollectionItemType: class, ReusableItemType, ListMember {
     var deletable: Bool { get }
     var handlesDelete: Bool { get }
     var tappable: Bool { get }
+    var isSelected: ((CollectionItemType)->Bool)? { get set }
     
     var desiredSize: (Void -> CGSize)? { get set }
     
