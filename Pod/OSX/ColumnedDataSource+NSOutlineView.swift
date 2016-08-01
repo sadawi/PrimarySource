@@ -8,6 +8,8 @@
 
 import Cocoa
 
+private let kDefaultRowHeight:CGFloat = 20
+
 extension ColumnedDataSource: NSOutlineViewDelegate, OutlineViewDataSource {
     public func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
         return self.children(item).count > 0
@@ -34,7 +36,7 @@ extension ColumnedDataSource: NSOutlineViewDelegate, OutlineViewDataSource {
             return []
         }
     }
-    
+
     public func outlineView(outlineView: NSOutlineView, columnSpanForItem item: AnyObject, column: NSTableColumn) -> Int {
         guard let collectionItem = self.columnedCollectionItem(item) else { return 1 }
         guard let columnItem = collectionItem[column.identifier] as? CollectionColumnItemType else { return 1 }
@@ -50,11 +52,26 @@ extension ColumnedDataSource: NSOutlineViewDelegate, OutlineViewDataSource {
         return self.children(item)[index]
     }
     
-    public func outlineViewSelectionDidChange(notification: NSNotification) {
-        self.selectionChangedHandler?(self.selectedValues)
+    public func outlineView(outlineView: NSOutlineView, rowViewForItem item: AnyObject) -> NSTableRowView? {
+        guard let item = self.columnedCollectionItem(item) else { return nil }
+        
+        item.configureIfNecessary()
+        
+        var view: NSTableRowView?
+        
+        if let viewType = item.viewType as? NSTableRowView.Type {
+            let itemView = viewType.init()
+            item.configureView(itemView)
+            view = itemView
+        }
+        return view
     }
     
-    var selectedValues: [AnyObject] {
+    public func outlineViewSelectionDidChange(notification: NSNotification) {
+        self.selectionChangedHandler?(self.selectedOutlineValues)
+    }
+    
+    var selectedOutlineValues: [AnyObject] {
         var results: [AnyObject] = []
         if let outlineView = self.presenter as? NSOutlineView {
             for index in outlineView.selectedRowIndexes {
@@ -76,6 +93,13 @@ extension ColumnedDataSource: NSOutlineViewDelegate, OutlineViewDataSource {
         if let item = notification.userInfo?["NSObject"] as? ColumnedCollectionItemType {
             item.didCollapse()
         }
+    }
+    
+    public func outlineView(outlineView: NSOutlineView, heightOfRowByItem item: AnyObject) -> CGFloat {
+        if let item = self.columnedCollectionItem(item), size = item.desiredSize?() {
+            return size.height
+        }
+        return kDefaultRowHeight
     }
 
 }

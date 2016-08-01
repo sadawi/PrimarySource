@@ -66,4 +66,24 @@ extension ColumnedDataSource: NSTableViewDataSource, NSTableViewDelegate {
         }
         return result
     }
+    
+    public func tableViewSelectionDidChange(notification: NSNotification) {
+        self.selectionChangedHandler?(self.selectedTableValues)
+    }
+    
+    var selectedTableValues: [AnyObject] {
+        var results: [AnyObject] = []
+        if let tableView = self.presenter as? NSTableView {
+            for index in tableView.selectedRowIndexes {
+                self.lookupRow(index) { item in
+                    if let value = item.value {
+                        results.append(value)
+                    }
+                }
+            }
+        }
+        return results
+    }
+
+
 }
