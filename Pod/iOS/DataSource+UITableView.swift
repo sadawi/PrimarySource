@@ -130,11 +130,11 @@ extension DataSource: UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return self.canMoveItem(atIndexPath: indexPath) || self.canDeleteItem(atIndexPath: indexPath)
+        return self.canMoveItem(atIndexPath: indexPath) || self.canEditItem(atIndexPath: indexPath)
     }
     
     private func canEditItem(atIndexPath indexPath:NSIndexPath) -> Bool {
-        return false
+        return self.canDeleteItem(atIndexPath: indexPath)
     }
     
     private func canDeleteItem(atIndexPath indexPath:NSIndexPath) -> Bool {
