@@ -43,7 +43,7 @@ public class Section {
     var reorder:ReorderAction?
     var didSetListPositions = false
     
-    weak var dataSource: DataSource?
+    public weak var dataSource: DataSource?
     var presenter: CollectionPresenter? {
         return self.dataSource?.presenter
     }

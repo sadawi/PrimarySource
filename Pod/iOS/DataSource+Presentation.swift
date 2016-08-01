@@ -24,7 +24,7 @@ extension DataSource {
         }
     }
     
-    internal func presentationViewController() -> UIViewController? {
+    public func presentationViewController() -> UIViewController? {
         return self.delegate?.presentationViewControllerForDataSource(self)
     }
 }
