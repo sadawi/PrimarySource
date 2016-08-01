@@ -133,6 +133,10 @@ extension DataSource: UITableViewDelegate, UITableViewDataSource {
         return self.canMoveItem(atIndexPath: indexPath) || self.canDeleteItem(atIndexPath: indexPath)
     }
     
+    private func canEditItem(atIndexPath indexPath:NSIndexPath) -> Bool {
+        return false
+    }
+    
     private func canDeleteItem(atIndexPath indexPath:NSIndexPath) -> Bool {
         let item = self.item(atIndexPath: indexPath)
         return item?.deletable == true
@@ -155,5 +159,9 @@ extension DataSource: UITableViewDelegate, UITableViewDataSource {
                 item.didDelete()
             }
         }
+    }
+    
+    public func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+        return nil
     }
 }

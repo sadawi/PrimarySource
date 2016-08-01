@@ -30,6 +30,8 @@ public class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>
     var didDeleteAction:ItemAction?
     var willDeleteAction:ItemAction?
     
+//    var editActionList: ActionList?
+    
     public var listMembership = ListMembership.Contained(position: .Middle)
     
     public var desiredSize: (Void -> CGSize)?
@@ -81,6 +83,10 @@ public class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>
         self.willDeleteAction = action
         return self
     }
+    
+//    public func edit(ActionList: ActionList) -> CollectionItemType {
+//        
+//    }
     
     // MARK: - Handling actions
     
