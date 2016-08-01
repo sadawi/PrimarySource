@@ -92,6 +92,9 @@ public class PushSelectCell<ValueType:Equatable>: SelectCell<ValueType>, Tappabl
             controller.options = self.options
             controller.includeNil = self.includeNil
             controller.textForNil = self.textForNil
+            if let textForValue = self.textForValue {
+                controller.textForValue = textForValue
+            }
             self.configureSelectViewController?(controller)
             presenter.navigationController?.pushViewController(controller, animated: true)
         }
