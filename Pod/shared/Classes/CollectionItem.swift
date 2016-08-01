@@ -30,7 +30,7 @@ public class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>
     var didDeleteAction:ItemAction?
     var willDeleteAction:ItemAction?
     
-//    var editActionList: ActionList?
+    public var editActionList: ActionList?
     
     public var listMembership = ListMembership.Contained(position: .Middle)
     
@@ -84,9 +84,15 @@ public class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>
         return self
     }
     
-//    public func edit(ActionList: ActionList) -> CollectionItemType {
-//        
-//    }
+    public func edit(configureActionList: ((CollectionItemType, ActionList)->())) -> CollectionItemType {
+        let actionList = ActionList()
+        self.editActionList = actionList
+        
+        // TODO: might call this later, not sure
+        configureActionList(self, actionList)
+        
+        return self
+    }
     
     // MARK: - Handling actions
     

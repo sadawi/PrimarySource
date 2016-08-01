@@ -134,7 +134,9 @@ extension DataSource: UITableViewDelegate, UITableViewDataSource {
     }
     
     private func canEditItem(atIndexPath indexPath:NSIndexPath) -> Bool {
-        return self.canDeleteItem(atIndexPath: indexPath)
+        let item = self.item(atIndexPath: indexPath)
+        
+        return self.canDeleteItem(atIndexPath: indexPath) || item?.editActionList?.actionItems.count > 0
     }
     
     private func canDeleteItem(atIndexPath indexPath:NSIndexPath) -> Bool {
@@ -162,6 +164,21 @@ extension DataSource: UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+        if let item = self.item(atIndexPath: indexPath) {
+            if let actionList = item.editActionList {
+                var result: [UITableViewRowAction] = []
+                for actionItem in actionList.actionItems {
+                    let rowAction = UITableViewRowAction(style: .Normal, title: actionItem.title, handler: { (action, indexPath) in
+                        actionItem.action?()
+                    })
+                    if let color = actionItem.color as? UIColor {
+                        rowAction.backgroundColor = color
+                    }
+                    result.append(rowAction)
+                }
+                return result
+            }
+        }
         return nil
     }
 }

@@ -24,6 +24,9 @@ public protocol CollectionItemType: class, ReusableItemType, ListMember {
     
     var desiredSize: (Void -> CGSize)? { get set }
     
+    var editActionList: ActionList? { get set }
+    
+    func edit(configureActionList: ((CollectionItemType, ActionList)->())) -> CollectionItemType
     func delete(action: ItemAction) -> CollectionItemType
     func didDelete(action: ItemAction) -> CollectionItemType
     func willDelete(action: ItemAction) -> CollectionItemType
