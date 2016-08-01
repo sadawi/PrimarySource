@@ -8,6 +8,10 @@
 
 import UIKit
 
+public protocol CollectionItemViewable {
+    func buildViewCollectionItem() -> CollectionItemType?
+}
+
 public class SelectViewController<T:Equatable>: DataSourceViewController {
     public typealias ValueType = T
     
@@ -76,32 +80,14 @@ public class SelectViewController<T:Equatable>: DataSourceViewController {
             options.append(v)
         }
         
-        dataSource <<< Section { section in
+        dataSource <<< Section { [weak self] section in
             for option in options {
-                section <<< CollectionItem<TableCell> { [unowned self] cell in
-                    let text:String?
-                    if let value = option {
-                        text = self.textForValue(value)
-                    } else if let nilText = self.textForNil {
-                        text = nilText
-                    } else {
-                        text = ""
-                    }
-                    
-                    cell.textLabel?.text = text
-                    
-                    let selected:Bool
-                    if let test = self.valuesAreEqual {
-                        selected = test(self.value, option)
-                    } else {
-                        selected = self.value == option
-                    }
-                    
-                    cell.accessoryType = selected ? .Checkmark : .None
-                    }.onTap { [unowned self] _ in
-                        self.value = option
-                        self.commit()
+                let item = self?.buildCollectionItem(option: option)
+                item?.onTap { _ in
+                    self?.value = option
+                    self?.commit()
                 }
+                section <<< item
             }
         }
     }
@@ -110,4 +96,32 @@ public class SelectViewController<T:Equatable>: DataSourceViewController {
         self.didSelectValue?(self.value)
     }
 
+    func buildCollectionItem(option option: ValueType?) -> CollectionItemType? {
+        if let viewable = option as? CollectionItemViewable {
+            return viewable.buildViewCollectionItem()
+        } else {
+            return CollectionItem<TableCell> { [unowned self] cell in
+                let text:String?
+                if let value = option {
+                    text = self.textForValue(value)
+                } else if let nilText = self.textForNil {
+                    text = nilText
+                } else {
+                    text = ""
+                }
+                
+                cell.textLabel?.text = text
+                
+                let selected:Bool
+                if let test = self.valuesAreEqual {
+                    selected = test(self.value, option)
+                } else {
+                    selected = self.value == option
+                }
+                
+                cell.accessoryType = selected ? .Checkmark : .None
+            }
+        }
+    }
+    
 }
