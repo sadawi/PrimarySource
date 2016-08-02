@@ -11,8 +11,8 @@ import UIKit
 extension DataSource: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func registerPresenterIfNeeded(collectionView collectionView:UICollectionView) {
-        if self.presenter == nil {
-            self.presenter = collectionView
+        if !self.didRegisterPresenter {
+            self.registerPresenter(collectionView)
         }
     }
 
