@@ -44,6 +44,8 @@ protocol TappableTableCell {
 public class TableCell: UITableViewCell, ListMember {
     internal weak var dataSource:DataSource?
     
+//    public var cellBackground
+    
     public var adjustFrame: ((CGRect)->CGRect)?
     
     private let borderThickness: CGFloat = 0.5
@@ -176,6 +178,7 @@ public class TableCell: UITableViewCell, ListMember {
     }
     
     public func stylize() {
+        self.contentView.backgroundColor = .clearColor()
     }
     
     public override func prepareForReuse() {

@@ -19,15 +19,15 @@ public class TitleDetailsCell: TableCell {
     
     var contentConstraints:[NSLayoutConstraint] = []
     
-    public dynamic var titleTextColor:UIColor? = UIColor.blackColor()
-    public dynamic var titleFont:UIFont = UIFont.boldSystemFontOfSize(17)
+    public dynamic var titleTextColor:UIColor? = UIColor.blackColor()               { didSet { self.stylize() } }
+    public dynamic var titleFont:UIFont = UIFont.boldSystemFontOfSize(17)           { didSet { self.stylize() } }
     
-    public dynamic var topTitleTextColor:UIColor? = UIColor.blackColor()
-    public dynamic var topTitleFont:UIFont = UIFont.boldSystemFontOfSize(11)
+    public dynamic var topTitleTextColor:UIColor? = UIColor.blackColor()             { didSet { self.stylize() } }
+    public dynamic var topTitleFont:UIFont = UIFont.boldSystemFontOfSize(11)         { didSet { self.stylize() } }
     
     // Doesn't quite belong here, but many subclasses use this.  Convenience!
-    public dynamic var valueTextColor:UIColor? = UIColor(white: 0.4, alpha: 1)
-    public dynamic var valueFont:UIFont = UIFont.systemFontOfSize(17)
+    public dynamic var valueTextColor:UIColor? = UIColor(white: 0.4, alpha: 1)       { didSet { self.stylize() } }
+    public dynamic var valueFont:UIFont = UIFont.systemFontOfSize(17)                { didSet { self.stylize() } }
 
     public var labelPosition:FieldLabelPosition = .Left {
         didSet {
