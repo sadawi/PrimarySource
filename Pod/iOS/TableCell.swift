@@ -44,6 +44,8 @@ protocol TappableTableCell {
 public class TableCell: UITableViewCell, ListMember {
     internal weak var dataSource:DataSource?
     
+    public var adjustFrame: ((CGRect)->CGRect)?
+    
     private let borderThickness: CGFloat = 0.5
     public var borderInsets: UIEdgeInsets = UIEdgeInsetsZero {
         didSet {
@@ -180,6 +182,19 @@ public class TableCell: UITableViewCell, ListMember {
         super.prepareForReuse()
         self.borderStyle = BorderStyle(top: .None, bottom: .None)
         self.accessoryType = .None
+    }
+    
+    public override var frame:CGRect {
+        set {
+            var newFrame = newValue
+            if let adjust = self.adjustFrame {
+                newFrame = adjust(newFrame)
+            }
+            super.frame = newFrame
+        }
+        get {
+            return super.frame
+        }
     }
 }
 
