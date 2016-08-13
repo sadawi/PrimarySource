@@ -150,6 +150,18 @@ public class TableCell: UITableViewCell, ListMember {
         }
     }
     
+    public dynamic var textLabelColor:UIColor? {
+        get {
+            return self.textLabel?.textColor
+        }
+        set {
+            if self.useAppearance() {
+                self.textLabel?.textColor = newValue
+            }
+        }
+    }
+
+    
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.setDefaults()
