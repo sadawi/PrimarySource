@@ -17,14 +17,14 @@ public class DataSourceViewController: UIViewController, DataSourceDelegate {
         return dataSource
     }()
     
-    public var configure:(DataSource -> Void)?
+    public var configure:((DataSourceViewController, DataSource) -> Void)?
     public var tableViewStyle: UITableViewStyle = .Plain
     
     @IBOutlet lazy public var tableView:UITableView! = {
         UITableView(frame: self.view.bounds, style: self.tableViewStyle)
     }()
     
-    public convenience init(title:String?=nil, configure:(DataSource -> Void)) {
+    public convenience init(title:String?=nil, configure:((DataSourceViewController, DataSource) -> Void)) {
         self.init()
         self.title = title
         self.configure = configure
@@ -60,7 +60,7 @@ public class DataSourceViewController: UIViewController, DataSourceDelegate {
     
     public func configureDataSource(dataSource:DataSource) {
         if let configure = self.configure {
-            configure(dataSource)
+            configure(self, dataSource)
         }
     }
     
