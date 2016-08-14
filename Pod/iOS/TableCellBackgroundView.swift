@@ -13,6 +13,13 @@ public class TableCellBackgroundView: UIView {
     public var listPosition: ListPosition?
     public var bottomPadding: CGFloat = 1
     public var color: UIColor = UIColor.clearColor()
+    public var highlightedColor: UIColor = UIColor.clearColor()
+    
+    public var highlighted: Bool = false {
+        didSet {
+            self.setNeedsDisplay()
+        }
+    }
     
     init() {
         super.init(frame: CGRect.zero)
@@ -32,7 +39,12 @@ public class TableCellBackgroundView: UIView {
     }
     
     public override func drawRect(rect: CGRect) {
-        self.color.setFill()
+        if self.highlighted {
+            self.highlightedColor.setFill()
+        } else {
+            self.color.setFill()
+        }
+        
         let context = UIGraphicsGetCurrentContext()
         
         var rect = self.bounds

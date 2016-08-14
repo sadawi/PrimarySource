@@ -44,9 +44,16 @@ protocol TappableTableCell {
 public class TableCell: UITableViewCell, ListMember {
     internal weak var dataSource:DataSource?
     
-//    public var cellBackground
-    
     public var adjustFrame: ((CGRect)->CGRect)?
+    public var showHighlight: ((highlighted: Bool, animated:Bool)->())? {
+        didSet {
+            if self.showHighlight == nil {
+                self.selectionStyle = .Default
+            } else {
+                self.selectionStyle = .None
+            }
+        }
+    }
     
     private let borderThickness: CGFloat = 0.5
     public var borderInsets: UIEdgeInsets = UIEdgeInsetsZero {
@@ -132,6 +139,14 @@ public class TableCell: UITableViewCell, ListMember {
         get {
             let side = self.separatorInset.left
             return UIEdgeInsets(top: self.layoutMargins.top, left: side, bottom: self.layoutMargins.bottom, right: side)
+        }
+    }
+    
+    public override func setHighlighted(highlighted: Bool, animated: Bool) {
+        if let showHighlight = self.showHighlight {
+            showHighlight(highlighted: highlighted, animated: animated)
+        } else {
+            super.setHighlighted(highlighted, animated: animated)
         }
     }
     
