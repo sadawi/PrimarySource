@@ -18,9 +18,10 @@ public class DataSourceViewController: UIViewController, DataSourceDelegate {
     }()
     
     public var configure:(DataSource -> Void)?
+    public var tableViewStyle: UITableViewStyle = .Plain
     
     @IBOutlet lazy public var tableView:UITableView! = {
-        UITableView(frame: self.view.bounds)
+        UITableView(frame: self.view.bounds, style: self.tableViewStyle)
     }()
     
     public convenience init(title:String?=nil, configure:(DataSource -> Void)) {
