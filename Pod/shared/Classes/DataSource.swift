@@ -33,7 +33,11 @@ public class DataSource: NSObject {
     }
 
     var didRegisterPresenter = false
-    var defaultHeaderHeight:CGFloat = 30.0
+    
+    static let defaultSectionHeaderHeight:CGFloat = 30.0
+    
+    public var defaultSectionHeaderHeight:CGFloat?
+    public var defaultSectionFooterHeight:CGFloat?
     
     var sectionLookup:[String:Section] = [:]
     

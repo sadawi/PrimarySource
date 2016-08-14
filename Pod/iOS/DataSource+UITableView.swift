@@ -99,16 +99,35 @@ extension DataSource: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    public func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if let footerHeight = self.defaultSectionFooterHeight {
+            if footerHeight == 0 {
+                // Forced min
+                return CGFloat.min
+            } else {
+                return footerHeight
+            }
+        } else {
+            // Default
+            return 0
+        }
+    }
+    
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         guard let section = self[section] else { return 0 }
         
         if let headerItem = section.header, height = headerItem.height {
             return height
         }
-        if section.title == nil {
-            return 0
+        
+        if let defaultHeaderHeight = self.defaultSectionHeaderHeight {
+            return defaultHeaderHeight
         }
-        return defaultHeaderHeight
+        
+        if section.title == nil {
+            return CGFloat.min
+        }
+        return DataSource.defaultSectionHeaderHeight
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
