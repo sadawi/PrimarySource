@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "PrimarySource"
-  s.version          = "0.10.0"
+  s.version          = "0.11.0"
   s.summary          = "Collection data sources"
   s.homepage         = "https://github.com/sadawi/PrimarySource"
   s.license          = 'MIT'
@@ -14,13 +14,5 @@ Pod::Spec.new do |s|
 
   s.osx.source_files = 'Pod/OSX/**/*.{swift}'
   s.osx.deployment_target = '10.11'
-
-#  s.osx.resource_bundles = {
-#    'PrimarySource' => ['Pod/shared/Assets/**/*']
-#  }
-
-#  s.ios.resource_bundles = {
-#    'PrimarySource' => ['Pod/shared/Assets/*']
-#  }
 
 end

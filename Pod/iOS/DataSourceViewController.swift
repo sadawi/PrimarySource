@@ -70,7 +70,7 @@ public class DataSourceViewController: UIViewController, DataSourceDelegate {
     }
     
     public func buildDataSource() {
-        self.dataSource.sections = []
+        self.dataSource.reset()
         self.configureDataSource(dataSource)
     }
     

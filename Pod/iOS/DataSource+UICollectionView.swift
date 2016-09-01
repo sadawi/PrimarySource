@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension DataSource: UICollectionViewDelegate, UICollectionViewDataSource {
+extension DataSource: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func registerPresenterIfNeeded(collectionView collectionView:UICollectionView) {
         if !self.didRegisterPresenter {
@@ -44,5 +44,13 @@ extension DataSource: UICollectionViewDelegate, UICollectionViewDataSource {
     public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         collectionView.deselectItemAtIndexPath(indexPath, animated: true)
         self.item(atIndexPath: indexPath)?.onTap()
+    }
+    
+    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        if let item = self.item(atIndexPath: indexPath), let size = item.desiredSize?() {
+            return size
+        } else {
+            return self.defaultItemSize
+        }
     }
 }

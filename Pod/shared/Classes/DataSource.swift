@@ -27,7 +27,7 @@ public func <<<(dataSource:DataSource, section:Section?) {
 public class DataSource: NSObject {
     public var selectionChangedHandler: (([AnyObject])->())?
     
-    var sections:[Section] = []
+    public var sections:[Section] = []
     var visibleSections:[Section] {
         return self.sections.filter { $0.visible }
     }
@@ -46,6 +46,8 @@ public class DataSource: NSObject {
     public var reorderingMode:ReorderingMode = .WithinSections
     public var reorder:((NSIndexPath, NSIndexPath) -> Void)?
     public var didScroll:(Void -> Void)?
+    
+    public var defaultItemSize = CGSize(width: 40, height: 40)
     
     public var sectionCount:Int {
         return self.visibleSections.count
