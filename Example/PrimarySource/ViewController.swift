@@ -78,6 +78,20 @@ class ViewController: DataSourceViewController {
                 cell.columns?.items = views
             }
             
+            section <<< CollectionItem<TableCell> { cell in
+                cell.textLabel?.text = "Swipe for actions"
+                }.edit { item, actionList in
+                    actionList <<< ActionItem(title: "Red", color: UIColor.redColor()) {
+                        print("Red")
+                    }
+                    actionList <<< ActionItem(title: "Green", color: UIColor.greenColor()) {
+                        print("Green")
+                    }
+                    actionList <<< ActionItem(title: "Blue", color: UIColor.blueColor()) {
+                        print("Blue")
+                    }
+            }
+            
         }
     }
     
