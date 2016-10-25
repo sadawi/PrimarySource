@@ -10,17 +10,17 @@ import PrimarySource
 
 class FormViewController: DataSourceViewController {
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Changing values may change cell heights.  This is needed to update them correctly. 
         self.reloadData()
     }
     
-    override func configureDataSource(dataSource: DataSource) {
+    override func configureDataSource(_ dataSource: DataSource) {
         dataSource <<< Section(title: "Form") { section in
             section <<< CollectionItem<TextFieldCell>(key: "name") { cell in
-                cell.labelPosition = .Top
+                cell.labelPosition = .top
                 cell.title = "Name"
                 cell.placeholderText = "Enter a full name"
                 cell.onChange = { [weak cell] in
@@ -42,7 +42,7 @@ class FormViewController: DataSourceViewController {
             section <<< CollectionItem<PhoneNumberCell>(key: "phone") { cell in
                 cell.title = "Phone number"
                 cell.value = "948AAA"
-                cell.state = FieldState.Error(["Looks like this phone number is invalid!"])
+                cell.state = FieldState.error(["Looks like this phone number is invalid!"])
                 cell.onChange = { [unowned cell] in
                     print("New value: \(cell.value)")
                 }
@@ -55,7 +55,7 @@ class FormViewController: DataSourceViewController {
             }
             section <<< CollectionItem<MonthYearPickerCell>(key: "expiration") { cell in
                 cell.title = "Expiration Date"
-                cell.dateValue = NSDate()
+                cell.dateValue = Date()
                 cell.onChange = { [unowned cell] in
                     print("New value: \(cell.dateValue)")
                 }
@@ -84,7 +84,7 @@ class FormViewController: DataSourceViewController {
             
             section <<< CollectionItem<PushSelectCell<String>>(key: "long") { cell in
                 cell.title = "String"
-                cell.labelPosition = .Top
+                cell.labelPosition = .top
                 cell.options = ["short", "a very long string that has no hope of staying within the bounds initially created for it, but should still be displayable"]
                 cell.onChange = { [unowned cell] in
                     print("New value: \(cell.value)")
@@ -96,10 +96,10 @@ class FormViewController: DataSourceViewController {
             section <<< CollectionItem<TextFieldValueCell<String>> { cell in
                 cell.title = "String"
                 cell.textForValue = { value in
-                    return value.uppercaseString
+                    return value.uppercased()
                 }
                 cell.valueForText = { value in
-                    return value.lowercaseString
+                    return value.lowercased()
                 }
                 cell.onChange = { [weak cell] in
                     print("cell value changed to: ", cell?.value)

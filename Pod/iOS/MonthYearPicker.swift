@@ -9,34 +9,34 @@
 import Foundation
 import UIKit
 
-public class MonthYearPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
-    public var minimumDate: NSDate? = NSDate() {
+open class MonthYearPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
+    open var minimumDate: Date? = Date() {
         didSet {
             self.updateData()
         }
     }
-    public var maximumDate: NSDate? {
+    open var maximumDate: Date? {
         didSet {
             self.updateData()
         }
     }
-    public var dateComponents: NSDateComponents? {
+    open var dateComponents: DateComponents? {
         didSet {
             self.updateData()
         }
     }
     
-    public var date: NSDate? {
+    open var date: Date? {
         get {
             if let components = self.dateComponents {
                 components.day = 1
-                return NSCalendar.currentCalendar().dateFromComponents(components)
+                return Calendar.current.date(from: components)
             }
             return nil
         }
         set {
             if let date = newValue {
-                let components = NSCalendar.currentCalendar().components([.Month, .Year], fromDate: date)
+                let components = (Calendar.current as NSCalendar).components([.month, .year], from: date)
                 self.dateComponents = components
             } else {
                 self.dateComponents = nil
@@ -44,38 +44,38 @@ public class MonthYearPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDa
         }
     }
     
-    private var months: [String] = NSDateFormatter().monthSymbols
-    private var minYear: Int = 0
-    private var maxYear: Int = 0
+    fileprivate var months: [String] = DateFormatter().monthSymbols
+    fileprivate var minYear: Int = 0
+    fileprivate var maxYear: Int = 0
     
-    private static func componentsForDate(date: NSDate) -> NSDateComponents {
-        return NSCalendar.currentCalendar().components([.Month, .Year], fromDate: date)
+    fileprivate static func componentsForDate(_ date: Date) -> DateComponents {
+        return (Calendar.current as NSCalendar).components([.month, .year], from: date)
     }
     
-    private func updateData() {
+    fileprivate func updateData() {
         if let min = self.minimumDate, let max = self.maximumDate {
             let minComponents = MonthYearPicker.componentsForDate(min)
             let maxComponents = MonthYearPicker.componentsForDate(max)
             let minYear = minComponents.year
             let maxYear = maxComponents.year
-            if minYear <= maxYear {
-                self.minYear = minYear
-                self.maxYear = maxYear
+            if minYear! <= maxYear! {
+                self.minYear = minYear!
+                self.maxYear = maxYear!
             }
         }
         self.reloadAllComponents()
         if let components = self.dateComponents {
-            self.selectRow(components.month-1, inComponent: self.monthComponentIndex, animated: false)
+            self.selectRow(components.month!-1, inComponent: self.monthComponentIndex, animated: false)
             
             let year = components.year
-            if year >= self.minYear && year <= self.maxYear {
-                let yearRow = year - self.minYear
+            if year! >= self.minYear && year! <= self.maxYear {
+                let yearRow = year! - self.minYear
                 self.selectRow(yearRow, inComponent: self.yearComponentIndex, animated: false)
             }
         }
     }
     
-    public var onValueChange: ((NSDateComponents?)->Void)?
+    open var onValueChange: ((DateComponents?)->Void)?
     
     // In theory, this could change based on locale.
     var monthComponentIndex: Int {
@@ -86,7 +86,7 @@ public class MonthYearPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDa
         return 1
     }
     
-    public func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    open func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2
     }
     
@@ -100,7 +100,7 @@ public class MonthYearPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDa
         self.initialize()
     }
     
-    convenience init(minimumDate: NSDate, maximumDate: NSDate) {
+    convenience init(minimumDate: Date, maximumDate: Date) {
         self.init(frame: CGRect.zero)
         self.minimumDate = minimumDate
         self.maximumDate = maximumDate
@@ -113,7 +113,7 @@ public class MonthYearPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDa
         self.dataSource = self
     }
     
-    public func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    open func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch component {
         case self.monthComponentIndex:
             return self.months.count
@@ -124,7 +124,7 @@ public class MonthYearPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDa
         }
     }
     
-    public func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    open func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         switch component {
         case self.monthComponentIndex:
             return self.months[row]
@@ -135,9 +135,9 @@ public class MonthYearPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDa
         }
     }
     
-    public func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    open func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if self.dateComponents == nil {
-            self.date = NSDate()
+            self.date = Date()
         }
         
         switch component {

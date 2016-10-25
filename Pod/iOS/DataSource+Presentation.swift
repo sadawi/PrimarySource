@@ -9,7 +9,7 @@
 import UIKit
 
 public protocol DataSourceDelegate: class {
-    func presentationViewControllerForDataSource(dataSource:DataSource) -> UIViewController?
+    func presentationViewControllerForDataSource(_ dataSource:DataSource) -> UIViewController?
 }
 
 private var delegateAssociationKey: UInt8 = 0

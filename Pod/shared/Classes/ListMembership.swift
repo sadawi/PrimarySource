@@ -12,7 +12,7 @@ import Foundation
  An option set representing relative positions in a list.  An item may be at the .Beginning or .End of a list, or both;
  if it is neither, it is considered to be in the .Middle.
  */
-public struct ListPosition: OptionSetType, CustomStringConvertible {
+public struct ListPosition: OptionSet, CustomStringConvertible {
     public let rawValue:Int
     
     public init(rawValue: Int) {
@@ -34,7 +34,7 @@ public struct ListPosition: OptionSetType, CustomStringConvertible {
         if self.contains(.End) {
             parts.append("end")
         }
-        return parts.joinWithSeparator(", ")
+        return parts.joined(separator: ", ")
     }
 }
 
@@ -43,24 +43,24 @@ public struct ListPosition: OptionSetType, CustomStringConvertible {
  Otherwise, it is .Contained with an associated type of where in the list (or rather, sub-list of other contiguous .Contained items) it lives.
  */
 public enum ListMembership: Equatable {
-    case NotContained
-    case Contained(position: ListPosition)
+    case notContained
+    case contained(position: ListPosition)
     
-    public func addingPosition(addedPosition: ListPosition) -> ListMembership {
+    public func addingPosition(_ addedPosition: ListPosition) -> ListMembership {
         switch self {
-        case .NotContained:
+        case .notContained:
             return self
-        case .Contained(let position):
-            return .Contained(position: position.union(addedPosition))
+        case .contained(let position):
+            return .contained(position: position.union(addedPosition))
         }
     }
     
 }
 public func ==(left:ListMembership, right:ListMembership) -> Bool {
     switch (left, right) {
-    case (.NotContained, .NotContained):
+    case (.notContained, .notContained):
         return true
-    case (.Contained(let leftPosition), .Contained(let rightPosition)):
+    case (.contained(let leftPosition), .contained(let rightPosition)):
         return leftPosition == rightPosition
     default:
         return false

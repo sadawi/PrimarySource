@@ -10,7 +10,7 @@ import UIKit
 
 extension DataSource: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    func registerPresenterIfNeeded(collectionView collectionView:UICollectionView) {
+    func registerPresenterIfNeeded(collectionView:UICollectionView) {
         if !self.didRegisterPresenter {
             self.registerPresenter(collectionView)
         }
@@ -18,35 +18,35 @@ extension DataSource: UICollectionViewDelegate, UICollectionViewDataSource, UICo
 
     // MARK: - Delegate methods
     
-    public func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return self.visibleSections.count
     }
     
-    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self[section]?.itemCount ?? 0
     }
     
-    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         self.registerPresenterIfNeeded(collectionView: collectionView)
         
         if let item = self.item(atIndexPath: indexPath), let identifier = item.reuseIdentifier {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(identifier, forIndexPath: indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
             item.configureView(cell)
             return cell
         } else {
             // This is an error state.  TODO: only on debug
             let cell = UICollectionViewCell()
-            cell.backgroundColor = UIColor.redColor()
+            cell.backgroundColor = UIColor.red
             return cell
         }
     }
     
-    public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        collectionView.deselectItemAtIndexPath(indexPath, animated: true)
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
         self.item(atIndexPath: indexPath)?.onTap()
     }
     
-    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if let item = self.item(atIndexPath: indexPath), let size = item.desiredSize?() {
             return size
         } else {

@@ -9,8 +9,8 @@
 import Foundation
 
 public enum CollectionPresenterAnimation {
-    case Automatic
-    case Fade
+    case automatic
+    case fade
 }
 
 public protocol CollectionPresenter: class {
@@ -18,27 +18,27 @@ public protocol CollectionPresenter: class {
 }
 
 public protocol RegisterableCollectionPresenter: CollectionPresenter {
-    func registerHeader(nibName nibName: String, reuseIdentifier identifier: String)
-    func registerHeader(viewClass viewClass: AnyClass?, reuseIdentifier identifier: String)
+    func registerHeader(nibName: String, reuseIdentifier identifier: String)
+    func registerHeader(viewClass: AnyClass?, reuseIdentifier identifier: String)
     
-    func registerCell(nibName nibName: String, reuseIdentifier identifier: String)
-    func registerCell(viewClass viewClass: AnyClass?, reuseIdentifier identifier: String)
+    func registerCell(nibName: String, reuseIdentifier identifier: String)
+    func registerCell(viewClass: AnyClass?, reuseIdentifier identifier: String)
 }
 
 public protocol AnimatableCollectionPresenter: CollectionPresenter {
-    func insertSection(index index: Int, animation: CollectionPresenterAnimation)
-    func removeSection(index index: Int, animation: CollectionPresenterAnimation)
+    func insertSection(index: Int, animation: CollectionPresenterAnimation)
+    func removeSection(index: Int, animation: CollectionPresenterAnimation)
     
-    func reloadItem(indexPath indexPath: NSIndexPath, animation: CollectionPresenterAnimation)
-    func insertItem(indexPath indexPath: NSIndexPath, animation: CollectionPresenterAnimation)
-    func removeItem(indexPath indexPath: NSIndexPath, animation: CollectionPresenterAnimation)
+    func reloadItem(indexPath: IndexPath, animation: CollectionPresenterAnimation)
+    func insertItem(indexPath: IndexPath, animation: CollectionPresenterAnimation)
+    func removeItem(indexPath: IndexPath, animation: CollectionPresenterAnimation)
 }
 
 public protocol ColumnReloadableCollectionPresenter: CollectionPresenter {
-    func reloadItem(item: AnyObject?, columnIdentifiers:[String], reloadChildren:Bool)
+    func reloadItem(_ item: AnyObject?, columnIdentifiers:[String], reloadChildren:Bool)
 }
 
 public protocol ExpandableCollectionPresenter: CollectionPresenter {
-    func expandItem(item: AnyObject?)
-    func collapseItem(item: AnyObject?)
+    func expandItem(_ item: AnyObject?)
+    func collapseItem(_ item: AnyObject?)
 }

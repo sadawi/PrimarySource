@@ -12,8 +12,8 @@ public protocol CollectionColumnItemType {
     var columnSpan: Int { get set }
 }
 
-public class CollectionColumnItem<ViewType: CollectionItemView>: CollectionItem<ViewType>, CollectionColumnItemType {
-    public var columnSpan: Int = 1
+open class CollectionColumnItem<ViewType: CollectionItemView>: CollectionItem<ViewType>, CollectionColumnItemType {
+    open var columnSpan: Int = 1
 
     public init(key:String?=nil, nibName:String?=nil, reorderable:Bool=false, storyboardIdentifier:String?=nil, columnSpan: Int=1, configure:ViewConfiguration?=nil) {
         self.columnSpan = columnSpan

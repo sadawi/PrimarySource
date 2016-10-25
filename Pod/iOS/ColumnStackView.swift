@@ -8,22 +8,22 @@
 
 import Foundation
 
-public class ColumnStackView: UIView {
-    public var columnSpacing:CGFloat = 5.0 {
+open class ColumnStackView: UIView {
+    open var columnSpacing:CGFloat = 5.0 {
         didSet {
             self.columnStack?.spacing = self.columnSpacing
         }
     }
 
-    public var columnCount:Int = 2 {
+    open var columnCount:Int = 2 {
         didSet {
             self.rebuildColumns()
             self.rebalance()
         }
     }
     
-    private var columnStack:UIStackView?
-    public var items:[UIView] = [] {
+    fileprivate var columnStack:UIStackView?
+    open var items:[UIView] = [] {
         willSet {
             self.removeAllArrangedSubviews()
         }
@@ -31,10 +31,10 @@ public class ColumnStackView: UIView {
             self.rebalance()
         }
     }
-    private var needsRebalancing = true
+    fileprivate var needsRebalancing = true
     
     public convenience init(columnCount:Int) {
-        self.init(frame:CGRectZero)
+        self.init(frame:CGRect.zero)
         self.columnCount = columnCount
         self.rebuildColumns()
     }
@@ -49,20 +49,20 @@ public class ColumnStackView: UIView {
         self.rebuildColumns()
     }
     
-    private func rebalance() {
+    fileprivate func rebalance() {
         self.removeAllArrangedSubviews()
         
         if self.columnStack != nil {
             
             let rowCount = Int(ceil(Float(self.items.count)/Float(self.columnCount)))
-            for var i=0; i<rowCount*self.columnCount; i++ {
+            for i in 0 ..< rowCount*self.columnCount {
                 var item:UIView
                 if i < self.items.count {
                     item = self.items[i]
                 } else {
                     // Add placeholders!
                     item = UIView(frame: CGRect.null)
-                    item.backgroundColor = UIColor.clearColor()
+                    item.backgroundColor = UIColor.clear
                 }
                 let columnIndex = i / rowCount
                 let column = self.columnStack?.arrangedSubviews[columnIndex] as! UIStackView
@@ -75,19 +75,19 @@ public class ColumnStackView: UIView {
     
     // MARK: - private
     
-    private func rebuildColumns() {
+    fileprivate func rebuildColumns() {
         self.columnStack?.removeFromSuperview()
         
         let columnStack = UIStackView(frame: self.bounds)
         columnStack.spacing = 5.0
-        columnStack.axis = .Horizontal
-        columnStack.distribution = UIStackViewDistribution.FillProportionally
+        columnStack.axis = .horizontal
+        columnStack.distribution = UIStackViewDistribution.fillProportionally
         columnStack.translatesAutoresizingMaskIntoConstraints = false
         
-        for var i=0; i<self.columnCount; i++ {
+        for i in 0 ..< self.columnCount {
             let column = UIStackView(frame: CGRect.null)
-            column.axis = .Vertical
-            column.distribution = .FillEqually
+            column.axis = .vertical
+            column.distribution = .fillEqually
             column.translatesAutoresizingMaskIntoConstraints = false
             columnStack.addArrangedSubview(column)
         }
@@ -96,11 +96,11 @@ public class ColumnStackView: UIView {
         self.columnStack = columnStack
         
         let views = ["columnStack": columnStack]
-        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[columnStack]|", options: [], metrics: nil, views: views))
-        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[columnStack]|", options: [], metrics: nil, views: views))
+        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[columnStack]|", options: [], metrics: nil, views: views))
+        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[columnStack]|", options: [], metrics: nil, views: views))
     }
     
-    private func removeAllArrangedSubviews() {
+    fileprivate func removeAllArrangedSubviews() {
         guard let columnStack = self.columnStack else { return }
         
         for column in columnStack.arrangedSubviews {
