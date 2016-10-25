@@ -29,8 +29,8 @@ class TableViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.setDataSource(self.dataSource)
-        self.tableView.setDelegate(self.dataSource)
+        self.tableView.dataSource = self.dataSource
+        self.tableView.delegate = self.dataSource
         self.configureDataSource(self.dataSource)
         self.tableView.reloadData()
     }

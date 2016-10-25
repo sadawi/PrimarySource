@@ -42,8 +42,8 @@ class OutlineViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.outlineView.setDataSource(self.dataSource)
-        self.outlineView.setDelegate(self.dataSource)
+        self.outlineView.dataSource = self.dataSource
+        self.outlineView.delegate = self.dataSource
         self.configureDataSource(self.dataSource)
         self.outlineView.reloadData()
     }

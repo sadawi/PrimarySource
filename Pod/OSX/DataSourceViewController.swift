@@ -21,8 +21,8 @@ extension TableDataSourceViewController {
         self.dataSource.reset()
         self.configureDataSource(self.dataSource)
         
-        self.tableView?.setDataSource(self.dataSource)
-        self.tableView?.setDelegate(self.dataSource)
+        self.tableView?.dataSource = self.dataSource
+        self.tableView?.delegate = self.dataSource
         
         self.dataSource.presenter = self.tableView
         self.dataSource.present()
