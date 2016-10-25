@@ -86,7 +86,7 @@ open class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>, 
         return self
     }
     
-    open func edit(_ configureActionList: ((CollectionItemType, ActionList)->())) -> CollectionItemType {
+    open func edit(_ configureActionList: @escaping ((CollectionItemType, ActionList)->())) -> CollectionItemType {
         let actionList = ActionList()
         self.editActionList = actionList
         

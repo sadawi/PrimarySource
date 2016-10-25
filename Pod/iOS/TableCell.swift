@@ -205,7 +205,7 @@ open class TableCell: UITableViewCell, ListMember {
     }
     
     open func stylize() {
-        self.contentView.backgroundColor = .clear()
+        self.contentView.backgroundColor = .clear
     }
     
     open override func prepareForReuse() {

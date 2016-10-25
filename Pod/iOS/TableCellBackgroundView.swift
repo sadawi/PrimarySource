@@ -35,7 +35,7 @@ open class TableCellBackgroundView: UIView {
     }
     
     func initialize() {
-        self.backgroundColor = .clear()
+        self.backgroundColor = .clear
     }
     
     open override func draw(_ rect: CGRect) {

@@ -29,6 +29,7 @@ open class MonthYearPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewData
     open var date: Date? {
         get {
             if let components = self.dateComponents {
+                var components = components
                 components.day = 1
                 return Calendar.current.date(from: components)
             }
