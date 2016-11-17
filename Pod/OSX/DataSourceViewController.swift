@@ -13,7 +13,7 @@ import PrimarySource
 public protocol TableDataSourceViewController {
     var dataSource: ColumnedDataSource { get }
     var tableView: NSTableView? { get }
-    func configureDataSource(dataSource: ColumnedDataSource)
+    func configureDataSource(_ dataSource: ColumnedDataSource)
 }
 
 extension TableDataSourceViewController {

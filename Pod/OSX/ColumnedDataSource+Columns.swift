@@ -10,23 +10,23 @@ import Foundation
 import Cocoa
 
 extension ColumnedDataSource {
-    func columnedCollectionItem(item: AnyObject?) -> ColumnedCollectionItemType? {
+    func columnedCollectionItem(_ item: Any?) -> ColumnedCollectionItemType? {
         return item as? ColumnedCollectionItemType
     }
 
-    func columnIdentifier(tableColumn tableColumn: NSTableColumn?) -> ColumnIdentifier? {
+    func columnIdentifier(tableColumn: NSTableColumn?) -> ColumnIdentifier? {
         // TODO: should I round-trip this through the datasource's column list?
         return tableColumn?.identifier
     }
     
-    func buildView(tableView tableView: NSTableView, tableColumn: NSTableColumn?, item columnedItem: ColumnedCollectionItemType) -> NSView? {
+    func buildView(tableView: NSTableView, tableColumn: NSTableColumn?, item columnedItem: ColumnedCollectionItemType) -> NSView? {
         columnedItem.configureIfNecessary()
         
         var result: NSView?
         
-        if let columnIdentifier = self.columnIdentifier(tableColumn: tableColumn), cellItem = columnedItem[columnIdentifier] {
+        if let columnIdentifier = self.columnIdentifier(tableColumn: tableColumn), let cellItem = columnedItem[columnIdentifier] {
             if let identifier = cellItem.storyboardIdentifier {
-                if let view = tableView.makeViewWithIdentifier(identifier, owner: self) {
+                if let view = tableView.make(withIdentifier: identifier, owner: self) {
                     cellItem.configureView(view)
                     result = view
                 }

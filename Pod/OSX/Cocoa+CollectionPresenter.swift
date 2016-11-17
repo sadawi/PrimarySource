@@ -13,14 +13,14 @@ extension NSTableView: CollectionPresenter {
 }
 
 extension NSOutlineView: ColumnReloadableCollectionPresenter {
-    public func reloadItem(item: AnyObject?, columnIdentifiers: [String], reloadChildren: Bool = false) {
+    public func reloadItem(_ item: AnyObject?, columnIdentifiers: [String], reloadChildren: Bool = false) {
         if let item = item {
-            let row = self.rowForItem(item)
-            let rowIndexes = NSIndexSet(index: row)
+            let row = self.row(forItem: item)
+            let rowIndexes = IndexSet(integer: row)
             for identifier in columnIdentifiers {
-                let column = self.columnWithIdentifier(identifier)
-                    let columnIndexes = NSIndexSet(index: column)
-                    self.reloadDataForRowIndexes(rowIndexes, columnIndexes: columnIndexes)
+                let column = self.column(withIdentifier: identifier)
+                    let columnIndexes = IndexSet(integer: column)
+                    self.reloadData(forRowIndexes: rowIndexes, columnIndexes: columnIndexes)
             }
             
             if reloadChildren {
@@ -42,10 +42,10 @@ protocol ColumnSpannable {
 }
 
 protocol OutlineViewDataSource: NSOutlineViewDataSource {
-    func outlineView(outlineView: NSOutlineView, columnSpanForItem item: AnyObject, column: NSTableColumn) -> Int
+    func outlineView(_ outlineView: NSOutlineView, columnSpanForItem item: AnyObject, column: NSTableColumn) -> Int
 }
 
-@IBDesignable public class OutlineView: NSOutlineView, ColumnSpannable {
+@IBDesignable open class OutlineView: NSOutlineView, ColumnSpannable {
     var outlineViewDataSource: OutlineViewDataSource? {
         return self.dataSource as? OutlineViewDataSource
     }
@@ -54,16 +54,16 @@ protocol OutlineViewDataSource: NSOutlineViewDataSource {
     
     let kOutlineColumnWidth:CGFloat = 11 // TODO: don't hardcode
     
-    override public func frameOfOutlineCellAtRow(row: Int) -> NSRect {
+    override open func frameOfOutlineCell(atRow row: Int) -> NSRect {
         if self.hidesOutlineTriangles {
             return NSRect.zero
         } else {
-            return super.frameOfOutlineCellAtRow(row)
+            return super.frameOfOutlineCell(atRow: row)
         }
     }
     
-    override public func frameOfCellAtColumn(column: Int, row: Int) -> NSRect {
-        var superFrame = super.frameOfCellAtColumn(column, row: row)
+    override open func frameOfCell(atColumn column: Int, row: Int) -> NSRect {
+        var superFrame = super.frameOfCell(atColumn: column, row: row)
         
         let tableColumn = self.tableColumns[column]
         let indent = self.indentationPerLevel
@@ -75,16 +75,16 @@ protocol OutlineViewDataSource: NSOutlineViewDataSource {
         }
         
         guard let dataSource = self.outlineViewDataSource else { return superFrame }
-        guard let item = self.itemAtRow(row) else { return superFrame }
+        guard let item = self.item(atRow: row) else { return superFrame }
         
-        let colspan = dataSource.outlineView(self, columnSpanForItem: item, column: tableColumn)
+        let colspan = dataSource.outlineView(self, columnSpanForItem: item as AnyObject, column: tableColumn)
         
         if colspan == 1 {
             return superFrame
         } else if colspan > 1 && colspan <= self.numberOfColumns {
             var mergedFrames = superFrame
             for i in 0..<colspan {
-                let nextFrame = super.frameOfCellAtColumn(column + i, row: row)
+                let nextFrame = super.frameOfCell(atColumn: column + i, row: row)
                 mergedFrames = NSUnionRect(mergedFrames, nextFrame)
             }
             return mergedFrames

@@ -9,7 +9,7 @@
 import Foundation
 
 extension Section {
-    func lookupRow(offset offset: Int, ifSectionHeader:((Section)->())?=nil, ifItem:((CollectionItemType)->())?=nil) -> Bool {
+    func lookupRow(offset: Int, ifSectionHeader:((Section)->())?=nil, ifItem:((CollectionItemType)->())?=nil) -> Bool {
         if self.showsHeader {
             if offset == 0 {
                 ifSectionHeader?(self)

@@ -10,9 +10,9 @@ import Foundation
 
 public typealias ColumnIdentifier = String
 
-public class Column {
-    public var identifier: ColumnIdentifier
-    public var title: String
+open class Column {
+    open var identifier: ColumnIdentifier
+    open var title: String
     
     public init(identifier: ColumnIdentifier, title: String) {
         self.identifier = identifier

@@ -48,7 +48,7 @@ class OutlineViewController: NSViewController {
         self.outlineView.reloadData()
     }
     
-    func configureDataSource(dataSource: ColumnedDataSource) {
+    func configureDataSource(_ dataSource: ColumnedDataSource) {
         dataSource <<< Section(title: "Section 1") { section in
             for place in self.places {
                 section <<< self.buildRow(place: place)
@@ -61,7 +61,7 @@ class OutlineViewController: NSViewController {
         }
     }
     
-    func buildRow(place place: Place) -> ColumnedCollectionItemType? {
+    func buildRow(place: Place) -> ColumnedCollectionItemType? {
         let result = ColumnedCollectionItem<NSTableRowView> { item -> () in
             item[kNameColumnIdentifier] = CollectionItem<NSTableCellView>(storyboardIdentifier: "NameCellView") { cell in
                 cell.textField?.stringValue = place.name

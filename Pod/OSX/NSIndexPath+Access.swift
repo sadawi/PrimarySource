@@ -8,12 +8,13 @@
 
 import Foundation
 
-extension NSIndexPath {
-    convenience init(forRow row:Int, inSection section: Int) {
-        self.init(forItem: row, inSection: section)
+extension IndexPath {
+    init(forRow row:Int, inSection section: Int) {
+        self.init(item: row, section: section)
     }
     
     var row: Int {
-        return self.indexAtPosition(1)
+        // was indexPath(atPosition: row) in Swift 2
+        return self.index(row, offsetBy: 0)
     }
 }

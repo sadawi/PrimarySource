@@ -8,23 +8,23 @@
 
 import Foundation
 
-public class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>, CollectionItemType {
-    weak public var section: Section?
+open class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>, CollectionItemType {
+    weak open var section: Section?
     
-    internal(set) public var key:String?
-    internal(set) public var visible: Bool = true
+    internal(set) open var key:String?
+    internal(set) open var visible: Bool = true
 
-    public var value: AnyObject?
+    open var value: AnyObject?
     
-    var visibleCondition:(Void -> Bool)?
+    var visibleCondition:((Void) -> Bool)?
     
-    public var hasVisibilityCondition:Bool {
+    open var hasVisibilityCondition:Bool {
         return self.visibleCondition != nil
     }
     
-    public var reorderable:Bool = false
+    open var reorderable:Bool = false
     
-    public var isSelected: ((CollectionItemType)->Bool)?
+    open var isSelected: ((CollectionItemType)->Bool)?
     
     var onTapAction:ItemAction?
     var onAccessoryTapAction:ItemAction?
@@ -32,21 +32,21 @@ public class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>
     var didDeleteAction:ItemAction?
     var willDeleteAction:ItemAction?
     
-    public var editActionList: ActionList?
+    open var editActionList: ActionList?
     
-    public var listMembership = ListMembership.Contained(position: .Middle)
+    open var listMembership = ListMembership.contained(position: .Middle)
     
-    public var desiredSize: (Void -> CGSize)?
+    open var desiredSize: ((Void) -> CGSize)?
     
-    public var handlesDelete: Bool {
+    open var handlesDelete: Bool {
         return self.deleteAction != nil
     }
     
-    public var deletable: Bool {
+    open var deletable: Bool {
         return self.deleteAction != nil || self.willDeleteAction != nil || self.didDeleteAction != nil
     }
     
-    public var tappable: Bool {
+    open var tappable: Bool {
         return self.onTapAction != nil
     }
     
@@ -61,32 +61,32 @@ public class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>
     
     // MARK: - Actions
     
-    public func onTap(action:ItemAction) -> CollectionItemType {
+    open func onTap(_ action:@escaping ItemAction) -> CollectionItemType {
         self.onTapAction = action
         return self
     }
     
-    public func onAccessoryTap(action:ItemAction) -> CollectionItemType {
+    open func onAccessoryTap(_ action:@escaping ItemAction) -> CollectionItemType {
         self.onAccessoryTapAction = action
         return self
     }
     
-    public func didDelete(action:ItemAction) -> CollectionItemType {
+    open func didDelete(_ action:@escaping ItemAction) -> CollectionItemType {
         self.didDeleteAction = action
         return self
     }
     
-    public func delete(action:ItemAction) -> CollectionItemType {
+    open func delete(_ action:@escaping ItemAction) -> CollectionItemType {
         self.deleteAction = action
         return self
     }
     
-    public func willDelete(action:ItemAction) -> CollectionItemType {
+    open func willDelete(_ action:@escaping ItemAction) -> CollectionItemType {
         self.willDeleteAction = action
         return self
     }
     
-    public func edit(configureActionList: ((CollectionItemType, ActionList)->())) -> CollectionItemType {
+    open func edit(_ configureActionList: ((CollectionItemType, ActionList)->())) -> CollectionItemType {
         let actionList = ActionList()
         self.editActionList = actionList
         
@@ -98,29 +98,29 @@ public class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>
     
     // MARK: - Handling actions
     
-    public func onTap() {
+    open func onTap() {
         self.onTapAction?(self)
     }
     
-    public func onAccessoryTap() {
+    open func onAccessoryTap() {
         self.onAccessoryTapAction?(self)
     }
     
-    public func delete() {
+    open func delete() {
         self.deleteAction?(self)
     }
     
-    public func didDelete() {
+    open func didDelete() {
         self.didDeleteAction?(self)
     }
     
-    public func willDelete() {
+    open func willDelete() {
         self.willDeleteAction?(self)
     }
     
     // MARK: - Indices etc.
     
-    public var presenter: CollectionPresenter? {
+    open var presenter: CollectionPresenter? {
         return self.section?.presenter
     }
     
@@ -131,7 +131,7 @@ public class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>
     /**
      The indexPath of this item in its collection/table view, if possible.
      */
-    public var indexPath: NSIndexPath? {
+    open var indexPath: IndexPath? {
         if let index = self.index {
             return self.section?.indexPathForIndex(index)
         } else {
@@ -139,11 +139,11 @@ public class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>
         }
     }
     
-    public func reload() {
-        self.reload(animation: .Automatic)
+    open func reload() {
+        self.reload(animation: .automatic)
     }
     
-    public func reload(animation animation: CollectionPresenterAnimation) {
+    open func reload(animation: CollectionPresenterAnimation) {
         if let animatablePresenter = self.presenter as? AnimatableCollectionPresenter {
             if let indexPath = self.indexPath {
                 animatablePresenter.reloadItem(indexPath: indexPath, animation: animation)
@@ -152,11 +152,11 @@ public class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>
     }
     
     // MARK: - Visibility
-    public func show() {
-        self.show(animation: .Automatic)
+    open func show() {
+        self.show(animation: .automatic)
     }
     
-    public func show(animation animation: CollectionPresenterAnimation) {
+    open func show(animation: CollectionPresenterAnimation) {
         if let animatablePresenter = self.presenter as? AnimatableCollectionPresenter {
             let oldIndexPath = self.indexPath
             self.visible = true
@@ -167,11 +167,11 @@ public class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>
         }
     }
     
-    public func hide() {
-        self.hide(animation: .Automatic)
+    open func hide() {
+        self.hide(animation: .automatic)
     }
     
-    public func hide(animation animation: CollectionPresenterAnimation) {
+    open func hide(animation: CollectionPresenterAnimation) {
         if let animatablePresenter = self.presenter as? AnimatableCollectionPresenter {
             let oldIndexPath = self.indexPath
             self.visible = false
@@ -182,13 +182,13 @@ public class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>
         }
     }
     
-    public func show(condition: (Void -> Bool)) -> CollectionItemType {
+    open func show(_ condition: @escaping ((Void) -> Bool)) -> CollectionItemType {
         self.visibleCondition = condition
         self.visible = condition()
         return self
     }
     
-    public func updateVisibility(hideAnimation hideAnimation:CollectionPresenterAnimation, showAnimation:CollectionPresenterAnimation) {
+    open func updateVisibility(hideAnimation:CollectionPresenterAnimation, showAnimation:CollectionPresenterAnimation) {
         if let condition = self.visibleCondition {
             let value = condition()
             if value {
@@ -201,7 +201,7 @@ public class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>
     
     // MARK: - Configuration
     
-    public override func configureView(view: CollectionItemView) {
+    open override func configureView(_ view: CollectionItemView) {
         if let listMember = view as? ListMember {
             listMember.listMembership = self.listMembership
         }

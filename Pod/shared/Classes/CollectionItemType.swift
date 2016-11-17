@@ -8,7 +8,7 @@
 
 import Foundation
 
-public typealias ItemAction = (CollectionItemType -> Void)
+public typealias ItemAction = ((CollectionItemType) -> Void)
 
 public protocol CollectionItemType: class, ReusableItemType, ListMember {
     var reorderable:Bool { get set }
@@ -23,16 +23,16 @@ public protocol CollectionItemType: class, ReusableItemType, ListMember {
     var tappable: Bool { get }
     var isSelected: ((CollectionItemType)->Bool)? { get set }
     
-    var desiredSize: (Void -> CGSize)? { get set }
+    var desiredSize: ((Void) -> CGSize)? { get set }
     
     var editActionList: ActionList? { get set }
     
-    func edit(configureActionList: ((CollectionItemType, ActionList)->())) -> CollectionItemType
-    func delete(action: ItemAction) -> CollectionItemType
-    func didDelete(action: ItemAction) -> CollectionItemType
-    func willDelete(action: ItemAction) -> CollectionItemType
-    func onTap(action: ItemAction) -> CollectionItemType
-    func onAccessoryTap(action: ItemAction) -> CollectionItemType
+    func edit(_ configureActionList: ((CollectionItemType, ActionList)->())) -> CollectionItemType
+    func delete(_ action: ItemAction) -> CollectionItemType
+    func didDelete(_ action: ItemAction) -> CollectionItemType
+    func willDelete(_ action: ItemAction) -> CollectionItemType
+    func onTap(_ action: ItemAction) -> CollectionItemType
+    func onAccessoryTap(_ action: ItemAction) -> CollectionItemType
     
     /**
      Sets a visibility condition for this collection item.
@@ -41,7 +41,7 @@ public protocol CollectionItemType: class, ReusableItemType, ListMember {
      
      - parameter condition: A closure determining whether this item should be visible or not.
      */
-    func show(condition: (Void -> Bool)) -> CollectionItemType
+    func show(_ condition: ((Void) -> Bool)) -> CollectionItemType
 
     func delete()
     func didDelete()
@@ -53,25 +53,25 @@ public protocol CollectionItemType: class, ReusableItemType, ListMember {
      Sets this item's `visible` flag to true, and animates it into the view.
      */
     func show()
-    func show(animation animation: CollectionPresenterAnimation)
+    func show(animation: CollectionPresenterAnimation)
 
     /**
      Sets this item's `visible` flag to false, and animates it out of the view.
      */
     func hide()
-    func hide(animation animation: CollectionPresenterAnimation)
+    func hide(animation: CollectionPresenterAnimation)
 
     /**
      Reloads this item's view
      */
     func reload()
-    func reload(animation animation: CollectionPresenterAnimation)
+    func reload(animation: CollectionPresenterAnimation)
 
     
     /**
      Updates the visible state of this item, and propagates that to the view with the appropriate animation.
      */
-    func updateVisibility(hideAnimation hideAnimation:CollectionPresenterAnimation, showAnimation:CollectionPresenterAnimation)
+    func updateVisibility(hideAnimation:CollectionPresenterAnimation, showAnimation:CollectionPresenterAnimation)
     
     var presenter: CollectionPresenter? { get }
 }
