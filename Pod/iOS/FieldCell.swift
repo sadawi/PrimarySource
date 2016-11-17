@@ -9,62 +9,62 @@
 import UIKit
 
 enum ControlAlignment {
-    case Right
+    case right
 }
 
 public enum FieldLabelPosition {
-    case Top
-    case Left
+    case top
+    case left
 }
 
 public enum FieldState {
-    case Normal
-    case Error([String])
-    case Editing
+    case normal
+    case error([String])
+    case editing
 }
 
-public class FieldCell: TitleDetailsCell {
+open class FieldCell: TitleDetailsCell {
     var errorLabel:UILabel?
     var errorIcon:UIImageView?
     
-    public var readonly:Bool = false
+    open var readonly:Bool = false
     
-    public var placeholderText:String? {
+    open var placeholderText:String? {
         didSet {
             self.update()
         }
     }
     
-    public var blank:Bool {
+    open var blank:Bool {
         get { return true }
     }
     
-    public var state:FieldState = .Normal {
+    open var state:FieldState = .normal {
         didSet {
             self.update()
             self.stylize()
         }
     }
     
-    public dynamic var errorTextColor:UIColor? = UIColor.redColor()
+    open dynamic var errorTextColor:UIColor? = UIColor.red
     
     lazy var accessoryToolbar:UIToolbar = {
-        let toolbar = UIToolbar(frame: CGRectMake(0, 0, self.bounds.size.width, 36))
+        let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: 36))
         self.configureAccessoryToolbar(toolbar)
         return toolbar
         }()
     
-    func configureAccessoryToolbar(toolbar:UIToolbar) {
+    func configureAccessoryToolbar(_ toolbar:UIToolbar) {
         var items:[UIBarButtonItem] = []
         if self.toolbarShowsCancelButton {
-            items.append(UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: Selector("cancel")))
+            items.append(UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(FieldCell.cancel)))
         }
         if self.toolbarShowsClearButton {
-            items.append(UIBarButtonItem(title: "Clear", style: .Plain, target: self, action: Selector("clear")))
+            items.append(UIBarButtonItem(title: "Clear", style: .plain, target: self, action: #selector(FieldCell.clear)))
         }
         
-        items.append(UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil))
-        items.append(UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: Selector("commit")))
+        items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil))
+        items.append(UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(FieldCell.commit)))
         
         toolbar.items = items
     }
@@ -72,20 +72,20 @@ public class FieldCell: TitleDetailsCell {
     var toolbarShowsCancelButton = false
     var toolbarShowsClearButton = false
     
-    public func commit() {
+    open func commit() {
     }
     
-    public func cancel() {
+    open func cancel() {
     }
     
-    public func clear() {
+    open func clear() {
         self.cancel()
         self.update()
     }
     
-    public var onChange:(Void -> Void)?
+    open var onChange:((Void) -> Void)?
     
-    override public func buildView() {
+    override open func buildView() {
         super.buildView()
         
         let errorLabel = UILabel(frame: self.detailContent!.bounds)
@@ -103,25 +103,25 @@ public class FieldCell: TitleDetailsCell {
             "icon": 20
         ]
         
-        self.detailContent?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-left-[error]-right-|", options: .AlignAllTop, metrics: metrics, views: views))
+        self.detailContent?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-left-[error]-right-|", options: .alignAllTop, metrics: metrics, views: views))
         
-        self.detailContent?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[error]|", options: .AlignAllTop, metrics: metrics, views: views))
+        self.detailContent?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[error]|", options: .alignAllTop, metrics: metrics, views: views))
     }
     
     override func update() {
         super.update()
 
         switch self.state {
-        case .Error(let messages):
-            self.errorIcon?.image = UIImage(named: "error-32", inBundle: NSBundle(forClass: FieldCell.self), compatibleWithTraitCollection: nil)?.imageWithRenderingMode(.AlwaysTemplate)
-            self.errorLabel?.text = messages.joinWithSeparator("\n")
+        case .error(let messages):
+            self.errorIcon?.image = UIImage(named: "error-32", in: Bundle(for: FieldCell.self), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+            self.errorLabel?.text = messages.joined(separator: "\n")
         default:
             self.errorIcon?.image = nil
             self.errorLabel?.text = nil
         }
     }
     
-    override public func stylize() {
+    override open func stylize() {
         super.stylize()
         
         self.errorLabel?.textColor = self.errorTextColor
@@ -139,10 +139,10 @@ public class FieldCell: TitleDetailsCell {
         }
     }
     
-    public override func prepareForReuse() {
+    open override func prepareForReuse() {
         super.prepareForReuse()
         
-        self.accessoryType = .None
+        self.accessoryType = .none
         self.placeholderText = nil
     }
 }

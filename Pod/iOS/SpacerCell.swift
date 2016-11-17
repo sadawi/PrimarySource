@@ -8,26 +8,26 @@
 
 import Foundation
 
-public class SpacerCell: TableCell {
-    public var height:CGFloat = 0 {
+open class SpacerCell: TableCell {
+    open var height:CGFloat = 0 {
         didSet {
             self.heightConstraint.constant = self.height
         }
     }
     
-    private var heightConstraint:NSLayoutConstraint!
+    fileprivate var heightConstraint:NSLayoutConstraint!
     
-    public override func buildView() {
+    open override func buildView() {
         let view = self.contentView
-        let constraint = NSLayoutConstraint(item: view, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 0)
+        let constraint = NSLayoutConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 0)
         self.contentView.addConstraint(constraint)
         self.heightConstraint = constraint
-        self.layoutMargins = UIEdgeInsetsZero
+        self.layoutMargins = UIEdgeInsets.zero
     }
     
-    public override func stylize() {
+    open override func stylize() {
         super.stylize()
-        self.backgroundColor = UIColor.clearColor()
-        self.contentView.backgroundColor = UIColor.clearColor()
+        self.backgroundColor = UIColor.clear
+        self.contentView.backgroundColor = UIColor.clear
     }
 }

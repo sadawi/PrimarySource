@@ -11,16 +11,16 @@ import UIKit
 /**
  A cell that pushes another view controller for data entry.
 */
-public class PushFieldCell<ValueType:Equatable>: FieldCell {
-    public var value:ValueType? {
+open class PushFieldCell<ValueType:Equatable>: FieldCell {
+    open var value:ValueType? {
         didSet {
             self.update()
         }
     }
     
-    public var valueLabel:UILabel?
+    open var valueLabel:UILabel?
     
-    override public func buildView() {
+    override open func buildView() {
         super.buildView()
         
         let valueLabel = UILabel(frame: CGRect.zero)
@@ -28,25 +28,25 @@ public class PushFieldCell<ValueType:Equatable>: FieldCell {
         self.valueLabel = valueLabel
     }
     
-    override public func stylize() {
+    override open func stylize() {
         super.stylize()
         
         self.valueLabel?.font = self.valueFont
         self.valueLabel?.textColor = self.valueTextColor
-        self.accessoryType = .DisclosureIndicator
+        self.accessoryType = .disclosureIndicator
     }
     
     override func update() {
         super.update()
         if let value = self.value {
-            self.valueLabel?.text = String(value)
+            self.valueLabel?.text = String(describing: value)
         } else {
             self.valueLabel?.text = nil
         }
-        self.userInteractionEnabled = !self.readonly
+        self.isUserInteractionEnabled = !self.readonly
     }
 
-    public override func prepareForReuse() {
+    open override func prepareForReuse() {
         super.prepareForReuse()
     }
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public typealias ReorderAction = ((NSIndexPath, NSIndexPath) -> Void)
+public typealias ReorderAction = ((IndexPath, IndexPath) -> Void)
 
 public func <<<(section:Section, item:CollectionItemType) {
     section.addItem(item)
@@ -26,9 +26,9 @@ public func <<<(section:Section, items:[CollectionItemType]) {
     }
 }
 
-public class Section {
+open class Section {
     var visible: Bool = true
-    var visibleCondition:(Void -> Bool)?
+    var visibleCondition:((Void) -> Bool)?
     
     var items:[CollectionItemType] = []
     var visibleItems:[CollectionItemType] {
@@ -43,7 +43,7 @@ public class Section {
     var reorder:ReorderAction?
     var didSetListPositions = false
     
-    public weak var dataSource: DataSource?
+    open weak var dataSource: DataSource?
     var presenter: CollectionPresenter? {
         return self.dataSource?.presenter
     }
@@ -52,13 +52,13 @@ public class Section {
         return self.title != nil || self.header != nil
     }
 
-    public var itemCount:Int {
+    open var itemCount:Int {
         return self.visibleItems.count
     }
     
-    public var header:HeaderItemType?
+    open var header:HeaderItemType?
     
-    public init(title:String?=nil, key:String?=nil, reorderable:Bool?=nil, configure:(Section -> Void)?=nil) {
+    public init(title:String?=nil, key:String?=nil, reorderable:Bool?=nil, configure:((Section) -> Void)?=nil) {
         self.title = title
         self.key = key
         if let configure = configure {
@@ -69,7 +69,7 @@ public class Section {
         }
     }
     
-    public func addItem(item:CollectionItemType) -> Section {
+    open func addItem(_ item:CollectionItemType) -> Section {
         self.items.append(item)
         if let key = item.key {
             self.itemLookup[key] = item
@@ -94,11 +94,11 @@ public class Section {
      */
     func setListPositions() {
         var start = true
-        for (i, item) in self.visibleItems.enumerate() {
+        for (i, item) in self.visibleItems.enumerated() {
             switch item.listMembership {
-            case .NotContained:
+            case .notContained:
                 start = true
-            case .Contained:
+            case .contained:
                 var position:ListPosition = .Middle
                 
                 if start {
@@ -107,7 +107,7 @@ public class Section {
                 var end = false
                 if i+1 < self.itemCount {
                     let next = self.visibleItems[i+1]
-                    if next.listMembership == .NotContained {
+                    if next.listMembership == .notContained {
                         end = true
                     }
                 }
@@ -118,31 +118,31 @@ public class Section {
                     position = position.union(.End)
                 }
                 
-                item.listMembership = ListMembership.Contained(position: position)
+                item.listMembership = ListMembership.contained(position: position)
                 start = false
             }
         }
         self.didSetListPositions = true
     }
     
-    public func deleteItemAtIndex(index:Int) {
-        self.items.removeAtIndex(index)
+    open func deleteItemAtIndex(_ index:Int) {
+        self.items.remove(at: index)
     }
     
-    public func handleReorder(fromIndexPath fromIndexPath:NSIndexPath, toIndexPath:NSIndexPath) {
+    open func handleReorder(fromIndexPath:IndexPath, toIndexPath:IndexPath) {
         guard self.reorderable else { return }
         if let reorder = self.reorder {
             reorder(fromIndexPath, toIndexPath)
         }
     }
     
-    public func onReorder(reorder:ReorderAction) -> Section {
+    open func onReorder(_ reorder:@escaping ReorderAction) -> Section {
         self.reorderable = true
         self.reorder = reorder
         return self
     }
     
-    public func itemAtIndex(index:Int) -> CollectionItemType? {
+    open func itemAtIndex(_ index:Int) -> CollectionItemType? {
         self.setListPositionsIfNeeded()
         if self.visibleItems.count > index {
             return self.visibleItems[index]
@@ -151,24 +151,24 @@ public class Section {
         }
     }
     
-    public func itemForKey(key:String) -> CollectionItemType? {
+    open func itemForKey(_ key:String) -> CollectionItemType? {
         self.setListPositionsIfNeeded()
         return self.itemLookup[key]
     }
     
-    public subscript(index:Int) -> CollectionItemType? {
+    open subscript(index:Int) -> CollectionItemType? {
         get {
             return self.itemAtIndex(index)
         }
     }
     
-    public subscript(key:String) -> CollectionItemType? {
+    open subscript(key:String) -> CollectionItemType? {
         get {
             return self.itemForKey(key)
         }
     }
     
-    public func eachItem(includeHidden includeHidden:Bool = false, iterator: (CollectionItemType -> Void)) {
+    open func eachItem(includeHidden:Bool = false, iterator: ((CollectionItemType) -> Void)) {
         self.setListPositionsIfNeeded()
         if includeHidden {
             for item in self.items {
@@ -183,17 +183,17 @@ public class Section {
     
     // MARK: - Indices
     
-    func indexOfItem(item: CollectionItemType) -> Int? {
-        return self.visibleItems.indexOf { $0 === item }
+    func indexOfItem(_ item: CollectionItemType) -> Int? {
+        return self.visibleItems.index { $0 === item }
     }
     
     var index:Int? {
         return self.dataSource?.indexOfSection(self)
     }
     
-    func indexPathForIndex(index:Int) -> NSIndexPath? {
+    func indexPathForIndex(_ index:Int) -> IndexPath? {
         if let section = self.index {
-            return NSIndexPath(forRow: index, inSection: section)
+            return IndexPath(row: index, section: section)
         } else {
             return nil
         }
@@ -201,10 +201,10 @@ public class Section {
     
     // MARK: - 
     
-    public func refreshDisplay(sectionHideAnimation sectionHideAnimation:CollectionPresenterAnimation = .Fade,
-                                                    sectionShowAnimation:CollectionPresenterAnimation = .Fade,
-                                                    rowHideAnimation:CollectionPresenterAnimation = .Automatic,
-                                                    rowShowAnimation:CollectionPresenterAnimation = .Automatic
+    open func refreshDisplay(sectionHideAnimation:CollectionPresenterAnimation = .fade,
+                                                    sectionShowAnimation:CollectionPresenterAnimation = .fade,
+                                                    rowHideAnimation:CollectionPresenterAnimation = .automatic,
+                                                    rowShowAnimation:CollectionPresenterAnimation = .automatic
         ) {
         self.updateVisibility(hideAnimation: sectionHideAnimation, showAnimation: sectionShowAnimation)
         if self.visible {
@@ -216,7 +216,7 @@ public class Section {
 
     // MARK: - Visibility
     
-    public func show(animation animation:CollectionPresenterAnimation = .Fade) {
+    open func show(animation:CollectionPresenterAnimation = .fade) {
         if let animatablePresenter = self.presenter as? AnimatableCollectionPresenter {
             let oldIndex = self.index
             self.visible = true
@@ -227,7 +227,7 @@ public class Section {
         }
     }
     
-    public func hide(animation animation:CollectionPresenterAnimation = .Fade) {
+    open func hide(animation:CollectionPresenterAnimation = .fade) {
         if let animatablePresenter = self.presenter as? AnimatableCollectionPresenter {
             let oldIndex = self.index
             self.visible = false
@@ -238,13 +238,13 @@ public class Section {
         }
     }
     
-    public func show(condition: (Void -> Bool)) -> Section {
+    open func show(_ condition: @escaping ((Void) -> Bool)) -> Section {
         self.visibleCondition = condition
         self.visible = condition()
         return self
     }
     
-    public func updateVisibility(hideAnimation hideAnimation:CollectionPresenterAnimation = .Fade, showAnimation:CollectionPresenterAnimation = .Fade) {
+    open func updateVisibility(hideAnimation:CollectionPresenterAnimation = .fade, showAnimation:CollectionPresenterAnimation = .fade) {
         if let condition = self.visibleCondition {
             let value = condition()
             if value {

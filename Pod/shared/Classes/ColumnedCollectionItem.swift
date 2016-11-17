@@ -22,10 +22,10 @@ public protocol ColumnedCollectionItemType: CollectionItemType {
     func didCollapse()
     func didExpand()
     func restoreExpansion()
-    func reload(columnIdentifiers columnIdentifiers: [ColumnIdentifier], reloadChildren: Bool)
+    func reload(columnIdentifiers: [ColumnIdentifier], reloadChildren: Bool)
 }
 
-public class ColumnedCollectionItem<ViewType:CollectionItemView>: CollectionItem<ViewType>, ColumnedCollectionItemType {
+open class ColumnedCollectionItem<ViewType:CollectionItemView>: CollectionItem<ViewType>, ColumnedCollectionItemType {
     public typealias ItemConfiguration = ((ColumnedCollectionItem<ViewType>) -> ())
     public typealias ActionHandler = ((ColumnedCollectionItemType)->())
     
@@ -37,11 +37,11 @@ public class ColumnedCollectionItem<ViewType:CollectionItemView>: CollectionItem
     var needsConfiguration: Bool = true
     
     // Tree properties.  Not sure they belong here.
-    weak public var parent:ColumnedCollectionItemType?
+    weak open var parent:ColumnedCollectionItemType?
     
-    public var buildChildren: ((ColumnedCollectionItemType)->[ColumnedCollectionItemType])?
+    open var buildChildren: ((ColumnedCollectionItemType)->[ColumnedCollectionItemType])?
     
-    public var children: [ColumnedCollectionItemType] {
+    open var children: [ColumnedCollectionItemType] {
         get {
             if _children == nil {
                 _children = self.buildChildren?(self) ?? []
@@ -53,7 +53,7 @@ public class ColumnedCollectionItem<ViewType:CollectionItemView>: CollectionItem
         }
     }
     
-    private var _children:[ColumnedCollectionItemType]? {
+    fileprivate var _children:[ColumnedCollectionItemType]? {
         didSet {
             if let children = self._children {
                 for child in children {
@@ -62,32 +62,32 @@ public class ColumnedCollectionItem<ViewType:CollectionItemView>: CollectionItem
             }
         }
     }
-    public var isExpanded: Bool = false
+    open var isExpanded: Bool = false
     
     var didExpandHandler:ActionHandler?
     var didCollapseHandler:ActionHandler?
-    override public var presenter: CollectionPresenter? {
+    override open var presenter: CollectionPresenter? {
         return self.parent?.presenter ?? super.presenter
     }
 
-    public func didCollapse() {
+    open func didCollapse() {
         self.didCollapseHandler?(self)
     }
-    public func didExpand() {
+    open func didExpand() {
         self.didExpandHandler?(self)
     }
     
-    public func didCollapse(handler: ActionHandler) -> Self {
+    open func didCollapse(_ handler: @escaping ActionHandler) -> Self {
         self.didCollapseHandler = handler
         return self
     }
 
-    public func didExpand(handler: ActionHandler) -> Self {
+    open func didExpand(_ handler: @escaping ActionHandler) -> Self {
         self.didExpandHandler = handler
         return self
     }
     
-    public var columns:[ColumnIdentifier:CollectionItemType] = [:]
+    open var columns:[ColumnIdentifier:CollectionItemType] = [:]
 
     public init(key: String?=nil, nibName: String?=nil, reorderable: Bool=false, storyboardIdentifier: String?=nil, configureItem: ItemConfiguration?) {
         self.configureItem = configureItem
@@ -95,7 +95,7 @@ public class ColumnedCollectionItem<ViewType:CollectionItemView>: CollectionItem
     }
     
     // TODO: rename this method
-    public func configureIfNecessary() {
+    open func configureIfNecessary() {
         guard self.needsConfiguration else { return }
         
         if let configure = self.configureItem {
@@ -104,7 +104,7 @@ public class ColumnedCollectionItem<ViewType:CollectionItemView>: CollectionItem
         }
     }
     
-    public subscript(columnIdentifier: ColumnIdentifier) -> CollectionItemType? {
+    open subscript(columnIdentifier: ColumnIdentifier) -> CollectionItemType? {
         get {
             self.configureIfNecessary()
             return self.columns[columnIdentifier]
@@ -114,7 +114,7 @@ public class ColumnedCollectionItem<ViewType:CollectionItemView>: CollectionItem
         }
     }
     
-    public func reload(columnIdentifiers columnIdentifiers: [ColumnIdentifier], reloadChildren: Bool = false) {
+    open func reload(columnIdentifiers: [ColumnIdentifier], reloadChildren: Bool = false) {
         if reloadChildren {
             // Forces a rebuild when `children` is accessed
             _children = nil
@@ -125,7 +125,7 @@ public class ColumnedCollectionItem<ViewType:CollectionItemView>: CollectionItem
         }
     }
     
-    public func restoreExpansion() {
+    open func restoreExpansion() {
         self.needsConfiguration = true
         self.configureIfNecessary()
         

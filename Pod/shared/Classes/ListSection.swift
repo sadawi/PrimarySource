@@ -11,7 +11,7 @@ import Foundation
 /**
  A collection section that is built from a list of objects.
  */
-public class ListSection<T:Equatable>: Section {
+open class ListSection<T:Equatable>: Section {
     public typealias ItemGenerator = ((T, Int) -> CollectionItemType)
     
     var values: [T] = []
@@ -24,7 +24,7 @@ public class ListSection<T:Equatable>: Section {
      - parameter reorderable: Reorderability flag
      - parameter generator: A closure that generates a collection item from a value.
      */
-    public init(values:[T]?, title: String?=nil, key: String?=nil, reorderable: Bool?=nil, generator:ItemGenerator) {
+    public init(values:[T]?, title: String?=nil, key: String?=nil, reorderable: Bool?=nil, generator:@escaping ItemGenerator) {
         self.values = values ?? []
         self.generator = generator
         super.init(title: title, key: key, reorderable: reorderable)
@@ -33,26 +33,26 @@ public class ListSection<T:Equatable>: Section {
     
     func generateItems() {
         var items:[CollectionItemType] = []
-        for (i, value) in self.values.enumerate() {
+        for (i, value) in self.values.enumerated() {
             items.append(self.itemForValue(value, index: i))
         }
         self.items = items
     }
     
-    func itemForValue(value: T, index:Int) -> CollectionItemType {
+    func itemForValue(_ value: T, index:Int) -> CollectionItemType {
         return self.generator(value, index)
     }
 
     /**
      Removes a value from this section.
      */
-    public func removeValueAtIndex(index:Int, updateView: Bool = false) {
-        self.values.removeAtIndex(index)
-        self.items.removeAtIndex(index)
+    open func removeValueAtIndex(_ index:Int, updateView: Bool = false) {
+        self.values.remove(at: index)
+        self.items.remove(at: index)
         if updateView {
             if let indexPath = self.indexPathForIndex(index) {
                 if let animatablePresenter = self.presenter as? AnimatableCollectionPresenter {
-                    animatablePresenter.removeItem(indexPath: indexPath, animation: .Automatic)
+                    animatablePresenter.removeItem(indexPath: indexPath, animation: .automatic)
                 }
             }
         }
@@ -64,8 +64,8 @@ public class ListSection<T:Equatable>: Section {
      - parameter value: The value to be removed
      - parameter updateView: Whether the value's corresponding item should be removed from the view
      */
-    public func removeValue(value:T, updateView: Bool = false) {
-        if let index = self.values.indexOf(value) {
+    open func removeValue(_ value:T, updateView: Bool = false) {
+        if let index = self.values.index(of: value) {
             self.removeValueAtIndex(index, updateView: updateView)
         }
     }
@@ -76,7 +76,7 @@ public class ListSection<T:Equatable>: Section {
      - parameter value: A new value
      - parameter updateView: Whether the value's corresponding item should be added to the view
      */
-    public func addValue(value: T, updateView: Bool = false) -> Section {
+    open func addValue(_ value: T, updateView: Bool = false) -> Section {
         self.values.append(value)
         
         let index = self.itemCount
@@ -86,7 +86,7 @@ public class ListSection<T:Equatable>: Section {
         if updateView {
             if let indexPath = self.indexPathForIndex(index) {
                 if let animatablePresenter = self.presenter as? AnimatableCollectionPresenter {
-                    animatablePresenter.insertItem(indexPath: indexPath, animation: .Automatic)
+                    animatablePresenter.insertItem(indexPath: indexPath, animation: .automatic)
                 }
             }
         }

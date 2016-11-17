@@ -32,7 +32,7 @@ class AnimationsViewController: DataSourceViewController {
         }
     }
     
-    override func configureDataSource(dataSource: DataSource) {
+    override func configureDataSource(_ dataSource: DataSource) {
 
         dataSource <<< ListSection(values: self.numbers, title: "Numbers", key: "numbers") { value, index in
             return CollectionItem<UITableViewCell> { cell in
@@ -94,9 +94,9 @@ class AnimationsViewController: DataSourceViewController {
         }
     }
 
-    func removeNumber(number:Int) {
-        if let index = self.numbers.indexOf(number) {
-            self.numbers.removeAtIndex(index)
+    func removeNumber(_ number:Int) {
+        if let index = self.numbers.index(of: number) {
+            self.numbers.remove(at: index)
             self.numbersSection?.removeValueAtIndex(index, updateView: true)
         }
     }

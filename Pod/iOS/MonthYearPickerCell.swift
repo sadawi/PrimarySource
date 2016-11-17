@@ -9,26 +9,26 @@
 import Foundation
 import UIKit
 
-public class MonthYearPickerCell: PickerCell {
-    public var dateFormatter: NSDateFormatter = NSDateFormatter()
+open class MonthYearPickerCell: PickerCell {
+    open var dateFormatter: DateFormatter = DateFormatter()
     
-    public var monthYearPicker: MonthYearPicker? {
+    open var monthYearPicker: MonthYearPicker? {
         return self.picker as? MonthYearPicker
     }
     
-    public override func buildView() {
+    open override func buildView() {
         super.buildView()
         self.dateFormatter.dateFormat = "MM/YYYY"
     }
     
-    public override func setDefaults() {
+    open override func setDefaults() {
         super.setDefaults()
         self.toolbarShowsClearButton = false
     }
     
-    public var dateComponentsValue: NSDateComponents? {
+    open var dateComponentsValue: DateComponents? {
         get {
-            return self.monthYearPicker?.dateComponents
+            return self.monthYearPicker?.dateComponents as DateComponents?
         }
         set {
             self.monthYearPicker?.dateComponents = newValue
@@ -36,9 +36,9 @@ public class MonthYearPickerCell: PickerCell {
         }
     }
     
-    public var dateValue: NSDate? {
+    open var dateValue: Date? {
         get {
-            return self.monthYearPicker?.date
+            return self.monthYearPicker?.date as Date?
         }
         set {
             self.monthYearPicker?.date = newValue
@@ -46,18 +46,18 @@ public class MonthYearPickerCell: PickerCell {
         }
     }
     
-    public override func buildPicker() -> UIPickerView? {
-        let picker = MonthYearPicker(minimumDate: NSDate(), maximumDate: NSDate().dateByAddingTimeInterval(15*365*24*60*60))
+    open override func buildPicker() -> UIPickerView? {
+        let picker = MonthYearPicker(minimumDate: Date(), maximumDate: Date().addingTimeInterval(15*365*24*60*60))
         picker.onValueChange = { [weak self] components in
             self?.update()
         }
         return picker
     }
     
-    public override var stringValue: String? {
+    open override var stringValue: String? {
         get {
             if let date = self.monthYearPicker?.date {
-                return self.dateFormatter.stringFromDate(date)
+                return self.dateFormatter.string(from: date as Date)
             }
             return nil
         }
