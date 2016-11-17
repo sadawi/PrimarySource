@@ -133,7 +133,7 @@ open class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>, 
      */
     open var indexPath: IndexPath? {
         if let index = self.index {
-            return self.section?.indexPathForIndex(index)
+            return self.section?.indexPath(index: index)
         } else {
             return nil
         }

@@ -50,7 +50,7 @@ open class ListSection<T:Equatable>: Section {
         self.values.remove(at: index)
         self.items.remove(at: index)
         if updateView {
-            if let indexPath = self.indexPathForIndex(index) {
+            if let indexPath = self.indexPath(index: index) {
                 if let animatablePresenter = self.presenter as? AnimatableCollectionPresenter {
                     animatablePresenter.removeItem(indexPath: indexPath, animation: .automatic)
                 }
@@ -84,7 +84,7 @@ open class ListSection<T:Equatable>: Section {
         self.addItem(item)
         
         if updateView {
-            if let indexPath = self.indexPathForIndex(index) {
+            if let indexPath = self.indexPath(index: index) {
                 if let animatablePresenter = self.presenter as? AnimatableCollectionPresenter {
                     animatablePresenter.insertItem(indexPath: indexPath, animation: .automatic)
                 }
