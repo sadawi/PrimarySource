@@ -45,7 +45,7 @@ public class TableCellBackgroundView: UIView {
             self.color.setFill()
         }
         
-        let context = UIGraphicsGetCurrentContext()
+        let context = UIGraphicsGetCurrentContext()!
         
         var rect = self.bounds
         rect.size.height -= self.bottomPadding

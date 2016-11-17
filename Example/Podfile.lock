@@ -1,5 +1,5 @@
 PODS:
-  - PrimarySource (0.10.0)
+  - PrimarySource (0.11.1)
 
 DEPENDENCIES:
   - PrimarySource (from `../`)
@@ -9,8 +9,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  PrimarySource: 9302e284bce35b8745ae5657f63d37885b19a347
+  PrimarySource: 5fa08bd6888e39d566439867c5a0ce870c953e21
 
 PODFILE CHECKSUM: f5c3a1195ec200b5f70aff693b9343bd6e839382
 
-COCOAPODS: 1.0.0
+COCOAPODS: 1.1.1

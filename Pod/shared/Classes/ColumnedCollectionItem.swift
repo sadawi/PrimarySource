@@ -42,10 +42,15 @@ public class ColumnedCollectionItem<ViewType:CollectionItemView>: CollectionItem
     public var buildChildren: ((ColumnedCollectionItemType)->[ColumnedCollectionItemType])?
     
     public var children: [ColumnedCollectionItemType] {
-        if _children == nil {
-            _children = self.buildChildren?(self) ?? []
+        get {
+            if _children == nil {
+                _children = self.buildChildren?(self) ?? []
+            }
+            return _children!
         }
-        return _children!
+        set {
+            _children = newValue
+        }
     }
     
     private var _children:[ColumnedCollectionItemType]? {

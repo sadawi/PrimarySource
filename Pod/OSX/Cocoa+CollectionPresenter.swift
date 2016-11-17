@@ -47,7 +47,7 @@ protocol OutlineViewDataSource: NSOutlineViewDataSource {
 
 @IBDesignable public class OutlineView: NSOutlineView, ColumnSpannable {
     var outlineViewDataSource: OutlineViewDataSource? {
-        return self.dataSource() as? OutlineViewDataSource
+        return self.dataSource as? OutlineViewDataSource
     }
     
     @IBInspectable var hidesOutlineTriangles: Bool = false
