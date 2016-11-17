@@ -183,12 +183,12 @@ open class Section {
     
     // MARK: - Indices
     
-    func indexOfItem(_ item: CollectionItemType) -> Int? {
+    func index(of item: CollectionItemType) -> Int? {
         return self.visibleItems.index { $0 === item }
     }
     
     var index:Int? {
-        return self.dataSource?.indexOfSection(self)
+        return self.dataSource?.index(of: self)
     }
     
     func indexPathForIndex(_ index:Int) -> IndexPath? {

@@ -158,7 +158,7 @@ open class DataSource: NSObject {
         self.didRegisterPresenter = true
     }
     
-    open func indexOfSection(_ section:Section) -> Int? {
+    open func index(of section:Section) -> Int? {
         return self.visibleSections.index { $0 === section }
     }
     

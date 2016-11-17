@@ -125,7 +125,7 @@ open class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>, 
     }
     
     var index:Int? {
-        return self.section?.indexOfItem(self)
+        return self.section?.index(of: self)
     }
     
     /**
