@@ -29,7 +29,7 @@ extension DataSource: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         self.registerPresenterIfNeeded(collectionView: collectionView)
         
-        if let item = self.item(atIndexPath: indexPath), let identifier = item.reuseIdentifier {
+        if let item = self.item(at: indexPath), let identifier = item.reuseIdentifier {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
             item.configureView(cell)
             return cell
@@ -43,11 +43,11 @@ extension DataSource: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        self.item(atIndexPath: indexPath)?.onTap()
+        self.item(at: indexPath)?.onTap()
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if let item = self.item(atIndexPath: indexPath), let size = item.desiredSize?() {
+        if let item = self.item(at: indexPath), let size = item.desiredSize?() {
             return size
         } else {
             return self.defaultItemSize

@@ -39,11 +39,11 @@ extension DataSource: UITableViewDelegate, UITableViewDataSource {
     // MARK: - UITableViewDataSource methods
     
     public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return self.canMoveItem(atIndexPath: indexPath)
+        return self.canMoveItem(at: indexPath)
     }
     
     public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        if self.canMoveItem(fromIndexPath: sourceIndexPath, toIndexPath: destinationIndexPath) {
+        if self.canMoveItem(from: sourceIndexPath, to: destinationIndexPath) {
             if self.reorderingMode == .withinSections {
                 self[(sourceIndexPath as NSIndexPath).section]?.handleReorder(fromIndexPath: sourceIndexPath, toIndexPath: destinationIndexPath)
             } else if let reorder = self.reorder {
@@ -53,11 +53,11 @@ extension DataSource: UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
-        return self.canMoveItem(fromIndexPath: sourceIndexPath, toIndexPath: proposedDestinationIndexPath) ? proposedDestinationIndexPath : sourceIndexPath
+        return self.canMoveItem(from: sourceIndexPath, to: proposedDestinationIndexPath) ? proposedDestinationIndexPath : sourceIndexPath
     }
     
     public func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        if self.item(atIndexPath: indexPath)?.tappable == true {
+        if self.item(at: indexPath)?.tappable == true {
             return true
         }
         
@@ -84,7 +84,7 @@ extension DataSource: UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        self.item(atIndexPath: indexPath)?.onAccessoryTap()
+        self.item(at: indexPath)?.onAccessoryTap()
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -92,7 +92,7 @@ extension DataSource: UITableViewDelegate, UITableViewDataSource {
         
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
         
-        self.item(atIndexPath: indexPath)?.onTap()
+        self.item(at: indexPath)?.onTap()
         
         if let tappable = tableView.cellForRow(at: indexPath) as? TappableTableCell {
             tappable.handleTap()
@@ -112,7 +112,7 @@ extension DataSource: UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if let sizeClosure = self.item(atIndexPath: indexPath)?.desiredSize {
+        if let sizeClosure = self.item(at: indexPath)?.desiredSize {
             return sizeClosure().height
         } else {
             return UITableViewAutomaticDimension
@@ -153,7 +153,7 @@ extension DataSource: UITableViewDelegate, UITableViewDataSource {
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         self.registerPresenterIfNeeded(tableView: tableView)
         
-        if let item = self.item(atIndexPath: indexPath), let identifier = item.reuseIdentifier, let cell = tableView.dequeueReusableCell(withIdentifier: identifier) {
+        if let item = self.item(at: indexPath), let identifier = item.reuseIdentifier, let cell = tableView.dequeueReusableCell(withIdentifier: identifier) {
             if let tableCell = cell as? TableCell {
                 tableCell.dataSource = self
             }
@@ -180,23 +180,23 @@ extension DataSource: UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return self.canMoveItem(atIndexPath: indexPath) || self.canEditItem(atIndexPath: indexPath)
+        return self.canMoveItem(at: indexPath) || self.canEditItem(atIndexPath: indexPath)
     }
     
     fileprivate func canEditItem(atIndexPath indexPath:IndexPath) -> Bool {
-        let item = self.item(atIndexPath: indexPath)
+        let item = self.item(at: indexPath)
         
         return self.canDeleteItem(atIndexPath: indexPath) || item?.editActionList?.actionItems.count > 0
     }
     
     fileprivate func canDeleteItem(atIndexPath indexPath:IndexPath) -> Bool {
-        let item = self.item(atIndexPath: indexPath)
+        let item = self.item(at: indexPath)
         return item?.deletable == true
     }
     
     public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            if let item = self.item(atIndexPath: indexPath) {
+            if let item = self.item(at: indexPath) {
                 item.willDelete()
                 
                 if !item.handlesDelete {
@@ -214,7 +214,7 @@ extension DataSource: UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        if let item = self.item(atIndexPath: indexPath) {
+        if let item = self.item(at: indexPath) {
             if let actionList = item.editActionList {
                 var result: [UITableViewRowAction] = []
                 for actionItem in actionList.actionItems {

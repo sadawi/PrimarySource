@@ -96,19 +96,19 @@ open class DataSource: NSObject {
         }
     }
 
-    func item(atIndexPath indexPath: IndexPath) -> CollectionItemType? {
+    func item(at indexPath: IndexPath) -> CollectionItemType? {
         return self[(indexPath as NSIndexPath).section]?.itemAtIndex(indexPath.row)
     }
     
-    func canMoveItem(atIndexPath indexPath:IndexPath) -> Bool {
+    func canMoveItem(at indexPath:IndexPath) -> Bool {
         guard let section = self[(indexPath as NSIndexPath).section] else { return false }
         
         return self.reorderingMode != .none && section.reorderable && section.itemAtIndex(indexPath.row)?.reorderable == true
     }
 
-    func canMoveItem(fromIndexPath:IndexPath, toIndexPath:IndexPath) -> Bool {
+    func canMoveItem(from fromIndexPath:IndexPath, to toIndexPath:IndexPath) -> Bool {
         guard let toSection = self[(toIndexPath as NSIndexPath).section] else { return false }
-        guard self.canMoveItem(atIndexPath: fromIndexPath) else { return false }
+        guard self.canMoveItem(at: fromIndexPath) else { return false }
         guard toIndexPath.row < toSection.itemCount else { return false }
         guard toSection.reorderable && toSection[toIndexPath.row]?.reorderable == true else { return false }
         
