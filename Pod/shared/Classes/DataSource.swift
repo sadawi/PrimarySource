@@ -56,13 +56,7 @@ open class DataSource: NSObject {
     public override init() {
         
     }
-        
-    open func serialize() -> [String:AnyObject] {
-        let result:[String:AnyObject] = [:]
-        // TODO
-        return result
-    }
-    
+
     open func reset() {
         self.sections = []
     }
