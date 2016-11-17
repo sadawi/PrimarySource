@@ -22,14 +22,14 @@ import UIKit
 //
 
 public enum Visibility {
-    case none
+    case never
     case auto
     case always
 }
 
 public struct BorderStyle {
-    public var top: Visibility = .none
-    public var bottom: Visibility = .none
+    public var top: Visibility = .never
+    public var bottom: Visibility = .never
     
     public init(top: Visibility, bottom: Visibility) {
         self.top = top
@@ -74,7 +74,7 @@ open class TableCell: UITableViewCell, ListMember {
         }
     }
     
-    open var borderStyle: BorderStyle = BorderStyle(top: .none, bottom: .none) {
+    open var borderStyle: BorderStyle = BorderStyle(top: .never, bottom: .never) {
         didSet {
             self.updateBorders()
         }
@@ -109,7 +109,7 @@ open class TableCell: UITableViewCell, ListMember {
     func updateBorders() {
 
         switch self.borderStyle.top {
-        case .none:
+        case .never:
             self.topBorder.isHidden = true
         case .always: 
             self.topBorder.isHidden = false
@@ -118,7 +118,7 @@ open class TableCell: UITableViewCell, ListMember {
         }
         
         switch self.borderStyle.bottom {
-        case .none:
+        case .never:
             self.bottomBorder.isHidden = true
         case .always:
             self.bottomBorder.isHidden = false
@@ -210,7 +210,7 @@ open class TableCell: UITableViewCell, ListMember {
     
     open override func prepareForReuse() {
         super.prepareForReuse()
-        self.borderStyle = BorderStyle(top: .none, bottom: .none)
+        self.borderStyle = BorderStyle(top: .never, bottom: .never)
         self.accessoryType = .none
     }
     
