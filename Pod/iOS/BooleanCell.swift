@@ -8,8 +8,8 @@
 
 import UIKit
 
-public class BooleanCell:FieldCell {
-    public var value:Bool? = false {
+open class BooleanCell:FieldCell {
+    open var value:Bool? = false {
         didSet {
             self.update()
         }
@@ -19,39 +19,39 @@ public class BooleanCell:FieldCell {
     
     public typealias ValueType = Bool
     
-    public override func prepareForReuse() {
+    open override func prepareForReuse() {
         super.prepareForReuse()
     }
 }
 
-public class SwitchCell:BooleanCell, TappableTableCell  {
+open class SwitchCell:BooleanCell, TappableTableCell  {
     var switchControl:UISwitch?
     
-    override public func buildView() {
+    override open func buildView() {
         super.buildView()
         let control = UISwitch(frame: self.controlView!.bounds)
         
-        self.addControl(control, alignment:.Right)
-        control.addTarget(self, action: Selector("switchChanged"), forControlEvents: UIControlEvents.ValueChanged)
+        self.addControl(control, alignment:.right)
+        control.addTarget(self, action: #selector(SwitchCell.switchChanged), for: UIControlEvents.valueChanged)
         self.switchControl = control
     }
     
-    public func switchChanged() {
-        self.value = self.switchControl?.on
+    open func switchChanged() {
+        self.value = self.switchControl?.isOn
         self.valueChanged()
     }
     
-    public func toggle(animated animated:Bool=true) {
+    open func toggle(animated:Bool=true) {
         let newValue = (self.value != true)
         self.switchControl?.setOn(newValue, animated: animated)
         self.value = newValue
         self.valueChanged()
     }
     
-    public override func update() {
+    open override func update() {
         super.update()
-        self.switchControl?.on = (self.value == true)
-        self.switchControl?.userInteractionEnabled = !self.readonly
+        self.switchControl?.isOn = (self.value == true)
+        self.switchControl?.isUserInteractionEnabled = !self.readonly
     }
     
     func handleTap() {

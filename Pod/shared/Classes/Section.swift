@@ -193,7 +193,8 @@ open class Section {
     
     func indexPathForIndex(_ index:Int) -> IndexPath? {
         if let section = self.index {
-            return IndexPath(item: index, section: section)
+//            return IndexPath(item: index, section: section)
+            return IndexPath(row: index, section: section)
         } else {
             return nil
         }

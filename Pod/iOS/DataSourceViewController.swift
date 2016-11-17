@@ -8,39 +8,39 @@
 
 import UIKit
 
-public class DataSourceViewController: UIViewController, DataSourceDelegate {
-    private var originalBottomMargin: CGFloat = 0
+open class DataSourceViewController: UIViewController, DataSourceDelegate {
+    fileprivate var originalBottomMargin: CGFloat = 0
     
-    lazy public var dataSource:DataSource = {
+    lazy open var dataSource:DataSource = {
         let dataSource = DataSource()
         dataSource.delegate = self
         return dataSource
     }()
     
-    public var configure:((DataSourceViewController, DataSource) -> Void)?
-    public var tableViewStyle: UITableViewStyle = .Plain
+    open var configure:((DataSourceViewController, DataSource) -> Void)?
+    open var tableViewStyle: UITableViewStyle = .plain
     
-    @IBOutlet lazy public var tableView:UITableView! = {
+    @IBOutlet lazy open var tableView:UITableView! = {
         UITableView(frame: self.view.bounds, style: self.tableViewStyle)
     }()
     
-    public convenience init(title:String?=nil, configure:((DataSourceViewController, DataSource) -> Void)) {
+    public convenience init(title:String?=nil, configure:@escaping ((DataSourceViewController, DataSource) -> Void)) {
         self.init()
         self.title = title
         self.configure = configure
     }
     
-    public override func viewDidAppear(animated: Bool) {
+    open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.originalBottomMargin = self.tableView.contentInset.bottom
     }
     
-    override public func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
         
         if self.tableView.superview == nil {
             self.tableView.frame = self.view.bounds
-            self.tableView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+            self.tableView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
             self.view.addSubview(tableView)
         }
         
@@ -52,42 +52,42 @@ public class DataSourceViewController: UIViewController, DataSourceDelegate {
         self.tableView.delegate = self.dataSource
         self.tableView.dataSource = self.dataSource
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name:UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name:UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(DataSourceViewController.keyboardWillShow(_:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(DataSourceViewController.keyboardWillHide(_:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         self.reloadData()
     }
     
-    public func configureDataSource(dataSource:DataSource) {
+    open func configureDataSource(_ dataSource:DataSource) {
         if let configure = self.configure {
             configure(self, dataSource)
         }
     }
     
-    public func reloadData() {
+    open func reloadData() {
         self.buildDataSource()
         self.tableView.reloadData()
     }
     
-    public func buildDataSource() {
+    open func buildDataSource() {
         self.dataSource.reset()
         self.configureDataSource(dataSource)
     }
     
-    public func presentationViewControllerForDataSource(dataSource: DataSource) -> UIViewController? {
+    open func presentationViewControllerForDataSource(_ dataSource: DataSource) -> UIViewController? {
         return self
     }
     
     // MARK: Keyboard
     
-    func keyboardWillShow(notification:NSNotification) {
-        if let navigationController = self.navigationController where navigationController.topViewController !== self {
+    func keyboardWillShow(_ notification:Notification) {
+        if let navigationController = self.navigationController , navigationController.topViewController !== self {
             return
         }
         
-        var userInfo = notification.userInfo!
-        var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
-        keyboardFrame = self.view.convertRect(keyboardFrame, fromView: nil)
+        var userInfo = (notification as NSNotification).userInfo!
+        var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
         
         var contentInset:UIEdgeInsets = self.tableView.contentInset
         self.originalBottomMargin = contentInset.bottom
@@ -95,8 +95,8 @@ public class DataSourceViewController: UIViewController, DataSourceDelegate {
         self.tableView.contentInset = contentInset
     }
     
-    func keyboardWillHide(notification:NSNotification) {
-        if let navigationController = self.navigationController where navigationController.topViewController !== self {
+    func keyboardWillHide(_ notification:Notification) {
+        if let navigationController = self.navigationController , navigationController.topViewController !== self {
             return
         }
         

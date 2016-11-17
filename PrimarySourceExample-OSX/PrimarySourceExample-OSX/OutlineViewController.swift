@@ -74,7 +74,7 @@ class OutlineViewController: NSViewController {
         return result
     }
     
-    override var representedObject: AnyObject? {
+    override var representedObject: Any? {
         didSet {
             // Update the view, if already loaded.
         }

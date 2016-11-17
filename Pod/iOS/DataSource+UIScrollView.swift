@@ -9,7 +9,7 @@
 import UIKit
 
 extension DataSource: UIScrollViewDelegate {
-    public func scrollViewDidScroll(scrollView: UIScrollView) {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         self.didScroll?()
     }
 }

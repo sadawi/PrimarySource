@@ -8,11 +8,11 @@
 
 import UIKit
 
-public class DateFieldCell: TextFieldInputCell {
-    public override var stringValue:String? {
+open class DateFieldCell: TextFieldInputCell {
+    open override var stringValue:String? {
         get {
             if let date = self.value {
-                return self.dateFormatter.stringFromDate(date)
+                return self.dateFormatter.string(from: date)
             } else {
                 return nil
             }
@@ -23,25 +23,25 @@ public class DateFieldCell: TextFieldInputCell {
         }
     }
     
-    public var value:NSDate? {
+    open var value:Date? {
         didSet {
             self.update()
         }
     }
-    public var dateFormatter:NSDateFormatter = NSDateFormatter()
-    public var datePicker:UIDatePicker?
+    open var dateFormatter:DateFormatter = DateFormatter()
+    open var datePicker:UIDatePicker?
     
-    override public func buildView() {
+    override open func buildView() {
         super.buildView()
         
-        self.dateFormatter.dateStyle = .MediumStyle
+        self.dateFormatter.dateStyle = .medium
         
         self.datePicker = UIDatePicker()
-        self.datePicker?.datePickerMode = .Date
-        self.datePicker?.addTarget(self, action: Selector("datePickerValueChanged"), forControlEvents: UIControlEvents.ValueChanged)
+        self.datePicker?.datePickerMode = .date
+        self.datePicker?.addTarget(self, action: #selector(DateFieldCell.datePickerValueChanged), for: UIControlEvents.valueChanged)
         
         self.textField?.inputView = self.datePicker
-        self.textField?.tintColor = UIColor.clearColor()
+        self.textField?.tintColor = UIColor.clear
     }
     
     func datePickerValueChanged() {
@@ -49,28 +49,28 @@ public class DateFieldCell: TextFieldInputCell {
         self.valueChanged()
     }
     
-    override public func setDefaults() {
+    override open func setDefaults() {
         super.setDefaults()
         self.toolbarShowsClearButton = true
     }
     
-    override public func commit() {
+    override open func commit() {
         self.datePickerValueChanged()
         self.valueChanged()
         super.commit()
     }
     
-    override public func clear() {
+    override open func clear() {
         self.value = nil
         super.clear()
     }
     
-    override public func update() {
+    override open func update() {
         super.update()
         if let date = self.value {
             self.datePicker?.date = date
         } else {
-            self.datePicker?.date = NSDate()
+            self.datePicker?.date = Date()
         }
     }
     

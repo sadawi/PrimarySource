@@ -17,19 +17,19 @@ class ViewController: DataSourceViewController {
         super.viewDidLoad()
     }
     
-    @IBAction func getValue(sender: AnyObject) {
+    @IBAction func getValue(_ sender: AnyObject) {
         // TODO
     }
     
-    @IBAction func refresh(sender: AnyObject) {
+    @IBAction func refresh(_ sender: AnyObject) {
         self.reloadData()
     }
     
-    @IBAction func edit(sender: AnyObject) {
-        self.tableView.setEditing(!self.tableView.editing, animated: true)
+    @IBAction func edit(_ sender: AnyObject) {
+        self.tableView.setEditing(!self.tableView.isEditing, animated: true)
     }
     
-    override func configureDataSource(dataSource: DataSource) {
+    override func configureDataSource(_ dataSource: DataSource) {
         dataSource <<< Section(title: "Cells") { section in
             section <<< CollectionItem<TitleTextCell> { cell in
                 cell.title = "TitleTextCell"
@@ -42,7 +42,7 @@ class ViewController: DataSourceViewController {
             
             section <<< CollectionItem<TableCell> { cell in
                 cell.textLabel?.text = "options"
-                cell.accessoryType = .DisclosureIndicator
+                cell.accessoryType = .disclosureIndicator
                 }.onTap { _ in
                     let c = SelectViewController(options: [1, 2, 3], value: nil)
                     c.includeNil = true
@@ -81,13 +81,13 @@ class ViewController: DataSourceViewController {
             section <<< CollectionItem<TableCell> { cell in
                 cell.textLabel?.text = "Swipe for actions"
                 }.edit { item, actionList in
-                    actionList <<< ActionItem(title: "Red", color: UIColor.redColor()) {
+                    actionList <<< ActionItem(title: "Red", color: UIColor.red) {
                         print("Red")
                     }
-                    actionList <<< ActionItem(title: "Green", color: UIColor.greenColor()) {
+                    actionList <<< ActionItem(title: "Green", color: UIColor.green) {
                         print("Green")
                     }
-                    actionList <<< ActionItem(title: "Blue", color: UIColor.blueColor()) {
+                    actionList <<< ActionItem(title: "Blue", color: UIColor.blue) {
                         print("Blue")
                     }
             }

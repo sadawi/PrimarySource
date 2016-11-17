@@ -22,14 +22,14 @@ import UIKit
 //
 
 public enum Visibility {
-    case None
-    case Auto
-    case Always
+    case none
+    case auto
+    case always
 }
 
 public struct BorderStyle {
-    public var top: Visibility = .None
-    public var bottom: Visibility = .None
+    public var top: Visibility = .none
+    public var bottom: Visibility = .none
     
     public init(top: Visibility, bottom: Visibility) {
         self.top = top
@@ -41,55 +41,55 @@ protocol TappableTableCell {
     func handleTap()
 }
 
-public class TableCell: UITableViewCell, ListMember {
+open class TableCell: UITableViewCell, ListMember {
     internal weak var dataSource:DataSource?
     
-    public var adjustFrame: ((CGRect)->CGRect)?
-    public var showHighlight: ((highlighted: Bool, animated:Bool)->())? {
+    open var adjustFrame: ((CGRect)->CGRect)?
+    open var showHighlight: ((_ highlighted: Bool, _ animated:Bool)->())? {
         didSet {
             if self.showHighlight == nil {
-                self.selectionStyle = .Default
+                self.selectionStyle = .default
             } else {
-                self.selectionStyle = .None
+                self.selectionStyle = .none
             }
         }
     }
     
-    private let borderThickness: CGFloat = 0.5
-    public var borderInsets: UIEdgeInsets = UIEdgeInsetsZero {
+    fileprivate let borderThickness: CGFloat = 0.5
+    open var borderInsets: UIEdgeInsets = UIEdgeInsets.zero {
         didSet {
             self.updateBorders()
         }
     }
     
-    public var listMembership: ListMembership = .NotContained {
+    open var listMembership: ListMembership = .notContained {
         didSet {
             self.updateBorders()
         }
     }
     
-    public dynamic var borderColor: UIColor = UIColor.lightGrayColor() {
+    open dynamic var borderColor: UIColor = UIColor.lightGray {
         didSet {
             self.updateBorders()
         }
     }
     
-    public var borderStyle: BorderStyle = BorderStyle(top: .None, bottom: .None) {
+    open var borderStyle: BorderStyle = BorderStyle(top: .none, bottom: .none) {
         didSet {
             self.updateBorders()
         }
     }
     
-    lazy private var topBorder: UIView = {
+    lazy fileprivate var topBorder: UIView = {
         let view = self.buildBorder()
-        view.autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
+        view.autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
         self.addSubview(view)
         return view
     }()
 
-    lazy private var bottomBorder: UIView = {
+    lazy fileprivate var bottomBorder: UIView = {
         let view = self.buildBorder()
-        view.autoresizingMask = [.FlexibleWidth, .FlexibleTopMargin]
+        view.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]
         var f = view.frame
         f.origin.y = self.bounds.size.height - self.borderThickness
         view.frame = f
@@ -97,33 +97,33 @@ public class TableCell: UITableViewCell, ListMember {
         return view
     }()
     
-    private func buildBorder() -> UIView {
+    fileprivate func buildBorder() -> UIView {
         let view = UIView()
         let x = self.borderInsets.left
         // frame will correctly updated later
         view.frame = CGRect(x: x, y: 0, width: 0, height: self.borderThickness)
-        view.hidden = true
+        view.isHidden = true
         return view
     }
     
     func updateBorders() {
 
         switch self.borderStyle.top {
-        case .None:
-            self.topBorder.hidden = true
-        case .Always: 
-            self.topBorder.hidden = false
-        case .Auto:
-            self.topBorder.hidden = !(self.listMembership == ListMembership.Contained(position: .Middle) || self.listMembership == ListMembership.Contained(position: .End))
+        case .none:
+            self.topBorder.isHidden = true
+        case .always: 
+            self.topBorder.isHidden = false
+        case .auto:
+            self.topBorder.isHidden = !(self.listMembership == ListMembership.contained(position: .Middle) || self.listMembership == ListMembership.contained(position: .End))
         }
         
         switch self.borderStyle.bottom {
-        case .None:
-            self.bottomBorder.hidden = true
-        case .Always:
-            self.bottomBorder.hidden = false
-        case .Auto:
-            self.bottomBorder.hidden = true
+        case .none:
+            self.bottomBorder.isHidden = true
+        case .always:
+            self.bottomBorder.isHidden = false
+        case .auto:
+            self.bottomBorder.isHidden = true
         }
         
         for border in [self.bottomBorder, self.topBorder] {
@@ -142,19 +142,19 @@ public class TableCell: UITableViewCell, ListMember {
         }
     }
     
-    public override func setHighlighted(highlighted: Bool, animated: Bool) {
+    open override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         if let showHighlight = self.showHighlight {
-            showHighlight(highlighted: highlighted, animated: animated)
+            showHighlight(highlighted, animated)
         } else {
             super.setHighlighted(highlighted, animated: animated)
         }
     }
     
-    public func useAppearance() -> Bool {
+    open func useAppearance() -> Bool {
         return true
     }
     
-    public dynamic var textLabelFont:UIFont? {
+    open dynamic var textLabelFont:UIFont? {
         get {
             return self.textLabel?.font
         }
@@ -165,7 +165,7 @@ public class TableCell: UITableViewCell, ListMember {
         }
     }
     
-    public dynamic var textLabelColor:UIColor? {
+    open dynamic var textLabelColor:UIColor? {
         get {
             return self.textLabel?.textColor
         }
@@ -189,32 +189,32 @@ public class TableCell: UITableViewCell, ListMember {
         self.buildView()
     }
     
-    public func buildView() {
+    open func buildView() {
         self.clipsToBounds = true
         self.textLabel?.numberOfLines = 0
-        self.textLabel?.lineBreakMode = .ByWordWrapping
+        self.textLabel?.lineBreakMode = .byWordWrapping
         self.borderInsets = UIEdgeInsets(top: 0, left: self.defaultContentInsets.left, bottom: 0, right: 0)
         self.updateBorders()
     }
     
-    public func setDefaults() {
+    open func setDefaults() {
     }
     
-    override public func setSelected(selected: Bool, animated: Bool) {
+    override open func setSelected(_ selected: Bool, animated: Bool) {
         self.stylize()
     }
     
-    public func stylize() {
-        self.contentView.backgroundColor = .clearColor()
+    open func stylize() {
+        self.contentView.backgroundColor = .clear
     }
     
-    public override func prepareForReuse() {
+    open override func prepareForReuse() {
         super.prepareForReuse()
-        self.borderStyle = BorderStyle(top: .None, bottom: .None)
-        self.accessoryType = .None
+        self.borderStyle = BorderStyle(top: .none, bottom: .none)
+        self.accessoryType = .none
     }
     
-    public override var frame:CGRect {
+    open override var frame:CGRect {
         set {
             var newFrame = newValue
             if let adjust = self.adjustFrame {
@@ -228,83 +228,83 @@ public class TableCell: UITableViewCell, ListMember {
     }
 }
 
-public class SubtitleCell: TableCell {
-    public dynamic var detailTextColor:UIColor? = UIColor(white: 0.5, alpha: 1)
+open class SubtitleCell: TableCell {
+    open dynamic var detailTextColor:UIColor? = UIColor(white: 0.5, alpha: 1)
     
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: UITableViewCellStyle.Subtitle, reuseIdentifier: reuseIdentifier)
+        super.init(style: UITableViewCellStyle.subtitle, reuseIdentifier: reuseIdentifier)
     }
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    override public func stylize() {
+    override open func stylize() {
         self.detailTextLabel?.textColor = self.detailTextColor
     }
 }
 
-public class ActivityIndicatorCell: TableCell {
-    public var activityIndicator:UIActivityIndicatorView?
+open class ActivityIndicatorCell: TableCell {
+    open var activityIndicator:UIActivityIndicatorView?
     
-    override public func buildView() {
+    override open func buildView() {
         super.buildView()
-        let activity = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-        activity.center = CGPoint(x: CGRectGetMidX(self.contentView.bounds), y: CGRectGetMidY(self.contentView.bounds))
-        activity.autoresizingMask = [.FlexibleLeftMargin, .FlexibleTopMargin, .FlexibleBottomMargin, .FlexibleRightMargin]
+        let activity = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        activity.center = CGPoint(x: self.contentView.bounds.midX, y: self.contentView.bounds.midY)
+        activity.autoresizingMask = [.flexibleLeftMargin, .flexibleTopMargin, .flexibleBottomMargin, .flexibleRightMargin]
         self.contentView.addSubview(activity)
         self.activityIndicator = activity
     }
     
-    override public func setSelected(selected: Bool, animated: Bool) {
-        self.backgroundColor = UIColor.clearColor()
-        self.contentView.backgroundColor = UIColor.clearColor()
+    override open func setSelected(_ selected: Bool, animated: Bool) {
+        self.backgroundColor = UIColor.clear
+        self.contentView.backgroundColor = UIColor.clear
         
         self.activityIndicator?.startAnimating()
     }
 }
 
-public class ButtonCell: ContentCell {
-    public var button:UIButton?
+open class ButtonCell: ContentCell {
+    open var button:UIButton?
     
-    public dynamic var buttonFont:UIFont?
+    open dynamic var buttonFont:UIFont?
     
-    public var title:String? {
+    open var title:String? {
         set {
-            self.button?.setTitle(newValue, forState: UIControlState.Normal)
+            self.button?.setTitle(newValue, for: UIControlState())
         }
         get {
             return self.button?.titleLabel?.text
         }
     }
     
-    public override func buildContent() -> UIView {
-        let button = UIButton(type: .Custom)
+    open override func buildContent() -> UIView {
+        let button = UIButton(type: .custom)
         self.button = button
         return button
     }
     
-    override public func buildView() {
+    override open func buildView() {
         super.buildView()
-        self.selectionStyle = .None
+        self.selectionStyle = .none
     }
     
     // Let the CollectionItem handle taps
-    override public func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
-        if CGRectContainsPoint(self.bounds, point) {
+    override open func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if self.bounds.contains(point) {
             return self
         } else {
-            return super.hitTest(point, withEvent: event)
+            return super.hitTest(point, with: event)
         }
     }
     
-    override public func stylize() {
+    override open func stylize() {
         super.stylize()
         if let font = self.buttonFont {
             self.button?.titleLabel?.font = font
         }
-        if self.button?.backgroundColor == nil || self.button?.backgroundColor == UIColor.clearColor() || self.button?.backgroundColor == self.button?.titleColorForState(.Normal) {
-            self.button?.setTitleColor(self.tintColor, forState: UIControlState.Normal)
+        if self.button?.backgroundColor == nil || self.button?.backgroundColor == UIColor.clear || self.button?.backgroundColor == self.button?.titleColor(for: UIControlState()) {
+            self.button?.setTitleColor(self.tintColor, for: UIControlState())
         }
     }
 }

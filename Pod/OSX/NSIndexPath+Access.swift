@@ -9,7 +9,7 @@
 import Foundation
 
 extension IndexPath {
-    init(forRow row:Int, inSection section: Int) {
+    init(row row:Int, section section: Int) {
         self.init(item: row, section: section)
     }
     

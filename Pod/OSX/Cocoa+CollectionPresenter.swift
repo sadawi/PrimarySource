@@ -13,7 +13,7 @@ extension NSTableView: CollectionPresenter {
 }
 
 extension NSOutlineView: ColumnReloadableCollectionPresenter {
-    public func reloadItem(_ item: AnyObject?, columnIdentifiers: [String], reloadChildren: Bool = false) {
+    public func reloadItem(_ item: Any?, columnIdentifiers: [String], reloadChildren: Bool = false) {
         if let item = item {
             let row = self.row(forItem: item)
             let rowIndexes = IndexSet(integer: row)

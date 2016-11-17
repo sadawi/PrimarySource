@@ -15,30 +15,30 @@ class ListPositionsViewController: DataSourceViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView.separatorStyle = .None
+        self.tableView.separatorStyle = .none
         
         self.items = [
-            .Contained(position: .End),
-            .NotContained,
-            .Contained(position: .Middle),
-            .Contained(position: .Middle),
-            .Contained(position: .Middle),
+            .contained(position: .End),
+            .notContained,
+            .contained(position: .Middle),
+            .contained(position: .Middle),
+            .contained(position: .Middle),
         ]
         self.reloadData()
     }
     
-    override func configureDataSource(dataSource: DataSource) {
+    override func configureDataSource(_ dataSource: DataSource) {
         dataSource <<< Section() { section in
             for item in self.items {
                 let collectionItem = CollectionItem<TableCell> { cell in
-                    cell.borderStyle = BorderStyle(top: .Auto, bottom: .Auto)
+                    cell.borderStyle = BorderStyle(top: .auto, bottom: .auto)
                     
                     switch cell.listMembership {
-                    case .NotContained:
+                    case .notContained:
                         cell.textLabel?.text = "Not contained"
                         cell.backgroundColor = UIColor(white: 0.9, alpha: 1)
-                    case .Contained(let position):
-                        cell.backgroundColor = UIColor.clearColor()
+                    case .contained(let position):
+                        cell.backgroundColor = UIColor.clear
                         cell.textLabel?.text = "\(position)"
                     }
                 }

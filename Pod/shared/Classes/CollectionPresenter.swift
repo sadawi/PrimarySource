@@ -35,10 +35,10 @@ public protocol AnimatableCollectionPresenter: CollectionPresenter {
 }
 
 public protocol ColumnReloadableCollectionPresenter: CollectionPresenter {
-    func reloadItem(_ item: AnyObject?, columnIdentifiers:[String], reloadChildren:Bool)
+    func reloadItem(_ item: Any?, columnIdentifiers:[String], reloadChildren:Bool)
 }
 
 public protocol ExpandableCollectionPresenter: CollectionPresenter {
-    func expandItem(_ item: AnyObject?)
-    func collapseItem(_ item: AnyObject?)
+    func expandItem(_ item: Any?)
+    func collapseItem(_ item: Any?)
 }

@@ -8,8 +8,8 @@
 
 import UIKit
 
-public class IntegerCell: FieldCell {
-    public var value:Int? {
+open class IntegerCell: FieldCell {
+    open var value:Int? {
         didSet {
             self.update()
         }
@@ -19,17 +19,17 @@ public class IntegerCell: FieldCell {
     
     public typealias ValueType = Int
 
-    public override func prepareForReuse() {
+    open override func prepareForReuse() {
         super.prepareForReuse()
     }
     
 }
 
-public class StepperCell: IntegerCell {
-    public var stepper:UIStepper?
-    public var valueLabel:UILabel?
+open class StepperCell: IntegerCell {
+    open var stepper:UIStepper?
+    open var valueLabel:UILabel?
     
-    override public func buildView() {
+    override open func buildView() {
         super.buildView()
         
         let label = UILabel(frame: self.controlView!.bounds)
@@ -38,8 +38,8 @@ public class StepperCell: IntegerCell {
 
         let control = UIStepper(frame: self.controlView!.bounds)
         control.stepValue = 1
-        self.addControl(control, alignment:.Right)
-        control.addTarget(self, action: Selector("stepperValueChanged"), forControlEvents: UIControlEvents.ValueChanged)
+        self.addControl(control, alignment:.right)
+        control.addTarget(self, action: #selector(StepperCell.stepperValueChanged), for: UIControlEvents.valueChanged)
         self.stepper = control
     }
     
@@ -52,7 +52,7 @@ public class StepperCell: IntegerCell {
         self.valueChanged()
     }
     
-    override public func stylize() {
+    override open func stylize() {
         super.stylize()
         self.valueLabel?.font = self.valueFont
         self.valueLabel?.textColor = self.valueTextColor
