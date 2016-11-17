@@ -61,8 +61,8 @@ open class TableCellBackgroundView: UIView {
                 corners = corners.union(UIRectCorner.bottomRight)
             }
             let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: self.cornerRadius, height: self.cornerRadius))
-            context?.addPath(path.cgPath)
-            context?.fillPath()
+            context.addPath(path.cgPath)
+            context.fillPath()
         }
     }
 }
