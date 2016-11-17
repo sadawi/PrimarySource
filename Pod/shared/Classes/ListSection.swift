@@ -81,7 +81,7 @@ open class ListSection<T:Equatable>: Section {
         
         let index = self.itemCount
         let item = self.itemForValue(value, index: index)
-        self.addItem(item)
+        self.add(item)
         
         if updateView {
             if let indexPath = self.indexPath(index: index) {

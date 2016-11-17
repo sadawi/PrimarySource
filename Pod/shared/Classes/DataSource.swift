@@ -15,12 +15,12 @@ public enum ReorderingMode {
 }
 
 public func <<<(dataSource:DataSource, section:Section) {
-    dataSource.addSection(section)
+    dataSource.add(section)
 }
 
 public func <<<(dataSource:DataSource, section:Section?) {
     if let section = section {
-        dataSource.addSection(section)
+        dataSource.add(section)
     }
 }
 
@@ -67,7 +67,7 @@ open class DataSource: NSObject {
         self.sections = []
     }
     
-    open func addSection(_ section:Section) {
+    open func add(_ section:Section) {
         section.dataSource = self
         self.sections.append(section)
         if let key = section.key {
@@ -76,23 +76,23 @@ open class DataSource: NSObject {
         self.didRegisterPresenter = false
     }
     
-    open func sectionAtIndex(_ index:Int) -> Section? {
+    open func section(at index:Int) -> Section? {
         return self.visibleSections[index]
     }
     
-    open func sectionForKey(_ key:String) -> Section? {
+    open func section(forKey key:String) -> Section? {
         return self.sectionLookup[key]
     }
     
     open subscript(key:String) -> Section? {
         get {
-            return self.sectionForKey(key)
+            return self.section(forKey: key)
         }
     }
     
     open subscript(index:Int) -> Section? {
         get {
-            return self.sectionAtIndex(index)
+            return self.section(at: index)
         }
     }
 

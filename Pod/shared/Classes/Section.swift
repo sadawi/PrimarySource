@@ -11,18 +11,18 @@ import Foundation
 public typealias ReorderAction = ((IndexPath, IndexPath) -> Void)
 
 public func <<<(section:Section, item:CollectionItemType) {
-    section.addItem(item)
+    section.add(item)
 }
 
 public func <<<(section:Section, item:CollectionItemType?) {
     if let item = item {
-        section.addItem(item)
+        section.add(item)
     }
 }
 
 public func <<<(section:Section, items:[CollectionItemType]) {
     for item in items {
-        section.addItem(item)
+        section.add(item)
     }
 }
 
@@ -69,7 +69,7 @@ open class Section {
         }
     }
     
-    open func addItem(_ item:CollectionItemType) -> Section {
+    open func add(_ item:CollectionItemType) -> Section {
         self.items.append(item)
         if let key = item.key {
             self.itemLookup[key] = item
