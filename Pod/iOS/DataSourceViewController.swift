@@ -66,7 +66,9 @@ open class DataSourceViewController: UIViewController, DataSourceDelegate {
     
     open func reloadData() {
         self.buildDataSource()
-        self.tableView.reloadData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     open func buildDataSource() {
