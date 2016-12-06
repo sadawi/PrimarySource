@@ -42,7 +42,7 @@ open class TableCell: UITableViewCell, ListMember {
         }
     }
     
-    fileprivate let borderThickness: CGFloat = 0.5
+    private let borderThickness: CGFloat = 0.5
     open var borderInsets: UIEdgeInsets = UIEdgeInsets.zero {
         didSet {
             self.updateBorders()
@@ -67,14 +67,14 @@ open class TableCell: UITableViewCell, ListMember {
         }
     }
     
-    lazy fileprivate var topBorder: UIView = {
+    lazy private var topBorder: UIView = {
         let view = self.buildBorder()
         view.autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
         self.addSubview(view)
         return view
     }()
 
-    lazy fileprivate var bottomBorder: UIView = {
+    lazy private var bottomBorder: UIView = {
         let view = self.buildBorder()
         view.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]
         var f = view.frame
@@ -84,7 +84,7 @@ open class TableCell: UITableViewCell, ListMember {
         return view
     }()
     
-    fileprivate func buildBorder() -> UIView {
+    private func buildBorder() -> UIView {
         let view = UIView()
         let x = self.borderInsets.left
         // frame will correctly updated later
