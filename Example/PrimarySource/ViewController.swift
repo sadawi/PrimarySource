@@ -31,11 +31,11 @@ class ViewController: DataSourceViewController {
     
     override func configureDataSource(_ dataSource: DataSource) {
         dataSource <<< Section(title: "Cells") { section in
-            section <<< CollectionItem<TitleTextCell> { cell in
+            section <<< CollectionItem<TitleTextValueCell> { cell in
                 cell.title = "TitleTextCell"
                 cell.value = "string value"
             }
-            section <<< CollectionItem<TitleTextCell> { cell in
+            section <<< CollectionItem<TitleTextValueCell> { cell in
                 cell.title = "TitleTextCell"
                 cell.value = "a very long string value that will probably be too long for its container.  sorry about that!"
             }
