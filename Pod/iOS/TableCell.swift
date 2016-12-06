@@ -8,19 +8,6 @@
 
 import UIKit
 
-//public struct TableCellSeparatorStyle: OptionSetType {
-//    public let rawValue:Int
-//    
-//    public init(rawValue: Int) {
-//        self.rawValue = rawValue
-//    }
-//    
-//    public static let None     = TableCellSeparatorStyle(rawValue: 0)
-//    public static let Top      = TableCellSeparatorStyle(rawValue: 1 << 1)
-//    public static let Bottom   = TableCellSeparatorStyle(rawValue: 1 << 2)
-//}
-//
-
 public enum Visibility {
     case never
     case auto
