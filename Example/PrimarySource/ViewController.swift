@@ -80,14 +80,17 @@ class ViewController: DataSourceViewController {
             
             section <<< CollectionItem<TableCell> { cell in
                 cell.textLabel?.text = "Swipe for actions"
-                }.edit { item, actionList in
+                }.edit { [weak self] item, actionList in
                     actionList <<< ActionItem(title: "Red", color: UIColor.red) {
+                        self?.tableView.setEditing(false, animated: true)
                         print("Red")
                     }
                     actionList <<< ActionItem(title: "Green", color: UIColor.green) {
+                        self?.tableView.setEditing(false, animated: true)
                         print("Green")
                     }
                     actionList <<< ActionItem(title: "Blue", color: UIColor.blue) {
+                        self?.tableView.setEditing(false, animated: true)
                         print("Blue")
                     }
             }
