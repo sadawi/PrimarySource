@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class TitleTextCell: TitleDetailsCell {
+open class TitleTextValueCell: TitleDetailsCell {
     open var valueLabel: UILabel?
     
     open var value: String? {
