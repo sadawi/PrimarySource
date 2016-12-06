@@ -17,7 +17,7 @@ open class TitleDetailsCell: TableCell {
     
     open var controlView:UIStackView?
     
-    var contentConstraints:[NSLayoutConstraint] = []
+    private var contentConstraints:[NSLayoutConstraint] = []
     
     open dynamic var titleTextColor:UIColor? = UIColor.black               { didSet { self.stylize() } }
     open dynamic var titleFont:UIFont = UIFont.boldSystemFont(ofSize: 17)           { didSet { self.stylize() } }
@@ -79,11 +79,11 @@ open class TitleDetailsCell: TableCell {
         
         let views = ["main":mainContent, "detail":detailContent]
         let metrics = [
-            "left": self.defaultContentInsets.left,
-            "right": self.defaultContentInsets.right,
-            "top": self.defaultContentInsets.top,
-            "bottom": self.defaultContentInsets.bottom,
-            "icon": 20
+            "left":     self.defaultContentInsets.left,
+            "right":    self.defaultContentInsets.right,
+            "top":      self.defaultContentInsets.top,
+            "bottom":   self.defaultContentInsets.bottom,
+            "icon":     20
         ]
         
         var constraints:[NSLayoutConstraint] = []
@@ -120,35 +120,31 @@ open class TitleDetailsCell: TableCell {
         
         let views = ["title":titleLabel, "controls":controlView, "main":mainContent]
         let metrics = [
-            "left": self.defaultContentInsets.left,
-            "right": self.defaultContentInsets.right,
-            "top": self.defaultContentInsets.top,
-            "bottom": self.defaultContentInsets.bottom,
-            "minTitleWidth": 10,
-            "hSpacing": 10,
-            "controlHeight": 10
+            "left":             self.defaultContentInsets.left,
+            "right":            self.defaultContentInsets.right,
+            "top":              self.defaultContentInsets.top,
+            "bottom":           self.defaultContentInsets.bottom,
+            "minTitleWidth":    10,
+            "hSpacing":         10,
+            "controlHeight":    10
         ]
         
-        for constraint in self.contentConstraints {
-            self.mainContent?.removeConstraint(constraint)
-        }
-        
-        var newConstraints:[NSLayoutConstraint] = []
+        mainContent.removeConstraints(self.contentConstraints)
+        self.contentConstraints.removeAll()
         
         switch self.labelPosition {
         case .left:
-            newConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-left-[title(>=minTitleWidth)]-(hSpacing)-[controls]-right-|", options: .alignAllTop, metrics: metrics, views: views)
-            newConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-top-[title]|", options: .alignAllTop, metrics: metrics, views: views)
-            newConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-top-[controls]|", options: .alignAllTop, metrics: metrics, views: views)
+            self.contentConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-left-[title(>=minTitleWidth)]-(hSpacing)-[controls]-right-|", options: .alignAllTop, metrics: metrics, views: views)
+            self.contentConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-top-[title]|", options: .alignAllTop, metrics: metrics, views: views)
+            self.contentConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-top-[controls]|", options: .alignAllTop, metrics: metrics, views: views)
         case .top:
             let options = NSLayoutFormatOptions.alignAllLeft
-            newConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-left-[title]-right-|", options: options, metrics: metrics, views: views)
-            newConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-left-[controls]-right-|", options: options, metrics: metrics, views: views)
-            newConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-top-[title]-[controls(>=controlHeight)]-|", options: options, metrics: metrics, views: views)
+            self.contentConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-left-[title]-right-|", options: options, metrics: metrics, views: views)
+            self.contentConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-left-[controls]-right-|", options: options, metrics: metrics, views: views)
+            self.contentConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-top-[title]-[controls(>=controlHeight)]-|", options: options, metrics: metrics, views: views)
         }
         
-        self.mainContent?.addConstraints(newConstraints)
-        self.contentConstraints = newConstraints
+        self.mainContent?.addConstraints(self.contentConstraints)
     }
     
     func addControl(_ control:UIView, alignment:ControlAlignment = .right) {
@@ -159,5 +155,12 @@ open class TitleDetailsCell: TableCell {
     override open func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         self.stylize()
+    }
+    
+    open override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        
+        // Ensure we have the correct content insets (which could be inherited from tableView)
+        self.setupConstraints()
     }
 }

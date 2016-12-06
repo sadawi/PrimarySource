@@ -93,19 +93,31 @@ open class FieldCell: TitleDetailsCell {
         errorLabel.translatesAutoresizingMaskIntoConstraints = false
         self.detailContent?.addSubview(errorLabel)
         self.errorLabel = errorLabel
+    }
+    
+    private var detailConstraints:[NSLayoutConstraint] = []
+    
+    override func setupConstraints() {
+        super.setupConstraints()
 
+        guard let errorLabel = self.errorLabel, let mainContent = self.mainContent, let detailContent = self.detailContent else { return }
+
+        detailContent.removeConstraints(self.detailConstraints)
+        self.detailConstraints.removeAll()
+        
         let views = ["error":errorLabel, "main":self.mainContent!]
         let metrics = [
-            "left": self.defaultContentInsets.left,
-            "right": self.defaultContentInsets.right,
-            "top": self.defaultContentInsets.top,
-            "bottom": self.defaultContentInsets.bottom,
-            "icon": 20
+            "left":         self.defaultContentInsets.left,
+            "right":        self.defaultContentInsets.right,
+            "top":          self.defaultContentInsets.top,
+            "bottom":       self.defaultContentInsets.bottom,
+            "icon":         20
         ]
         
-        self.detailContent?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-left-[error]-right-|", options: .alignAllTop, metrics: metrics, views: views))
+        self.detailConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-left-[error]-right-|", options: .alignAllTop, metrics: metrics, views: views)
+        self.detailConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[error]|", options: .alignAllTop, metrics: metrics, views: views)
         
-        self.detailContent?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[error]|", options: .alignAllTop, metrics: metrics, views: views))
+        detailContent.addConstraints(self.detailConstraints)
     }
     
     override func update() {
