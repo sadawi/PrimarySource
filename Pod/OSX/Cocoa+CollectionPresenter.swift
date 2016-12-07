@@ -66,7 +66,7 @@ protocol OutlineViewDataSource: NSOutlineViewDataSource {
         var superFrame = super.frameOfCell(atColumn: column, row: row)
         
         let tableColumn = self.tableColumns[column]
-        let indent = self.indentationPerLevel
+//        let indent = self.indentationPerLevel
         
         if self.hidesOutlineTriangles {
             if tableColumn === self.outlineTableColumn {

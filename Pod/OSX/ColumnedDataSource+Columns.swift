@@ -13,7 +13,7 @@ extension ColumnedDataSource {
     func columnedCollectionItem(_ item: Any?) -> ColumnedCollectionItemType? {
         return item as? ColumnedCollectionItemType
     }
-
+    
     func columnIdentifier(tableColumn: NSTableColumn?) -> ColumnIdentifier? {
         // TODO: should I round-trip this through the datasource's column list?
         return tableColumn?.identifier
@@ -30,8 +30,8 @@ extension ColumnedDataSource {
                     cellItem.configureView(view)
                     result = view
                 }
-            } else if let nibName = cellItem.nibName {
                 // TODO: load from nib
+                //            } else if let nibName = cellItem.nibName {
             }
         }
         

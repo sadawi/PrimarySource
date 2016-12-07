@@ -9,12 +9,12 @@
 import Foundation
 
 extension IndexPath {
-    init(row row:Int, section section: Int) {
+    init(row:Int, section: Int) {
         self.init(item: row, section: section)
     }
     
     var row: Int {
         // was indexPath(atPosition: row) in Swift 2
-        return self.index(row, offsetBy: 0)
+        return self.index(1, offsetBy: 0)
     }
 }

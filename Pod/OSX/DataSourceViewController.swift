@@ -8,7 +8,6 @@
 
 import Foundation
 import Cocoa
-import PrimarySource
 
 public protocol TableDataSourceViewController {
     var dataSource: ColumnedDataSource { get }

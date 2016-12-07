@@ -8,5 +8,9 @@
 
 import Foundation
 
-infix operator <<< { associativity left precedence 95 }
+precedencegroup DataSourcePrecedence {
+    associativity: left
+}
+
+infix operator <<<: DataSourcePrecedence
 
