@@ -86,7 +86,7 @@ open class PushSelectCell<ValueType:Equatable>: SelectCell<ValueType>, TappableT
             let controller = SelectViewController(options: self.options, value:self.value) { [unowned self] value in
                 self.value = value
                 self.valueChanged()
-                presenter.navigationController?.popViewController(animated: true)
+                _ = presenter.navigationController?.popViewController(animated: true)
             }
             controller.title = self.title
             controller.options = self.options

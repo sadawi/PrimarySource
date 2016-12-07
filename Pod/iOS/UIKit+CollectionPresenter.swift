@@ -15,8 +15,6 @@ extension CollectionPresenterAnimation {
             return .automatic
         case .fade:
             return .fade
-        default:
-            return .none
         }
     }
 }

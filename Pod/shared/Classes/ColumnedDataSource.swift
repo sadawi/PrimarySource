@@ -36,7 +36,7 @@ open class ColumnedDataSource: DataSource {
     func present() {
         self.presenter?.reloadData()
         
-        if let expandable = self.presenter as? ExpandableCollectionPresenter {
+        if self.presenter is ExpandableCollectionPresenter {
             for section in self.sections {
                 for item in section.items {
                     // This is weird.  Why is it columned?  Probably should make another protocol for expandable items.

@@ -61,32 +61,32 @@ open class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>, 
     
     // MARK: - Actions
     
-    open func onTap(_ action:@escaping ItemAction) -> CollectionItemType {
+    @discardableResult open func onTap(_ action:@escaping ItemAction) -> CollectionItemType {
         self.onTapAction = action
         return self
     }
     
-    open func onAccessoryTap(_ action:@escaping ItemAction) -> CollectionItemType {
+    @discardableResult open func onAccessoryTap(_ action:@escaping ItemAction) -> CollectionItemType {
         self.onAccessoryTapAction = action
         return self
     }
     
-    open func didDelete(_ action:@escaping ItemAction) -> CollectionItemType {
+    @discardableResult open func didDelete(_ action:@escaping ItemAction) -> CollectionItemType {
         self.didDeleteAction = action
         return self
     }
     
-    open func delete(_ action:@escaping ItemAction) -> CollectionItemType {
+    @discardableResult open func delete(_ action:@escaping ItemAction) -> CollectionItemType {
         self.deleteAction = action
         return self
     }
     
-    open func willDelete(_ action:@escaping ItemAction) -> CollectionItemType {
+    @discardableResult open func willDelete(_ action:@escaping ItemAction) -> CollectionItemType {
         self.willDeleteAction = action
         return self
     }
     
-    open func edit(_ configureActionList: @escaping ((CollectionItemType, ActionList)->())) -> CollectionItemType {
+    @discardableResult open func edit(_ configureActionList: @escaping ((CollectionItemType, ActionList)->())) -> CollectionItemType {
         let actionList = ActionList()
         self.editActionList = actionList
         

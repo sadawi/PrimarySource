@@ -76,7 +76,7 @@ open class ListSection<T:Equatable>: Section {
      - parameter value: A new value
      - parameter updateView: Whether the value's corresponding item should be added to the view
      */
-    open func addValue(_ value: T, updateView: Bool = false) -> Section {
+    @discardableResult open func addValue(_ value: T, updateView: Bool = false) -> Section {
         self.values.append(value)
         
         let index = self.itemCount

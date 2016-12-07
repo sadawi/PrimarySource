@@ -84,7 +84,7 @@ open class ColumnStackView: UIView {
         columnStack.distribution = UIStackViewDistribution.fillProportionally
         columnStack.translatesAutoresizingMaskIntoConstraints = false
         
-        for i in 0 ..< self.columnCount {
+        for _ in 0 ..< self.columnCount {
             let column = UIStackView(frame: CGRect.null)
             column.axis = .vertical
             column.distribution = .fillEqually

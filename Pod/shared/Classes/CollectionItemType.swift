@@ -27,12 +27,12 @@ public protocol CollectionItemType: class, ReusableItemType, ListMember {
     
     var editActionList: ActionList? { get set }
     
-    func edit(_ configureActionList: @escaping ((CollectionItemType, ActionList)->())) -> CollectionItemType
-    func delete(_ action: @escaping ItemAction) -> CollectionItemType
-    func didDelete(_ action: @escaping ItemAction) -> CollectionItemType
-    func willDelete(_ action: @escaping ItemAction) -> CollectionItemType
-    func onTap(_ action: @escaping ItemAction) -> CollectionItemType
-    func onAccessoryTap(_ action: @escaping ItemAction) -> CollectionItemType
+    @discardableResult func edit(_ configureActionList: @escaping ((CollectionItemType, ActionList)->())) -> CollectionItemType
+    @discardableResult func delete(_ action: @escaping ItemAction) -> CollectionItemType
+    @discardableResult func didDelete(_ action: @escaping ItemAction) -> CollectionItemType
+    @discardableResult func willDelete(_ action: @escaping ItemAction) -> CollectionItemType
+    @discardableResult func onTap(_ action: @escaping ItemAction) -> CollectionItemType
+    @discardableResult func onAccessoryTap(_ action: @escaping ItemAction) -> CollectionItemType
     
     /**
      Sets a visibility condition for this collection item.

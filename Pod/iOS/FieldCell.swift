@@ -100,12 +100,12 @@ open class FieldCell: TitleDetailsCell {
     override func setupConstraints() {
         super.setupConstraints()
 
-        guard let errorLabel = self.errorLabel, let mainContent = self.mainContent, let detailContent = self.detailContent else { return }
+        guard let errorLabel = self.errorLabel, let detailContent = self.detailContent else { return }
 
         detailContent.removeConstraints(self.detailConstraints)
         self.detailConstraints.removeAll()
         
-        let views = ["error":errorLabel, "main":self.mainContent!]
+        let views = ["error":errorLabel]
         let metrics = [
             "left":         self.defaultContentInsets.left,
             "right":        self.defaultContentInsets.right,

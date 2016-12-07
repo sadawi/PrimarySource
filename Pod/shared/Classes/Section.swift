@@ -69,7 +69,7 @@ open class Section {
         }
     }
     
-    open func add(_ item:CollectionItemType) -> Section {
+    @discardableResult open func add(_ item:CollectionItemType) -> Section {
         self.items.append(item)
         if let key = item.key {
             self.itemLookup[key] = item
@@ -136,7 +136,7 @@ open class Section {
         }
     }
     
-    open func onReorder(_ reorder:@escaping ReorderAction) -> Section {
+    @discardableResult open func onReorder(_ reorder:@escaping ReorderAction) -> Section {
         self.reorderable = true
         self.reorder = reorder
         return self
