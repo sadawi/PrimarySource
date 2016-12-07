@@ -10,14 +10,14 @@ import Foundation
 import Cocoa
 
 extension ColumnedDataSource: NSTableViewDataSource, NSTableViewDelegate {
-    func columnForTableColumn(tableColumn: NSTableColumn?) -> Column? {
+    func columnForTableColumn(_ tableColumn: NSTableColumn?) -> Column? {
         if let identifier = tableColumn?.identifier {
             return self.columnForIdentifier(identifier)
         }
         return nil
     }
     
-    func lookupRow(index: Int, ifSectionHeader:((Section)->())?=nil, ifItem:((CollectionItemType)->())?=nil) {
+    func lookupRow(_ index: Int, ifSectionHeader:((Section)->())?=nil, ifItem:((CollectionItemType)->())?=nil) {
         var i = index
         
         for section in self.visibleSections {
@@ -34,7 +34,7 @@ extension ColumnedDataSource: NSTableViewDataSource, NSTableViewDelegate {
         }
     }
     
-    public func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    public func numberOfRows(in tableView: NSTableView) -> Int {
         var count = 0
         for section in self.visibleSections {
             if section.showsHeader {
@@ -45,7 +45,7 @@ extension ColumnedDataSource: NSTableViewDataSource, NSTableViewDelegate {
         return count
     }
     
-    public func tableView(tableView: NSTableView, isGroupRow row: Int) -> Bool {
+    public func tableView(_ tableView: NSTableView, isGroupRow row: Int) -> Bool {
         var isHeader = false
         self.lookupRow(row, ifSectionHeader: { _ in isHeader = true })
         return isHeader
@@ -56,7 +56,7 @@ extension ColumnedDataSource: NSTableViewDataSource, NSTableViewDelegate {
 //        // TODO
 //    }
     
-    public func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    public func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         var result: NSView?
         
         self.lookupRow(row) { item in
@@ -67,7 +67,7 @@ extension ColumnedDataSource: NSTableViewDataSource, NSTableViewDelegate {
         return result
     }
     
-    public func tableViewSelectionDidChange(notification: NSNotification) {
+    public func tableViewSelectionDidChange(_ notification: Notification) {
         self.selectionChangedHandler?(self.selectedTableValues)
     }
     

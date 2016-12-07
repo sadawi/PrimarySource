@@ -8,14 +8,14 @@
 
 import UIKit
 
-public class TableCellBackgroundView: UIView {
-    public var cornerRadius: CGFloat = 0
-    public var listPosition: ListPosition?
-    public var bottomPadding: CGFloat = 1
-    public var color: UIColor = UIColor.clearColor()
-    public var highlightedColor: UIColor = UIColor.clearColor()
+open class TableCellBackgroundView: UIView {
+    open var cornerRadius: CGFloat = 0
+    open var listPosition: ListPosition?
+    open var bottomPadding: CGFloat = 1
+    open var color: UIColor = UIColor.clear
+    open var highlightedColor: UIColor = UIColor.clear
     
-    public var highlighted: Bool = false {
+    open var highlighted: Bool = false {
         didSet {
             self.setNeedsDisplay()
         }
@@ -35,10 +35,10 @@ public class TableCellBackgroundView: UIView {
     }
     
     func initialize() {
-        self.backgroundColor = .clearColor()
+        self.backgroundColor = .clear
     }
     
-    public override func drawRect(rect: CGRect) {
+    open override func draw(_ rect: CGRect) {
         if self.highlighted {
             self.highlightedColor.setFill()
         } else {
@@ -53,16 +53,16 @@ public class TableCellBackgroundView: UIView {
         var corners: UIRectCorner = []
         if let listPosition = self.listPosition {
             if listPosition.contains(ListPosition.Beginning) {
-                corners = corners.union(UIRectCorner.TopLeft)
-                corners = corners.union(UIRectCorner.TopRight)
+                corners = corners.union(UIRectCorner.topLeft)
+                corners = corners.union(UIRectCorner.topRight)
             }
             if listPosition.contains(ListPosition.End) {
-                corners = corners.union(UIRectCorner.BottomLeft)
-                corners = corners.union(UIRectCorner.BottomRight)
+                corners = corners.union(UIRectCorner.bottomLeft)
+                corners = corners.union(UIRectCorner.bottomRight)
             }
             let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: self.cornerRadius, height: self.cornerRadius))
-            CGContextAddPath(context, path.CGPath)
-            CGContextFillPath(context)
+            context.addPath(path.cgPath)
+            context.fillPath()
         }
     }
 }

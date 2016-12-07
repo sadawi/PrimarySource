@@ -35,7 +35,7 @@ class TableViewController: NSViewController {
         self.tableView.reloadData()
     }
     
-    func configureDataSource(dataSource: ColumnedDataSource) {
+    func configureDataSource(_ dataSource: ColumnedDataSource) {
 //        dataSource <<< Column(identifier: kNameColumnIdentifier, title: "Name")
 //        dataSource <<< Column(identifier: kAgeColumnIdentifier, title: "Age")
         

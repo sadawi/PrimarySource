@@ -11,12 +11,12 @@ import Foundation
 public protocol Color {
 }
 
-public class ActionItem {
+public struct ActionItem {
     public var title: String?
     public var action: (()->())?
     public var color: Color?
     
-    public init(title: String, color: Color?=nil, action: (()->())) {
+    public init(title: String, color: Color?=nil, action: @escaping (()->())) {
         self.title = title
         self.action = action
         self.color = color
@@ -24,9 +24,13 @@ public class ActionItem {
 }
 
 public class ActionList {
-    var actionItems: [ActionItem] = []
+    var actionItems: [ActionItem]
     
-    func add(actionItem actionItem: ActionItem?) {
+    public init(items: [ActionItem]=[]) {
+        self.actionItems = items
+    }
+    
+    public func add(actionItem: ActionItem?) {
         if let actionItem = actionItem {
             self.actionItems.append(actionItem)
         }

@@ -9,56 +9,56 @@
 import UIKit
 
 public enum TextEditingMode {
-    case Inline
-    case Push
+    case inline
+    case push
 }
 
 /**
     A cell that uses a UITextField as an input, but doesn't necessarily have a String value.  Should be subclassed.
 */
-public class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCell {
-    public var textField:UITextField?
-    public var editingMode:TextEditingMode = .Inline
+open class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCell {
+    open var textField:UITextField?
+    open var editingMode:TextEditingMode = .inline
     
     /**
         The string that is set by and displayed in the text field, but isn't necessarily the primary value of this cell.
         Subclasses should override this with getters and setters that translate it to their primary value type.
     */
-    public var stringValue:String? {
+    open var stringValue:String? {
         didSet {
             self.stringValueChanged()
         }
     }
     
-    override public func buildView() {
+    override open func buildView() {
         super.buildView()
         
         let textField = UITextField(frame: self.controlView!.bounds)
         
-        textField.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        textField.returnKeyType = UIReturnKeyType.Continue
+        textField.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        textField.returnKeyType = UIReturnKeyType.continue
         
         self.controlView!.addSubview(textField)
         
-        textField.addConstraint(NSLayoutConstraint(item: textField, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 30))
+        textField.addConstraint(NSLayoutConstraint(item: textField, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 30))
         
         textField.delegate = self
         self.textField = textField
     }
     
-    override public func commit() {
+    override open func commit() {
         super.commit()
         self.textField?.resignFirstResponder()
     }
     
-    override public func stylize() {
+    override open func stylize() {
         super.stylize()
-        self.textField?.textAlignment = self.labelPosition == .Left ? .Right : .Left
+        self.textField?.textAlignment = self.labelPosition == .left ? .right : .left
         self.textField?.font = self.valueFont
         self.textField?.textColor = self.valueTextColor
     }
     
-    public func textFieldDidEndEditing(textField: UITextField) {
+    open func textFieldDidEndEditing(_ textField: UITextField) {
         let newValue = self.textField?.text
         if newValue != self.stringValue {
             self.stringValue = newValue
@@ -68,30 +68,30 @@ public class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCe
         }
     }
     
-    public func stringValueChanged() {
+    open func stringValueChanged() {
         // Nothing here.
     }
     
-    public func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+    open func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         self.textField?.inputAccessoryView = self.accessoryToolbar
         return true
     }
     
-    public func textFieldShouldReturn(textField: UITextField) -> Bool {
+    open func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.commit()
         return true
     }
     
-    override public func cancel() {
+    override open func cancel() {
         self.textField?.resignFirstResponder()
     }
     
-    override public func clear() {
+    override open func clear() {
         self.stringValue = nil
         super.clear()
     }
     
-    override public var blank:Bool {
+    override open var blank:Bool {
         get {
             return self.stringValue == nil
         }
@@ -101,46 +101,46 @@ public class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCe
         super.update()
         self.textField?.text = self.stringValue
         self.textField?.placeholder = self.placeholderText
-        self.textField?.userInteractionEnabled = !self.readonly
+        self.textField?.isUserInteractionEnabled = !self.readonly
     }
     
     func handleTap() {
         self.textField?.becomeFirstResponder()
     }
    
-    public override func prepareForReuse() {
+    open override func prepareForReuse() {
         super.prepareForReuse()
         
         self.stringValue = nil
         self.textField?.text = nil
-        self.textField?.enabled = true
-        self.textField?.keyboardType = .Default
+        self.textField?.isEnabled = true
+        self.textField?.keyboardType = .default
     }
 }
 
-public class TextFieldValueCell<ValueType>: TextFieldInputCell {
-    public var value: ValueType? {
+open class TextFieldValueCell<ValueType>: TextFieldInputCell {
+    open var value: ValueType? {
         didSet {
             self.update()
         }
     }
     
-    public var textForValue:(ValueType -> String)?
-    public var valueForText:(String -> ValueType?)?
+    open var textForValue:((ValueType) -> String)?
+    open var valueForText:((String) -> ValueType?)?
 
-    func formatValue(value: ValueType?) -> String? {
+    func formatValue(_ value: ValueType?) -> String? {
         if let value = value {
             if let formatter = self.textForValue {
                 return formatter(value)
             } else {
-                return String(value)
+                return String(describing: value)
             }
         } else {
             return nil // textfield will use placeholderText
         }
     }
     
-    func importText(text: String?) -> ValueType? {
+    func importText(_ text: String?) -> ValueType? {
         if let text = text, let importer = self.valueForText {
             return importer(text)
         } else {
@@ -148,17 +148,17 @@ public class TextFieldValueCell<ValueType>: TextFieldInputCell {
         }
     }
     
-    public override func update() {
+    open override func update() {
         super.update()
         self.textField?.text = self.formatValue(self.value)
     }
     
-    public override func stringValueChanged() {
+    open override func stringValueChanged() {
         super.stringValueChanged()
         self.value = self.importText(self.stringValue)
     }
     
-    public override func prepareForReuse() {
+    open override func prepareForReuse() {
         super.prepareForReuse()
         self.textForValue = nil
         self.valueForText = nil
@@ -169,8 +169,8 @@ public class TextFieldValueCell<ValueType>: TextFieldInputCell {
 /**
     A cell that uses a UITextField as an input and has a String value
 */
-public class TextFieldCell: TextFieldInputCell {
-    public override var stringValue:String? {
+open class TextFieldCell: TextFieldInputCell {
+    open override var stringValue:String? {
         get {
             return self.value
         }
@@ -179,7 +179,7 @@ public class TextFieldCell: TextFieldInputCell {
         }
     }
     
-    public var value:String? {
+    open var value:String? {
         didSet {
             self.update()
         }
@@ -189,45 +189,45 @@ public class TextFieldCell: TextFieldInputCell {
     
     public typealias ValueType = String
     
-    public override func prepareForReuse() {
+    open override func prepareForReuse() {
         super.prepareForReuse()
     }
 }
 
-public class EmailAddressCell: TextFieldCell {
-    override public func buildView() {
+open class EmailAddressCell: TextFieldCell {
+    override open func buildView() {
         super.buildView()
-        self.textField?.keyboardType = .EmailAddress
-        self.textField?.autocapitalizationType = .None
-        self.textField?.autocorrectionType = .No
+        self.textField?.keyboardType = .emailAddress
+        self.textField?.autocapitalizationType = .none
+        self.textField?.autocorrectionType = .no
     }
 }
 
-public class PasswordCell: TextFieldCell {
-    override public func buildView() {
+open class PasswordCell: TextFieldCell {
+    override open func buildView() {
         super.buildView()
-        self.textField?.autocapitalizationType = .None
-        self.textField?.autocorrectionType = .No
-        self.textField?.secureTextEntry = true
+        self.textField?.autocapitalizationType = .none
+        self.textField?.autocorrectionType = .no
+        self.textField?.isSecureTextEntry = true
     }
 }
 
-public class PhoneNumberCell: TextFieldCell {
-    override public func buildView() {
+open class PhoneNumberCell: TextFieldCell {
+    override open func buildView() {
         super.buildView()
-        self.textField?.keyboardType = .PhonePad
+        self.textField?.keyboardType = .phonePad
     }
     
     
     // TODO: extract this / use a library
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         if let text = textField.text {
-            let newString = (text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-            let components = newString.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet)
+            let newString = (text as NSString).replacingCharacters(in: range, with: string)
+            let components = newString.components(separatedBy: CharacterSet.decimalDigits.inverted)
             
-            let decimalString = components.joinWithSeparator("") as NSString
+            let decimalString = components.joined(separator: "") as NSString
             let length = decimalString.length
-            let hasLeadingOne = length > 0 && decimalString.characterAtIndex(0) == (1 as unichar)
+            let hasLeadingOne = length > 0 && decimalString.character(at: 0) == (1 as unichar)
             
             if length == 0 || (length > 10 && !hasLeadingOne) || length > 11 {
                 let newLength = (text as NSString).length + (string as NSString).length - range.length as Int
@@ -238,22 +238,22 @@ public class PhoneNumberCell: TextFieldCell {
             let formattedString = NSMutableString()
             
             if hasLeadingOne {
-                formattedString.appendString("1 ")
+                formattedString.append("1 ")
                 index += 1
             }
             if (length - index) > 3 {
-                let areaCode = decimalString.substringWithRange(NSMakeRange(index, 3))
+                let areaCode = decimalString.substring(with: NSMakeRange(index, 3))
                 formattedString.appendFormat("(%@) ", areaCode)
                 index += 3
             }
             if length - index > 3 {
-                let prefix = decimalString.substringWithRange(NSMakeRange(index, 3))
+                let prefix = decimalString.substring(with: NSMakeRange(index, 3))
                 formattedString.appendFormat("%@-", prefix)
                 index += 3
             }
             
-            let remainder = decimalString.substringFromIndex(index)
-            formattedString.appendString(remainder)
+            let remainder = decimalString.substring(from: index)
+            formattedString.append(remainder)
             textField.text = formattedString as String
             return false
         } else {

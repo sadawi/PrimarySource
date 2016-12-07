@@ -20,16 +20,16 @@ public func <<<(dataSource:ColumnedDataSource, column:Column?) {
 }
 
 
-public class ColumnedDataSource: DataSource {
-    private(set) var columns: [Column] = []
+open class ColumnedDataSource: DataSource {
+    fileprivate(set) var columns: [Column] = []
     var columnLookup: [ColumnIdentifier:Column] = [:]
     
-    public func addColumn(column: Column) {
+    open func addColumn(_ column: Column) {
         self.columns.append(column)
         self.columnLookup[column.identifier] = column
     }
     
-    func columnForIdentifier(identifier: ColumnIdentifier) -> Column? {
+    func columnForIdentifier(_ identifier: ColumnIdentifier) -> Column? {
         return self.columnLookup[identifier]
     }
     

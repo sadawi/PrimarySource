@@ -9,26 +9,26 @@
 import Foundation
 import UIKit
 
-public class PickerCell: TextFieldInputCell {
+open class PickerCell: TextFieldInputCell {
     var picker: UIPickerView?
     
-    public func buildPicker() -> UIPickerView? {
+    open func buildPicker() -> UIPickerView? {
         // Override in subclas
         return nil
     }
     
-    public override func buildView() {
+    open override func buildView() {
         super.buildView()
         self.picker = self.buildPicker()
         self.textField?.inputView = self.picker
-        self.textField?.tintColor = UIColor.clearColor()
+        self.textField?.tintColor = UIColor.clear
     }
     
     func pickerValueChanged() {
         // Subclass
     }
     
-    public override func commit() {
+    open override func commit() {
         self.pickerValueChanged()
         self.valueChanged()
         super.commit()

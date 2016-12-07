@@ -15,19 +15,19 @@ public protocol ReusableItemType {
     var reuseIdentifier:String? { get }
     var viewType:AnyClass? { get }
     
-    func configureView(view:CollectionItemView)
+    func configureView(_ view:CollectionItemView)
 }
 
-public class ReusableItem<ViewType:CollectionItemView>: ReusableItemType {
+open class ReusableItem<ViewType:CollectionItemView>: ReusableItemType {
     public typealias ViewConfiguration = ((ViewType) -> ())
 
-    public var configure: ViewConfiguration?
+    open var configure: ViewConfiguration?
     
-    public var storyboardIdentifier:String?
-    public var nibName:String?
-    public var identifier:String?
+    open var storyboardIdentifier:String?
+    open var nibName:String?
+    open var identifier:String?
     
-    public var reuseIdentifier: String? {
+    open var reuseIdentifier: String? {
         if let identifier = self.identifier {
             return identifier
         }
@@ -43,17 +43,17 @@ public class ReusableItem<ViewType:CollectionItemView>: ReusableItemType {
         }
     }
     
-    public var viewType:AnyClass? {
+    open var viewType:AnyClass? {
         return ViewType.self
     }
     
-    public func configureView(view: CollectionItemView) {
+    open func configureView(_ view: CollectionItemView) {
         if let view = view as? ViewType {
             self.configureView(view)
         }
     }
     
-    func configureView(view:ViewType) {
+    func configureView(_ view:ViewType) {
         if let configure = self.configure {
             configure(view)
         }

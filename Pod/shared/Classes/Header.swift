@@ -13,10 +13,10 @@ public protocol HeaderItemType: ReusableItemType {
 }
 
 // TODO: genericize for collectionViews too
-public class HeaderItem<ViewType:CollectionHeaderView>: ReusableItem<ViewType>, HeaderItemType {
-    public var height:CGFloat?
+open class HeaderItem<ViewType:CollectionHeaderView>: ReusableItem<ViewType>, HeaderItemType {
+    open var height:CGFloat?
     
-    public init(nibName:String?=nil, storyboardIdentifier:String?=nil, reuseIdentifier:String?=nil, height:CGFloat?=nil, configure:(ViewType -> Void)?=nil) {
+    public init(nibName:String?=nil, storyboardIdentifier:String?=nil, reuseIdentifier:String?=nil, height:CGFloat?=nil, configure:((ViewType) -> Void)?=nil) {
         super.init()
         self.nibName = nibName
         self.identifier = reuseIdentifier

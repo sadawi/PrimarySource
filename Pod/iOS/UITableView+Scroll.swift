@@ -12,8 +12,8 @@ extension UITableView {
     /**
      Scrolls to a row, but only if that row exists.
      */
-    func safe_scrollToRowAtIndexPath(indexPath: NSIndexPath, atScrollPosition scrollPosition: UITableViewScrollPosition, animated: Bool) {
-        if self.numberOfSections > indexPath.section && self.numberOfRowsInSection(indexPath.section) > indexPath.row  {
+    func safe_scrollToRowAtIndexPath(_ indexPath: IndexPath, atScrollPosition scrollPosition: UITableViewScrollPosition, animated: Bool) {
+        if self.numberOfSections > (indexPath as NSIndexPath).section && self.numberOfRows(inSection: (indexPath as NSIndexPath).section) > (indexPath as NSIndexPath).row  {
             self.correct_scrollToRowAtIndexPath(indexPath, atScrollPosition: scrollPosition, animated: animated)
         }
     }
@@ -23,11 +23,11 @@ extension UITableView {
      
      http://stackoverflow.com/questions/20892661/uitableview-scrolltorowatindexpath-scrolls-to-wrong-offset-with-estimatedrowheig
      */
-    func correct_scrollToRowAtIndexPath(indexPath: NSIndexPath, atScrollPosition scrollPosition: UITableViewScrollPosition, animated: Bool) {
+    func correct_scrollToRowAtIndexPath(_ indexPath: IndexPath, atScrollPosition scrollPosition: UITableViewScrollPosition, animated: Bool) {
         self.setContentOffset(CGPoint.zero, animated: true)
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.05 * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, dispatch_get_main_queue()) {
-            self.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Middle, animated: animated)
+        let delayTime = DispatchTime.now() + Double(Int64(0.05 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: delayTime) {
+            self.scrollToRow(at: indexPath, at: .middle, animated: animated)
         }
     }
 }

@@ -8,14 +8,14 @@
 
 import Foundation
 
-public class StackCell: ContentCell {
-    public var stackView:UIStackView? {
+open class StackCell: ContentCell {
+    open var stackView:UIStackView? {
         get {
             return self.content as? UIStackView
         }
     }
     
-    public var arrangedSubviews:[UIView]? {
+    open var arrangedSubviews:[UIView]? {
         get {
             return self.stackView?.arrangedSubviews
         }
@@ -33,22 +33,22 @@ public class StackCell: ContentCell {
         }
     }
     
-    override public func buildContent() -> UIView {
+    override open func buildContent() -> UIView {
         let stack =  UIStackView()
-        stack.axis = .Vertical
+        stack.axis = .vertical
         
         return stack
     }
 }
 
-public class MultiColumnCell: ContentCell {
-    public var columns:ColumnStackView? {
+open class MultiColumnCell: ContentCell {
+    open var columns:ColumnStackView? {
         get {
             return self.content as? ColumnStackView
         }
     }
     
-    override public func buildContent() -> UIView {
+    override open func buildContent() -> UIView {
         return ColumnStackView()
     }
 }
