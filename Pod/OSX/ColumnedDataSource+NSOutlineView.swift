@@ -61,7 +61,7 @@ extension ColumnedDataSource: NSOutlineViewDelegate, OutlineViewDataSource {
         
         if let viewType = item.viewType as? NSTableRowView.Type {
             let itemView = viewType.init()
-            item.configureView(itemView)
+            item.configure(itemView)
             view = itemView
         }
         return view

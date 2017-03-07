@@ -104,7 +104,7 @@ extension DataSource: UITableViewDelegate, UITableViewDataSource {
         
         if let headerItem = section.header, let identifier = headerItem.reuseIdentifier {
             if let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: identifier) {
-                headerItem.configureView(header)
+                headerItem.configure(header)
                 return header
             }
         }
@@ -157,7 +157,7 @@ extension DataSource: UITableViewDelegate, UITableViewDataSource {
             if let tableCell = cell as? TableCell {
                 tableCell.dataSource = self
             }
-            item.configureView(cell)
+            item.configure(cell)
             
             // Might be nice to have this handled by cell or item somehow
             if let isSselected = item.isSelected {

@@ -78,6 +78,14 @@ class ViewController: DataSourceViewController {
                 cell.columns?.items = views
             }
             
+            let item = CollectionItem<TableCell> { cell in
+                cell.textLabel?.text = "Original configuration"
+            }
+            item.addConfiguration { cell in
+                cell.textLabel?.text = "Secondary configuration"
+            }
+            section <<< item
+            
             section <<< CollectionItem<TableCell> { cell in
                 cell.textLabel?.text = "Swipe for actions"
                 }.edit { [weak self] item, actionList in

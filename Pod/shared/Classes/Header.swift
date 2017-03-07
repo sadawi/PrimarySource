@@ -22,6 +22,8 @@ open class HeaderItem<ViewType:CollectionHeaderView>: ReusableItem<ViewType>, He
         self.identifier = reuseIdentifier
         self.storyboardIdentifier = storyboardIdentifier
         self.height = height
-        self.configure = configure
+        if let configuration = configure {
+            self.addConfiguration(configuration)
+        }
     }
 }

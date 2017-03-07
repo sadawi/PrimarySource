@@ -27,7 +27,7 @@ extension ColumnedDataSource {
         if let columnIdentifier = self.columnIdentifier(tableColumn: tableColumn), let cellItem = columnedItem[columnIdentifier] {
             if let identifier = cellItem.storyboardIdentifier {
                 if let view = tableView.make(withIdentifier: identifier, owner: self) {
-                    cellItem.configureView(view)
+                    cellItem.configure(view)
                     result = view
                 }
                 // TODO: load from nib
