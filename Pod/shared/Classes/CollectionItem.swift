@@ -55,7 +55,9 @@ open class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>, 
         self.key = key
         self.nibName = nibName
         self.storyboardIdentifier = storyboardIdentifier
-        self.configure = configure
+        if let configure = configure {
+            self.addConfiguration(configure)
+        }
         self.reorderable = reorderable
     }
     
@@ -201,10 +203,10 @@ open class CollectionItem<ViewType:CollectionItemView>: ReusableItem<ViewType>, 
     
     // MARK: - Configuration
     
-    open override func configureView(_ view: CollectionItemView) {
+    open override func configure(_ view: CollectionItemView) {
         if let listMember = view as? ListMember {
             listMember.listMembership = self.listMembership
         }
-        super.configureView(view)
+        super.configure(view)
     }
 }

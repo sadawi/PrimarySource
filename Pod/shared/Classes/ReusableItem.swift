@@ -15,17 +15,21 @@ public protocol ReusableItemType {
     var reuseIdentifier:String? { get }
     var viewType:AnyClass? { get }
     
-    func configureView(_ view:CollectionItemView)
+    func configure(_ view:CollectionItemView)
 }
 
 open class ReusableItem<ViewType:CollectionItemView>: ReusableItemType {
     public typealias ViewConfiguration = ((ViewType) -> ())
 
-    open var configure: ViewConfiguration?
+    public var configurations = [ViewConfiguration]()
     
     open var storyboardIdentifier:String?
     open var nibName:String?
     open var identifier:String?
+    
+    public func addConfiguration(_ configuration: @escaping ViewConfiguration) {
+        self.configurations.append(configuration)
+    }
     
     open var reuseIdentifier: String? {
         if let identifier = self.identifier {
@@ -47,15 +51,15 @@ open class ReusableItem<ViewType:CollectionItemView>: ReusableItemType {
         return ViewType.self
     }
     
-    open func configureView(_ view: CollectionItemView) {
+    open func configure(_ view: CollectionItemView) {
         if let view = view as? ViewType {
-            self.configureView(view)
+            self.configure(view)
         }
     }
     
-    func configureView(_ view:ViewType) {
-        if let configure = self.configure {
-            configure(view)
+    func configure(_ view:ViewType) {
+        for closure in self.configurations {
+            closure(view)
         }
     }
     

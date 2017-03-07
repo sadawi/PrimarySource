@@ -31,7 +31,7 @@ extension DataSource: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         
         if let item = self.item(at: indexPath), let identifier = item.reuseIdentifier {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
-            item.configureView(cell)
+            item.configure(cell)
             return cell
         } else {
             // This is an error state.  TODO: only on debug
