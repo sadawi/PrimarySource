@@ -13,7 +13,7 @@ open class PushSelectCell<ValueType:Equatable>: ValueFieldCell<ValueType>, Navig
     
     // MARK: - NavigationCell
     
-    public lazy var buildNextViewController: ((UIViewController)->UIViewController?)? = {
+    public lazy var buildNextViewController: NavigationCell.ViewControllerGenerator? = {
         return { [weak self] presenter in self?.buildController(presentedBy: presenter) }
     }()
 

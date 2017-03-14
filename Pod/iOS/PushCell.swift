@@ -12,8 +12,10 @@ import UIKit
  A cell that can push another view controller when tapped.
  */
 public protocol NavigationCell: TappableTableCell {
+    typealias ViewControllerGenerator = ((UIViewController)->UIViewController?)
+    
     var presentationViewController: UIViewController? { get }
-    var buildNextViewController: ((UIViewController)->UIViewController?)? { get }
+    var buildNextViewController: ViewControllerGenerator? { get }
 }
 
 extension NavigationCell {
@@ -34,7 +36,7 @@ extension NavigationCell {
 open class PushCell: TableCell {
     // MARK: - NavigationCell
     
-    open var buildNextViewController: ((UIViewController)->UIViewController?)?
+    open var buildNextViewController: NavigationCell.ViewControllerGenerator?
     
     public var presentationViewController: UIViewController? {
         return self.dataSource?.presentationViewController()
