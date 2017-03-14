@@ -40,17 +40,17 @@ class ViewController: DataSourceViewController {
                 cell.value = "a very long string value that will probably be too long for its container.  sorry about that!"
             }
             
-            section <<< CollectionItem<TableCell> { cell in
+            section <<< CollectionItem<PushCell> { cell in
                 cell.textLabel?.text = "options"
-                cell.accessoryType = .disclosureIndicator
-                }.onTap { _ in
+                cell.buildNextViewController = { _ in
                     let c = SelectViewController(options: [1, 2, 3], value: nil)
                     c.includeNil = true
                     c.textForNil = "any number"
                     c.textForValue = { value in
                         return "number \(value)"
                     }
-                    self.navigationController?.pushViewController(c, animated: true)
+                    return c
+                }
             }
             
             section <<< CollectionItem<MapCell> { cell in

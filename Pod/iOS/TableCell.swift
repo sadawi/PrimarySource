@@ -24,7 +24,7 @@ public struct BorderStyle {
     }
 }
 
-protocol TappableTableCell {
+public protocol TappableTableCell {
     func handleTap()
 }
 

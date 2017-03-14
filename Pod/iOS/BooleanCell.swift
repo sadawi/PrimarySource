@@ -54,7 +54,7 @@ open class SwitchCell:BooleanCell, TappableTableCell  {
         self.switchControl?.isUserInteractionEnabled = !self.readonly
     }
     
-    func handleTap() {
+    public func handleTap() {
         self.toggle(animated: true)
     }
 }

@@ -104,7 +104,7 @@ open class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCell
         self.textField?.isUserInteractionEnabled = !self.readonly
     }
     
-    func handleTap() {
+    public func handleTap() {
         self.textField?.becomeFirstResponder()
     }
    

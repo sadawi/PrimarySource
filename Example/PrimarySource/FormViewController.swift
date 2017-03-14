@@ -8,6 +8,14 @@
 
 import PrimarySource
 
+enum Gender: String {
+    case female
+    case male
+    case other
+    
+    static var all:[Gender] = [.female, .male, .other]
+}
+
 class FormViewController: DataSourceViewController {
     
     override func viewWillAppear(_ animated: Bool) {
@@ -66,9 +74,18 @@ class FormViewController: DataSourceViewController {
                     print("New value: \(cell.value)")
                 }
             }
-            section <<< CollectionItem<PushSelectCell<String>>(key: "gender") { cell in
+            
+            section <<< CollectionItem<PushSelectCell<Gender>>(key: "gender") { cell in
                 cell.title = "Gender"
-                cell.options = ["male", "female", "other"]
+                cell.options = Gender.all
+                cell.onChange = { [unowned cell] in
+                    print("New value: \(cell.value)")
+                }
+            }
+
+            section <<< CollectionItem<SegmentedSelectCell<Gender>>(key: "gender") { cell in
+                cell.title = "Gender"
+                cell.options = Gender.all
                 cell.onChange = { [unowned cell] in
                     print("New value: \(cell.value)")
                 }
@@ -102,7 +119,7 @@ class FormViewController: DataSourceViewController {
                     return value.lowercased()
                 }
                 cell.onChange = { [weak cell] in
-                    print("cell value changed to: ", cell?.value)
+                    print("cell value changed to: ", cell?.value as Any)
                 }
             }
             section <<< CollectionItem<TextFieldValueCell<Int>> { cell in
@@ -114,7 +131,7 @@ class FormViewController: DataSourceViewController {
                     return Int(value)
                 }
                 cell.onChange = { [weak cell] in
-                    print("cell value changed to: ", cell?.value)
+                    print("cell value changed to: ", cell?.value as Any)
                 }
             }
         }
