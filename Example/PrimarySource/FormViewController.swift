@@ -66,9 +66,20 @@ class FormViewController: DataSourceViewController {
                     print("New value: \(cell.value)")
                 }
             }
+            
+            let genders = ["male", "female", "other"]
+            
             section <<< CollectionItem<PushSelectCell<String>>(key: "gender") { cell in
                 cell.title = "Gender"
-                cell.options = ["male", "female", "other"]
+                cell.options = genders
+                cell.onChange = { [unowned cell] in
+                    print("New value: \(cell.value)")
+                }
+            }
+
+            section <<< CollectionItem<SegmentedSelectCell<String>>(key: "gender") { cell in
+                cell.title = "Gender"
+                cell.options = genders
                 cell.onChange = { [unowned cell] in
                     print("New value: \(cell.value)")
                 }
