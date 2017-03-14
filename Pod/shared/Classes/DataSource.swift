@@ -24,6 +24,18 @@ public func <<<(dataSource:DataSource, section:Section?) {
     }
 }
 
+/**
+ Adds a CollectionItem to the last section in a DataSource (creating a section if none exists)
+ */
+public func <<<(dataSource: DataSource, item: CollectionItemType?) {
+    dataSource.add(item)
+}
+
+public func <<<(dataSource: DataSource, item: CollectionItemType) {
+    dataSource.add(item)
+}
+
+
 open class DataSource: NSObject {
     open var selectionChangedHandler: (([AnyObject])->())?
     
@@ -60,8 +72,23 @@ open class DataSource: NSObject {
     open func reset() {
         self.sections = []
     }
+
+    open func add(_ item: CollectionItemType?) {
+        guard let item = item else { return }
+        
+        var section = self.sections.last
+        if section == nil {
+            section = Section()
+            self.add(section)
+        }
+        if let section = section {
+            section.add(item)
+        }
+    }
     
-    open func add(_ section:Section) {
+    open func add(_ section:Section?) {
+        guard let section = section else { return }
+        
         section.dataSource = self
         self.sections.append(section)
         if let key = section.key {

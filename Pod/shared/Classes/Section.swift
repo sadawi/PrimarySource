@@ -15,9 +15,7 @@ public func <<<(section:Section, item:CollectionItemType) {
 }
 
 public func <<<(section:Section, item:CollectionItemType?) {
-    if let item = item {
-        section.add(item)
-    }
+    section.add(item)
 }
 
 public func <<<(section:Section, items:[CollectionItemType]) {
@@ -69,7 +67,9 @@ open class Section {
         }
     }
     
-    @discardableResult open func add(_ item:CollectionItemType) -> Section {
+    @discardableResult open func add(_ item:CollectionItemType?) -> Section {
+        guard let item = item else { return self }
+        
         self.items.append(item)
         if let key = item.key {
             self.itemLookup[key] = item
