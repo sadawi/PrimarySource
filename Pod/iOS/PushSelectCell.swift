@@ -9,7 +9,21 @@
 import UIKit
 
 
-open class PushSelectCell<ValueType:Equatable>: PushCell<ValueType> {
+open class PushSelectCell<ValueType:Equatable>: ValueFieldCell<ValueType>, NavigationCell {
+    
+    // MARK: - NavigationCell
+    
+    public lazy var buildNextViewController: ((UIViewController)->UIViewController?)? = {
+        return { [weak self] presenter in self?.buildController(presentedBy: presenter) }
+    }()
+
+    public var presentationViewController: UIViewController? {
+        return self.dataSource?.presentationViewController()
+    }
+
+    
+    // MARK: -
+    
     open var includeNil:Bool = false
     
     open var valueLabel:UILabel?
@@ -46,7 +60,7 @@ open class PushSelectCell<ValueType:Equatable>: PushCell<ValueType> {
         self.isUserInteractionEnabled = !self.readonly
     }
     
-    open override func buildController(presentedBy presenter: UIViewController) -> UIViewController? {
+    public func buildController(presentedBy presenter: UIViewController) -> UIViewController? {
         let controller = SelectViewController(options: self.options, value:self.value) { [unowned self] value in
             self.value = value
             self.valueChanged()
