@@ -33,7 +33,13 @@ extension NavigationCell {
 /**
  A concrete example of a NavigationCell
  */
-open class PushCell: TableCell {
+open class PushCell: TableCell, NavigationCell {
+    
+    open override func buildView() {
+        super.buildView()
+        self.accessoryType = .disclosureIndicator
+    }
+    
     // MARK: - NavigationCell
     
     open var buildNextViewController: NavigationCell.ViewControllerGenerator?

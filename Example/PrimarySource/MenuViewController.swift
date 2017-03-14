@@ -12,44 +12,29 @@ import PrimarySource
 class MenuViewController: DataSourceViewController {
     override func configureDataSource(_ dataSource: DataSource) {
         dataSource <<< Section { section in
-            section <<< CollectionItem<TableCell> { cell in
+            section <<< CollectionItem<PushCell> { cell in
                 cell.textLabel?.text = "Form"
-                cell.accessoryType = .disclosureIndicator
-                }.onTap { _ in
-                    let controller = FormViewController()
-                    self.navigationController?.pushViewController(controller, animated: true)
+                cell.buildNextViewController = { _ in FormViewController() }
             }
 
-            section <<< CollectionItem<TableCell> { cell in
+            section <<< CollectionItem<PushCell> { cell in
                 cell.textLabel?.text = "Misc"
-                cell.accessoryType = .disclosureIndicator
-                }.onTap { _ in
-                    let controller = ViewController()
-                    self.navigationController?.pushViewController(controller, animated: true)
+                cell.buildNextViewController = { _ in ViewController() }
             }
             
-            section <<< CollectionItem<TableCell> { cell in
+            section <<< CollectionItem<PushCell> { cell in
                 cell.textLabel?.text = "Animations"
-                cell.accessoryType = .disclosureIndicator
-                }.onTap { _ in
-                    let controller = AnimationsViewController()
-                    self.navigationController?.pushViewController(controller, animated: true)
+                cell.buildNextViewController = { _ in AnimationsViewController() }
             }
 
-            section <<< CollectionItem<TableCell> { cell in
+            section <<< CollectionItem<PushCell> { cell in
                 cell.textLabel?.text = "List Positions"
-                cell.accessoryType = .disclosureIndicator
-                }.onTap { _ in
-                    let controller = ListPositionsViewController()
-                    self.navigationController?.pushViewController(controller, animated: true)
+                cell.buildNextViewController = { _ in ListPositionsViewController() }
             }
             
-            section <<< CollectionItem<TableCell> { cell in
+            section <<< CollectionItem<PushCell> { cell in
                 cell.textLabel?.text = "Reload test"
-                cell.accessoryType = .disclosureIndicator
-                }.onTap { _ in
-                    let controller = ReloadViewController()
-                    self.navigationController?.pushViewController(controller, animated: true)
+                cell.buildNextViewController = { _ in ReloadViewController() }
             }
 
             
