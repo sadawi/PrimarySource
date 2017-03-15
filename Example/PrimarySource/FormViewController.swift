@@ -107,6 +107,17 @@ class FormViewController: DataSourceViewController {
                     print("New value: \(cell.value)")
                 }
             }
+            
+            section <<< CollectionItem<PushFieldCell<String>> { cell in
+                cell.title = "Custom editor"
+                cell.value = "String value"
+                cell.nextViewControllerGenerator = {
+                    let controller = DataSourceViewController()
+                    controller.title = "Custom String Editor"
+                    return controller
+                }
+            }
+            
         }
         
         dataSource <<< Section(title: "Convert to & from strings") { section in
