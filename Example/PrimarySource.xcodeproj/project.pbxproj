@@ -12,6 +12,7 @@
 		22803EF41C503393000D0145 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22803EF31C503393000D0145 /* FormViewController.swift */; };
 		229471081C1140B9006E2138 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 229471071C1140B9006E2138 /* MapKit.framework */; };
 		22A462031CA0CD0E00406302 /* ReloadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A462021CA0CD0E00406302 /* ReloadViewController.swift */; };
+		22B82C391E79A5A300E3EA54 /* CommonConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B82C381E79A5A300E3EA54 /* CommonConfigurationViewController.swift */; };
 		22CB87211C4F28470076392E /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CB87201C4F28470076392E /* MenuViewController.swift */; };
 		22CB87241C4F29080076392E /* AnimationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CB87231C4F29080076392E /* AnimationsViewController.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
@@ -40,6 +41,7 @@
 		22803EF31C503393000D0145 /* FormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
 		229471071C1140B9006E2138 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		22A462021CA0CD0E00406302 /* ReloadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReloadViewController.swift; sourceTree = "<group>"; };
+		22B82C381E79A5A300E3EA54 /* CommonConfigurationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonConfigurationViewController.swift; sourceTree = "<group>"; };
 		22CB87201C4F28470076392E /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		22CB87231C4F29080076392E /* AnimationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationsViewController.swift; sourceTree = "<group>"; };
 		33FE59753ABA7CA75DD95DE7 /* Pods-PrimarySource_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PrimarySource_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-PrimarySource_Example/Pods-PrimarySource_Example.release.xcconfig"; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 				22803EF31C503393000D0145 /* FormViewController.swift */,
 				223CAD7F1C7D44EB00894A02 /* ListPositionsViewController.swift */,
 				22A462021CA0CD0E00406302 /* ReloadViewController.swift */,
+				22B82C381E79A5A300E3EA54 /* CommonConfigurationViewController.swift */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -406,6 +409,7 @@
 				22CB87211C4F28470076392E /* MenuViewController.swift in Sources */,
 				223CAD801C7D44EB00894A02 /* ListPositionsViewController.swift in Sources */,
 				22A462031CA0CD0E00406302 /* ReloadViewController.swift in Sources */,
+				22B82C391E79A5A300E3EA54 /* CommonConfigurationViewController.swift in Sources */,
 				22CB87241C4F29080076392E /* AnimationsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -158,6 +158,7 @@ extension DataSource: UITableViewDelegate, UITableViewDataSource {
                 tableCell.dataSource = self
             }
             item.configure(cell)
+            self.configureView?(cell)
             
             // Might be nice to have this handled by cell or item somehow
             if let isSselected = item.isSelected {
