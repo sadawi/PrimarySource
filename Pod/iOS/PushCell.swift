@@ -25,7 +25,7 @@ extension NavigationCell {
     
     public func pushNextViewController() {
         if let presenter = self.presentationViewController, let controller = buildNextViewController?() {
-            self.presentationViewController?.navigationController?.pushViewController(controller, animated: true)
+            presenter.navigationController?.pushViewController(controller, animated: true)
         }
     }
 }
