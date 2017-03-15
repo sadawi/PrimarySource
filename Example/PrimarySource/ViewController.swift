@@ -42,7 +42,7 @@ class ViewController: DataSourceViewController {
             
             section <<< CollectionItem<PushCell> { cell in
                 cell.textLabel?.text = "options"
-                cell.buildNextViewController = { _ in
+                cell.nextViewControllerGenerator = { _ in
                     let c = SelectViewController(options: [1, 2, 3], value: nil)
                     c.includeNil = true
                     c.textForNil = "any number"

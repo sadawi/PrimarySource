@@ -15,7 +15,7 @@ public protocol NavigationCell: TappableTableCell {
     typealias ViewControllerGenerator = (()->UIViewController?)
     
     var presentationViewController: UIViewController? { get }
-    var buildNextViewController: ViewControllerGenerator? { get }
+    func buildNextViewController() -> UIViewController?
 }
 
 extension NavigationCell {
@@ -24,7 +24,7 @@ extension NavigationCell {
     }
     
     public func pushNextViewController() {
-        if let presenter = self.presentationViewController, let controller = buildNextViewController?() {
+        if let presenter = self.presentationViewController, let controller = self.buildNextViewController() {
             presenter.navigationController?.pushViewController(controller, animated: true)
         }
     }
@@ -34,15 +34,18 @@ extension NavigationCell {
  A concrete example of a NavigationCell
  */
 open class PushCell: TableCell, NavigationCell {
-    
-    open override func buildView() {
-        super.buildView()
+    open override func stylize() {
+        super.stylize()
         self.accessoryType = .disclosureIndicator
     }
     
+    open var nextViewControllerGenerator: NavigationCell.ViewControllerGenerator?
+    
     // MARK: - NavigationCell
     
-    open var buildNextViewController: NavigationCell.ViewControllerGenerator?
+    open func buildNextViewController() -> UIViewController? {
+        return self.nextViewControllerGenerator?()
+    }
     
     public var presentationViewController: UIViewController? {
         return self.dataSource?.presentationViewController()
