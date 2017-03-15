@@ -37,6 +37,7 @@ class CommonConfigurationViewController: DataSourceViewController {
             section <<< CollectionItem<SegmentedSelectCell<Style>> { [weak self] cell in
                 cell.options = [.normal, .highlighted]
                 cell.value = self?.style
+                cell.backgroundColor = .clear
                 cell.onChange = { [weak cell] in
                     self?.style = cell?.value
                     self?.reloadData()
