@@ -35,6 +35,11 @@ class MenuViewController: DataSourceViewController {
             cell.textLabel?.text = "Reload test"
             cell.buildNextViewController = { ReloadViewController() }
         }
+
+        dataSource <<< CollectionItem<PushCell> { cell in
+            cell.textLabel?.text = "Common configuration"
+            cell.buildNextViewController = { _ in CommonConfigurationViewController() }
+        }
         
     }
 }

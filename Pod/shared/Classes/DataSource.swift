@@ -65,6 +65,8 @@ open class DataSource: NSObject {
         return self.visibleSections.count
     }
     
+    open var configureView: ((CollectionItemView)->())?
+    
     public override init() {
         
     }
