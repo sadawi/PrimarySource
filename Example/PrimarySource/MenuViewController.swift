@@ -13,27 +13,27 @@ class MenuViewController: DataSourceViewController {
     override func configureDataSource(_ dataSource: DataSource) {
         dataSource <<< CollectionItem<PushCell> { cell in
             cell.textLabel?.text = "Form"
-            cell.buildNextViewController = { _ in FormViewController() }
+            cell.buildNextViewController = { FormViewController() }
         }
         
         dataSource <<< CollectionItem<PushCell> { cell in
             cell.textLabel?.text = "Misc"
-            cell.buildNextViewController = { _ in ViewController() }
+            cell.buildNextViewController = { ViewController() }
         }
         
         dataSource <<< CollectionItem<PushCell> { cell in
             cell.textLabel?.text = "Animations"
-            cell.buildNextViewController = { _ in AnimationsViewController() }
+            cell.buildNextViewController = { AnimationsViewController() }
         }
         
         dataSource <<< CollectionItem<PushCell> { cell in
             cell.textLabel?.text = "List Positions"
-            cell.buildNextViewController = { _ in ListPositionsViewController() }
+            cell.buildNextViewController = { ListPositionsViewController() }
         }
         
         dataSource <<< CollectionItem<PushCell> { cell in
             cell.textLabel?.text = "Reload test"
-            cell.buildNextViewController = { _ in ReloadViewController() }
+            cell.buildNextViewController = { ReloadViewController() }
         }
         
     }
