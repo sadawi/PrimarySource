@@ -15,7 +15,7 @@ public protocol DataSourceDelegate: class {
 private var delegateAssociationKey: UInt8 = 0
 
 extension DataSource {
-    var delegate: DataSourceDelegate? {
+    public var delegate: DataSourceDelegate? {
         get {
             return objc_getAssociatedObject(self, &delegateAssociationKey) as? DataSourceDelegate
         }
