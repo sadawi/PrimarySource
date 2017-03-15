@@ -14,7 +14,7 @@ open class PushSelectCell<ValueType:Equatable>: ValueFieldCell<ValueType>, Navig
     // MARK: - NavigationCell
     
     public lazy var buildNextViewController: NavigationCell.ViewControllerGenerator? = {
-        return { [weak self] presenter in self?.buildController(presentedBy: presenter) }
+        return { [weak self] presenter in self?.buildController() }
     }()
 
     public var presentationViewController: UIViewController? {
@@ -60,11 +60,11 @@ open class PushSelectCell<ValueType:Equatable>: ValueFieldCell<ValueType>, Navig
         self.isUserInteractionEnabled = !self.readonly
     }
     
-    public func buildController(presentedBy presenter: UIViewController) -> UIViewController? {
+    public func buildController() -> UIViewController? {
         let controller = SelectViewController(options: self.options, value:self.value) { [unowned self] value in
             self.value = value
             self.valueChanged()
-            _ = presenter.navigationController?.popViewController(animated: true)
+            _ = self.presentationViewController?.navigationController?.popViewController(animated: true)
         }
         controller.title = self.title
         controller.options = self.options
