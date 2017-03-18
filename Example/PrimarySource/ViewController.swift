@@ -53,10 +53,6 @@ class ViewController: DataSourceViewController {
                 }
             }
             
-            section <<< CollectionItem<MapCell> { cell in
-                cell.mapHeight = 200
-            }
-            
             section <<< CollectionItem<StackCell> { cell in
                 var views:[UIView] = []
                 for i in 1...5 {
@@ -101,6 +97,10 @@ class ViewController: DataSourceViewController {
                         self?.tableView.setEditing(false, animated: true)
                         print("Blue")
                     }
+            }
+            
+            section <<< CollectionItem<MapCell> { cell in
+                cell.mapHeight = 200
             }
             
         }
