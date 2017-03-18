@@ -12,29 +12,42 @@ import PrimarySource
 class PushExampleViewController: DataSourceViewController {
     var items: [String] = []
     
-    override func configureDataSource(_ dataSource: DataSource) {
-        let items = self.items
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        dataSource <<< Section(title: "Items") { section in
-            for item in items {
-                section <<< CollectionItem<TableCell> { cell in
-                    cell.textLabel?.text = item
-                }
-            }
+        dataSource.configure { [weak self] dataSource in
+            guard let items = self?.items else { return }
             
-            section <<< CollectionItem<PushCell> { [weak self] cell in
-                cell.textLabel?.text = "New item"
-                cell.nextViewControllerGenerator = {
-                    let controller = ItemPickerViewController()
-                    controller.action = { value in
-                        self?.items.append(value)
-//                        self?.reloadData()
+            dataSource <<< Section(title: "Items") { section in
+                for item in items {
+                    section <<< CollectionItem<TableCell> { cell in
+                        cell.textLabel?.text = item
+                        }.didDelete { _ in
+                            self?.remove(item)
                     }
-                    return controller
+                }
+                
+                section <<< CollectionItem<PushCell> { cell in
+                    cell.textLabel?.text = "New item"
+                    cell.nextViewControllerGenerator = {
+                        let controller = ItemPickerViewController()
+                        controller.action = { value in
+                            self?.items.append(value)
+                            dataSource.reload()
+                        }
+                        return controller
+                    }
                 }
             }
         }
     }
+    
+    func remove(_ value: String) {
+        if let index = self.items.index(of: value) {
+            self.items.remove(at: index)
+        }
+    }
+
 }
 
 fileprivate class ItemPickerViewController: DataSourceViewController {

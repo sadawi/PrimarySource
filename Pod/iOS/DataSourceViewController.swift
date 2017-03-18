@@ -59,6 +59,7 @@ open class DataSourceViewController: UIViewController, DataSourceDelegate {
     }
     
     open func configureDataSource(_ dataSource:DataSource) {
+        dataSource.reset()
         if let configure = self.configure {
             configure(self, dataSource)
         }
@@ -66,14 +67,9 @@ open class DataSourceViewController: UIViewController, DataSourceDelegate {
     
     open func reloadData() {
         DispatchQueue.main.async {
-            self.buildDataSource()
+            self.configureDataSource(self.dataSource)
             self.tableView.reloadData()
         }
-    }
-    
-    open func buildDataSource() {
-        self.dataSource.reset()
-        self.configureDataSource(dataSource)
     }
     
     open func presentationViewControllerForDataSource(_ dataSource: DataSource) -> UIViewController? {

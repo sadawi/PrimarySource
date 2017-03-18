@@ -79,12 +79,12 @@ open class DataSource: NSObject {
     
     open func reload() {
         self.reset()
-        self.configuration?(self)
         self.presenter?.reloadData()
     }
 
     open func reset() {
         self.sections = []
+        self.configuration?(self)
     }
 
     open func add(_ item: CollectionItemType?) {
