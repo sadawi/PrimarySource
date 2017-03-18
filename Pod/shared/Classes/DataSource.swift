@@ -43,6 +43,8 @@ open class DataSource: NSObject {
     var visibleSections:[Section] {
         return self.sections.filter { $0.visible }
     }
+    
+    open var configuration: ((DataSource)->())?
 
     var didRegisterPresenter = false
     
@@ -69,6 +71,16 @@ open class DataSource: NSObject {
     
     public override init() {
         
+    }
+    
+    open func configure(with closure: @escaping ((DataSource)->())) {
+        self.configuration = closure
+    }
+    
+    open func reload() {
+        self.reset()
+        self.configuration?(self)
+        self.presenter?.reloadData()
     }
 
     open func reset() {
