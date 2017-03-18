@@ -20,6 +20,11 @@ class MenuViewController: DataSourceViewController {
             cell.textLabel?.text = "Misc"
             cell.nextViewControllerGenerator = { ViewController() }
         }
+
+        dataSource <<< CollectionItem<PushCell> { cell in
+            cell.textLabel?.text = "Navigation"
+            cell.nextViewControllerGenerator = { PushExampleViewController() }
+        }
         
         dataSource <<< CollectionItem<PushCell> { cell in
             cell.textLabel?.text = "Animations"

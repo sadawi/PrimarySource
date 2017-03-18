@@ -15,6 +15,7 @@
 		22B82C391E79A5A300E3EA54 /* CommonConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B82C381E79A5A300E3EA54 /* CommonConfigurationViewController.swift */; };
 		22CB87211C4F28470076392E /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CB87201C4F28470076392E /* MenuViewController.swift */; };
 		22CB87241C4F29080076392E /* AnimationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CB87231C4F29080076392E /* AnimationsViewController.swift */; };
+		22F4C85C1E7DF13B0059CE94 /* PushExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F4C85B1E7DF13B0059CE94 /* PushExampleViewController.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -44,6 +45,7 @@
 		22B82C381E79A5A300E3EA54 /* CommonConfigurationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonConfigurationViewController.swift; sourceTree = "<group>"; };
 		22CB87201C4F28470076392E /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		22CB87231C4F29080076392E /* AnimationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationsViewController.swift; sourceTree = "<group>"; };
+		22F4C85B1E7DF13B0059CE94 /* PushExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushExampleViewController.swift; sourceTree = "<group>"; };
 		33FE59753ABA7CA75DD95DE7 /* Pods-PrimarySource_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PrimarySource_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-PrimarySource_Example/Pods-PrimarySource_Example.release.xcconfig"; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* PrimarySource_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrimarySource_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
+				22F4C85B1E7DF13B0059CE94 /* PushExampleViewController.swift */,
 				22CB87201C4F28470076392E /* MenuViewController.swift */,
 				22CB87231C4F29080076392E /* AnimationsViewController.swift */,
 				22803EF31C503393000D0145 /* FormViewController.swift */,
@@ -405,6 +408,7 @@
 				22803EF41C503393000D0145 /* FormViewController.swift in Sources */,
 				224CC2261C03C46100E80B8E /* CustomButtonCell.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				22F4C85C1E7DF13B0059CE94 /* PushExampleViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				22CB87211C4F28470076392E /* MenuViewController.swift in Sources */,
 				223CAD801C7D44EB00894A02 /* ListPositionsViewController.swift in Sources */,
