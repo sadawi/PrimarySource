@@ -22,9 +22,16 @@ class PushExampleViewController: DataSourceViewController {
                 }
             }
             
-            section <<< CollectionItem<PushCell> { cell in
+            section <<< CollectionItem<PushCell> { [weak self] cell in
                 cell.textLabel?.text = "New item"
-                cell.nextViewControllerGenerator = { ItemPickerViewController() }
+                cell.nextViewControllerGenerator = {
+                    let controller = ItemPickerViewController()
+                    controller.action = { value in
+                        self?.items.append(value)
+//                        self?.reloadData()
+                    }
+                    return controller
+                }
             }
         }
     }
@@ -33,11 +40,20 @@ class PushExampleViewController: DataSourceViewController {
 fileprivate class ItemPickerViewController: DataSourceViewController {
     let options = ["red", "green", "apple", "network", "Chopin", "telephone"]
     
+    var action: ((String)->())?
+    
     fileprivate override func configureDataSource(_ dataSource: DataSource) {
         for item in self.options {
             dataSource <<< CollectionItem<TableCell> { cell in
                 cell.textLabel?.text = item
+                }.onTap { [weak self] _ in
+                    self?.pick(item)
             }
         }
+    }
+    
+    func pick(_ value: String) {
+        self.action?(value)
+        _ = self.navigationController?.popViewController(animated: true)
     }
 }
