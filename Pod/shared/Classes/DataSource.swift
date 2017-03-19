@@ -73,10 +73,6 @@ open class DataSource: NSObject {
         
     }
     
-    open func configure(with closure: @escaping ((DataSource)->())) {
-        self.configuration = closure
-    }
-    
     open func reload() {
         self.reset()
         self.presenter?.reloadData()

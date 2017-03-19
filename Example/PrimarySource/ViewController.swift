@@ -29,7 +29,7 @@ class ViewController: DataSourceViewController {
         self.tableView.setEditing(!self.tableView.isEditing, animated: true)
     }
     
-    override func configureDataSource(_ dataSource: DataSource) {
+    override func configure(_ dataSource: DataSource) {
         dataSource <<< Section(title: "Cells") { section in
             section <<< CollectionItem<TitleTextValueCell> { cell in
                 cell.title = "TitleTextCell"

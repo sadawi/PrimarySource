@@ -10,7 +10,7 @@ import UIKit
 import PrimarySource
 
 class ReloadViewController: DataSourceViewController {
-    override func configureDataSource(_ dataSource: DataSource) {
+    override func configure(_ dataSource: DataSource) {
         dataSource <<< Section { section in
             section <<< CollectionItem<TableCell> { cell in
                 print("tapping")

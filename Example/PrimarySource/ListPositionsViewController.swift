@@ -27,7 +27,7 @@ class ListPositionsViewController: DataSourceViewController {
         self.reloadData()
     }
     
-    override func configureDataSource(_ dataSource: DataSource) {
+    override func configure(_ dataSource: DataSource) {
         dataSource <<< Section() { section in
             for item in self.items {
                 let collectionItem = CollectionItem<TableCell> { cell in

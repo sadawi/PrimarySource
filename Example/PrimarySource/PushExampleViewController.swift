@@ -15,7 +15,7 @@ class PushExampleViewController: DataSourceViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dataSource.configure { [weak self] dataSource in
+        configure { [weak self] dataSource in
             guard let items = self?.items else { return }
             
             dataSource <<< Section(title: "Items") { section in
@@ -55,7 +55,7 @@ fileprivate class ItemPickerViewController: DataSourceViewController {
     
     var action: ((String)->())?
     
-    fileprivate override func configureDataSource(_ dataSource: DataSource) {
+    fileprivate override func configure(_ dataSource: DataSource) {
         for item in self.options {
             dataSource <<< CollectionItem<TableCell> { cell in
                 cell.textLabel?.text = item
