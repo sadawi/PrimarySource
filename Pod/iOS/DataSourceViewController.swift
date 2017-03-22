@@ -26,7 +26,7 @@ open class DataSourceViewController: UIViewController, DataSourceDelegate {
     public convenience init(title:String?=nil, configure:@escaping ((DataSource) -> Void)) {
         self.init()
         self.title = title
-        self.dataSource.configuration = configure
+        self.dataSource.initialConfiguration = configure
     }
     
     open override func viewDidAppear(_ animated: Bool) {
@@ -58,7 +58,7 @@ open class DataSourceViewController: UIViewController, DataSourceDelegate {
     }
     
     open func configure(with closure: @escaping ((DataSource)->())) {
-        self.dataSource.configuration = closure
+        self.dataSource.initialConfiguration = closure
     }
     
     open func configure(_ dataSource:DataSource) {

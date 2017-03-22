@@ -44,7 +44,10 @@ open class DataSource: NSObject {
         return self.sections.filter { $0.visible }
     }
     
-    open var configuration: ((DataSource)->())?
+    /**
+     A closure that will be run whenever the data source is reset.
+     */
+    open var initialConfiguration: ((DataSource)->())?
 
     var didRegisterPresenter = false
     
@@ -73,14 +76,24 @@ open class DataSource: NSObject {
         
     }
     
+    /**
+     Resets the data source and reloads its presenter.
+     */
     open func reload() {
         self.reset()
+        self.reloadPresenter()
+    }
+    
+    public func reloadPresenter() {
         self.presenter?.reloadData()
     }
 
+    /**
+     Returns the data source to an initialized state by removing all added sections and then re-running initialConfiguration.
+     */
     open func reset() {
         self.sections = []
-        self.configuration?(self)
+        self.initialConfiguration?(self)
     }
 
     open func add(_ item: CollectionItemType?) {
