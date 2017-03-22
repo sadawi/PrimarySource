@@ -9,13 +9,6 @@
 import UIKit
 
 open class BooleanCell:FieldCell<Bool> {
-    // MARK: - Observable
-    
-    public typealias ValueType = Bool
-    
-    open override func prepareForReuse() {
-        super.prepareForReuse()
-    }
 }
 
 open class SwitchCell:BooleanCell, TappableTableCell  {

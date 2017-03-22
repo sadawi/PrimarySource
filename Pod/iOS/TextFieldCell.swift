@@ -156,14 +156,6 @@ open class TextFieldCell: TextFieldInputCell<String> {
             self.value = newValue
         }
     }
-
-    // MARK: - Observable
-    
-    public typealias ValueType = String
-    
-    open override func prepareForReuse() {
-        super.prepareForReuse()
-    }
 }
 
 open class EmailAddressCell: TextFieldCell {

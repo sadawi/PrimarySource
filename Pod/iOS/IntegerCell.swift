@@ -9,15 +9,6 @@
 import UIKit
 
 open class IntegerCell: FieldCell<Int> {
-
-    // MARK: - Observable
-    
-    public typealias ValueType = Int
-
-    open override func prepareForReuse() {
-        super.prepareForReuse()
-    }
-    
 }
 
 open class StepperCell: IntegerCell {
