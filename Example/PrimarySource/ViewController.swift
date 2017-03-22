@@ -29,7 +29,7 @@ class ViewController: DataSourceViewController {
         self.tableView.setEditing(!self.tableView.isEditing, animated: true)
     }
     
-    override func configureDataSource(_ dataSource: DataSource) {
+    override func configure(_ dataSource: DataSource) {
         dataSource <<< Section(title: "Cells") { section in
             section <<< CollectionItem<TitleTextValueCell> { cell in
                 cell.title = "TitleTextCell"
@@ -51,10 +51,6 @@ class ViewController: DataSourceViewController {
                     }
                     return c
                 }
-            }
-            
-            section <<< CollectionItem<MapCell> { cell in
-                cell.mapHeight = 200
             }
             
             section <<< CollectionItem<StackCell> { cell in
@@ -101,6 +97,10 @@ class ViewController: DataSourceViewController {
                         self?.tableView.setEditing(false, animated: true)
                         print("Blue")
                     }
+            }
+            
+            section <<< CollectionItem<MapCell> { cell in
+                cell.mapHeight = 200
             }
             
         }

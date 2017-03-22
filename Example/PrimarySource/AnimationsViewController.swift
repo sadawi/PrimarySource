@@ -32,7 +32,7 @@ class AnimationsViewController: DataSourceViewController {
         }
     }
     
-    override func configureDataSource(_ dataSource: DataSource) {
+    override func configure(_ dataSource: DataSource) {
 
         dataSource <<< ListSection(values: self.numbers, title: "Numbers", key: "numbers") { value, index in
             return CollectionItem<UITableViewCell> { cell in

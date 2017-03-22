@@ -24,7 +24,7 @@ enum Style {
 class CommonConfigurationViewController: DataSourceViewController {
     var style: Style? = .normal
     
-    override func configureDataSource(_ dataSource: DataSource) {
+    override func configure(_ dataSource: DataSource) {
         dataSource.configureView = { [weak self] view in
             if let cell = view as? UITableViewCell {
                 if let style = self?.style {

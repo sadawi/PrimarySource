@@ -17,17 +17,16 @@ open class DataSourceViewController: UIViewController, DataSourceDelegate {
         return dataSource
     }()
     
-    open var configure:((DataSourceViewController, DataSource) -> Void)?
     open var tableViewStyle: UITableViewStyle = .plain
     
     @IBOutlet lazy open var tableView:UITableView! = {
         UITableView(frame: self.view.bounds, style: self.tableViewStyle)
     }()
     
-    public convenience init(title:String?=nil, configure:@escaping ((DataSourceViewController, DataSource) -> Void)) {
+    public convenience init(title:String?=nil, configure:@escaping ((DataSource) -> Void)) {
         self.init()
         self.title = title
-        self.configure = configure
+        self.dataSource.initialConfiguration = configure
     }
     
     open override func viewDidAppear(_ animated: Bool) {
@@ -58,22 +57,19 @@ open class DataSourceViewController: UIViewController, DataSourceDelegate {
         self.reloadData()
     }
     
-    open func configureDataSource(_ dataSource:DataSource) {
-        if let configure = self.configure {
-            configure(self, dataSource)
-        }
+    open func configure(with closure: @escaping ((DataSource)->())) {
+        self.dataSource.initialConfiguration = closure
+    }
+    
+    open func configure(_ dataSource:DataSource) {
     }
     
     open func reloadData() {
         DispatchQueue.main.async {
-            self.buildDataSource()
+            self.dataSource.reset()
+            self.configure(self.dataSource)
             self.tableView.reloadData()
         }
-    }
-    
-    open func buildDataSource() {
-        self.dataSource.reset()
-        self.configureDataSource(dataSource)
     }
     
     open func presentationViewControllerForDataSource(_ dataSource: DataSource) -> UIViewController? {

@@ -10,7 +10,7 @@ import Foundation
 import PrimarySource
 
 class MenuViewController: DataSourceViewController {
-    override func configureDataSource(_ dataSource: DataSource) {
+    override func configure(_ dataSource: DataSource) {
         dataSource <<< CollectionItem<PushCell> { cell in
             cell.textLabel?.text = "Form"
             cell.nextViewControllerGenerator = { FormViewController() }
@@ -19,6 +19,11 @@ class MenuViewController: DataSourceViewController {
         dataSource <<< CollectionItem<PushCell> { cell in
             cell.textLabel?.text = "Misc"
             cell.nextViewControllerGenerator = { ViewController() }
+        }
+
+        dataSource <<< CollectionItem<PushCell> { cell in
+            cell.textLabel?.text = "Navigation"
+            cell.nextViewControllerGenerator = { PushExampleViewController() }
         }
         
         dataSource <<< CollectionItem<PushCell> { cell in

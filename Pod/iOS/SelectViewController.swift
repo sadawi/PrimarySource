@@ -73,7 +73,7 @@ open class SelectViewController<T:Equatable>: DataSourceViewController {
         super.viewDidLoad()
     }
     
-    open override func configureDataSource(_ dataSource:DataSource) {
+    open override func configure(_ dataSource:DataSource) {
         guard self.loading == false else { return }
         
         var options:[ValueType?] = []

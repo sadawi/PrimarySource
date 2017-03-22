@@ -25,7 +25,7 @@ class FormViewController: DataSourceViewController {
         self.reloadData()
     }
     
-    override func configureDataSource(_ dataSource: DataSource) {
+    override func configure(_ dataSource: DataSource) {
         dataSource <<< Section(title: "Form") { section in
             section <<< CollectionItem<TextFieldCell>(key: "name") { cell in
                 cell.labelPosition = .top
