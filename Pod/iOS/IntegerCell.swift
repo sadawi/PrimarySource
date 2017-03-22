@@ -66,7 +66,7 @@ open class StepperCell: IntegerCell {
         self.valueLabel?.textColor = self.valueTextColor
     }
     
-    override func update() {
+    override open func update() {
         super.update()
         
         if let value = self.value {

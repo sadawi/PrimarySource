@@ -98,7 +98,7 @@ open class TitleDetailsCell: TableCell {
         self.update()
     }
     
-    func update() {
+    open func update() {
         self.titleLabel?.text = self.formattedTitle()
     }
     

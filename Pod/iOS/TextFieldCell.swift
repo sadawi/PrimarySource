@@ -94,7 +94,7 @@ open class TextFieldInputCell<Value: Equatable>: FieldCell<Value>, UITextFieldDe
         }
     }
     
-    override func update() {
+    override open func update() {
         super.update()
         self.textField?.text = self.stringValue
         self.textField?.placeholder = self.placeholderText

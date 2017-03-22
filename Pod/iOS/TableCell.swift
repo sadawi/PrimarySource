@@ -31,6 +31,8 @@ public protocol TappableTableCell {
 open class TableCell: UITableViewCell, ListMember {
     internal weak var dataSource:DataSource?
     
+    open var willReuse: (()->())?
+    
     open var adjustFrame: ((CGRect)->CGRect)?
     open var showHighlight: ((_ highlighted: Bool, _ animated:Bool)->())? {
         didSet {
@@ -199,6 +201,7 @@ open class TableCell: UITableViewCell, ListMember {
         super.prepareForReuse()
         self.borderStyle = BorderStyle(top: .never, bottom: .never)
         self.accessoryType = .none
+        self.willReuse?()
     }
     
     open override var frame:CGRect {
