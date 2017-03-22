@@ -150,7 +150,7 @@ open class FieldCell<Value: Equatable>: TitleDetailsCell {
         self.errorLabel?.font = self.valueFont
     }
     
-    func valueChanged(from oldValue: Value?, to newValue: Value?) {
+    open func valueChanged(from oldValue: Value?, to newValue: Value?) {
         if let onChange = self.onChange {
             onChange(oldValue, newValue)
         }
