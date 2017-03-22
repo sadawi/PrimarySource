@@ -30,7 +30,6 @@ open class SegmentedSelectCell<Value:Equatable>: ValueFieldCell<Value> {
         if let index = self.segmentedControl?.selectedSegmentIndex {
             if index < self.options.count {
                 self.value = self.options[index]
-                self.valueChanged()
             }
         }
     }

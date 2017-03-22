@@ -38,8 +38,8 @@ class CommonConfigurationViewController: DataSourceViewController {
                 cell.options = [.normal, .highlighted]
                 cell.value = self?.style
                 cell.backgroundColor = .clear
-                cell.onChange = { [weak cell] in
-                    self?.style = cell?.value
+                cell.onChange = { _, newValue in
+                    self?.style = newValue
                     self?.reloadData()
                 }
             }

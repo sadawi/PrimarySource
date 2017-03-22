@@ -25,20 +25,18 @@ open class SwitchCell:BooleanCell, TappableTableCell  {
     
     open func switchChanged() {
         self.value = self.switchControl?.isOn
-        self.valueChanged()
     }
     
     open func toggle(animated:Bool=true) {
         let newValue = (self.value != true)
         self.switchControl?.setOn(newValue, animated: animated)
         self.value = newValue
-        self.valueChanged()
     }
     
     open override func update() {
         super.update()
         self.switchControl?.isOn = (self.value == true)
-        self.switchControl?.isUserInteractionEnabled = !self.readonly
+        self.switchControl?.isUserInteractionEnabled = !self.isReadonly
     }
     
     public func handleTap() {

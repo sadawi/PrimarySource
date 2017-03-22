@@ -54,7 +54,7 @@ open class PushFieldCell<Value: Equatable>: ValueFieldCell<Value>, NavigationCel
     override func update() {
         super.update()
         self.valueLabel?.text = self.formatValue(self.value)
-        self.isUserInteractionEnabled = !self.readonly
+        self.isUserInteractionEnabled = !self.isReadonly
     }
     
 }

@@ -23,17 +23,20 @@ public enum FieldState {
     case editing
 }
 
-open class FieldCell<Value>: TitleDetailsCell {
+open class FieldCell<Value: Equatable>: TitleDetailsCell {
     var errorLabel:UILabel?
     var errorIcon:UIImageView?
     
     open var value:Value? {
         didSet {
+            if oldValue != self.value {
+                self.valueChanged(from: oldValue, to: self.value)
+            }
             self.update()
         }
     }
     
-    open var readonly:Bool = false
+    open var isReadonly:Bool = false
     
     open var placeholderText:String? {
         didSet {
@@ -89,7 +92,7 @@ open class FieldCell<Value>: TitleDetailsCell {
         self.update()
     }
     
-    open var onChange:((Void) -> Void)?
+    open var onChange:((Value?, Value?) -> Void)?
     
     override open func buildView() {
         super.buildView()
@@ -147,13 +150,9 @@ open class FieldCell<Value>: TitleDetailsCell {
         self.errorLabel?.font = self.valueFont
     }
     
-    func valueChanged() {
-        self.handleChange()
-    }
-    
-    func handleChange() {
+    func valueChanged(from oldValue: Value?, to newValue: Value?) {
         if let onChange = self.onChange {
-            onChange()
+            onChange(oldValue, newValue)
         }
     }
     

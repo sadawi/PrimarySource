@@ -16,7 +16,7 @@ public enum TextEditingMode {
 /**
     A cell that uses a UITextField as an input, but doesn't necessarily have a String value.
 */
-open class TextFieldInputCell<Value>: FieldCell<Value>, UITextFieldDelegate, TappableTableCell {
+open class TextFieldInputCell<Value: Equatable>: FieldCell<Value>, UITextFieldDelegate, TappableTableCell {
     open var textField:UITextField?
     open var editingMode:TextEditingMode = .inline
     
@@ -65,9 +65,6 @@ open class TextFieldInputCell<Value>: FieldCell<Value>, UITextFieldDelegate, Tap
         let newValue = self.textField?.text
         if newValue != self.stringValue {
             self.stringValue = newValue
-            
-            // TODO: could be more accurate about this.  Maybe keep track of whether user actually changed the value
-            self.valueChanged()
         }
     }
     
@@ -101,7 +98,7 @@ open class TextFieldInputCell<Value>: FieldCell<Value>, UITextFieldDelegate, Tap
         super.update()
         self.textField?.text = self.stringValue
         self.textField?.placeholder = self.placeholderText
-        self.textField?.isUserInteractionEnabled = !self.readonly
+        self.textField?.isUserInteractionEnabled = !self.isReadonly
         self.textField?.keyboardType = self.keyboardType
     }
     
