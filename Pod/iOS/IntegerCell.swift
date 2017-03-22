@@ -8,12 +8,7 @@
 
 import UIKit
 
-open class IntegerCell: FieldCell {
-    open var value:Int? {
-        didSet {
-            self.update()
-        }
-    }
+open class IntegerCell: FieldCell<Int> {
 
     // MARK: - Observable
     

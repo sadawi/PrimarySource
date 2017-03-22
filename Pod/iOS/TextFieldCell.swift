@@ -16,7 +16,7 @@ public enum TextEditingMode {
 /**
     A cell that uses a UITextField as an input, but doesn't necessarily have a String value.  Should be subclassed.
 */
-open class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCell {
+open class TextFieldInputCell<T>: FieldCell<T>, UITextFieldDelegate, TappableTableCell {
     open var textField:UITextField?
     open var editingMode:TextEditingMode = .inline
     
@@ -118,13 +118,7 @@ open class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCell
     }
 }
 
-open class TextFieldValueCell<ValueType>: TextFieldInputCell {
-    open var value: ValueType? {
-        didSet {
-            self.update()
-        }
-    }
-    
+open class TextFieldValueCell<ValueType>: TextFieldInputCell<ValueType> {
     open var textForValue:((ValueType) -> String)?
     open var valueForText:((String) -> ValueType?)?
 
@@ -169,19 +163,13 @@ open class TextFieldValueCell<ValueType>: TextFieldInputCell {
 /**
     A cell that uses a UITextField as an input and has a String value
 */
-open class TextFieldCell: TextFieldInputCell {
+open class TextFieldCell: TextFieldInputCell<String> {
     open override var stringValue:String? {
         get {
             return self.value
         }
         set {
             self.value = newValue
-        }
-    }
-    
-    open var value:String? {
-        didSet {
-            self.update()
         }
     }
 

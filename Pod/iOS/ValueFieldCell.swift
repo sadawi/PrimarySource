@@ -11,13 +11,9 @@ import UIKit
 /**
  Any cell that presents its value as a string that is not directly editable.
  */
-open class ValueFieldCell<ValueType:Equatable>: FieldCell {
-    open var value:ValueType? {
-        didSet {
-            self.update()
-        }
-    }
-    open var options:[ValueType] = [] {
+open class ValueFieldCell<Value:Equatable>: FieldCell<Value> {
+    
+    open var options:[Value] = [] {
         didSet {
             self.update()
         }
@@ -25,9 +21,9 @@ open class ValueFieldCell<ValueType:Equatable>: FieldCell {
     
     open var textForNil: String?
     
-    open var textForValue:((ValueType) -> String)?
+    open var textForValue:((Value) -> String)?
     
-    func formatValue(_ value: ValueType?) -> String {
+    func formatValue(_ value: Value?) -> String {
         if let value = value {
             if let formatter = self.textForValue {
                 return formatter(value)

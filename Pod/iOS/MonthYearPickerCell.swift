@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-open class MonthYearPickerCell: PickerCell {
+open class MonthYearPickerCell: PickerCell<Date> {
     open var dateFormatter: DateFormatter = DateFormatter()
     
     open var monthYearPicker: MonthYearPicker? {
@@ -36,7 +36,7 @@ open class MonthYearPickerCell: PickerCell {
         }
     }
     
-    open var dateValue: Date? {
+    open override var value: Date? {
         get {
             return self.monthYearPicker?.date as Date?
         }

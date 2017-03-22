@@ -8,13 +8,7 @@
 
 import UIKit
 
-open class BooleanCell:FieldCell {
-    open var value:Bool? = false {
-        didSet {
-            self.update()
-        }
-    }
-
+open class BooleanCell:FieldCell<Bool> {
     // MARK: - Observable
     
     public typealias ValueType = Bool
