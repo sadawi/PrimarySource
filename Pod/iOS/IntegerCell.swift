@@ -11,6 +11,29 @@ import UIKit
 open class IntegerCell: FieldCell<Int> {
 }
 
+open class IntegerInputCell: TextFieldInputCell<Int> {
+    open override var keyboardType: UIKeyboardType {
+        get { return .numberPad }
+        set { }
+    }
+    
+    open override func importText(_ text: String?) -> Int? {
+        if let text = text {
+            return Int(text)
+        } else {
+            return nil
+        }
+    }
+    
+    open override func exportText(_ value: Int?) -> String? {
+        if let value = value {
+            return String(value)
+        } else {
+            return nil
+        }
+    }
+}
+
 open class StepperCell: IntegerCell {
     open var stepper:UIStepper?
     open var valueLabel:UILabel?

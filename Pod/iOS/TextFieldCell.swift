@@ -102,6 +102,7 @@ open class TextFieldInputCell<Value>: FieldCell<Value>, UITextFieldDelegate, Tap
         self.textField?.text = self.stringValue
         self.textField?.placeholder = self.placeholderText
         self.textField?.isUserInteractionEnabled = !self.readonly
+        self.textField?.keyboardType = self.keyboardType
     }
     
     public func handleTap() {
@@ -114,16 +115,17 @@ open class TextFieldInputCell<Value>: FieldCell<Value>, UITextFieldDelegate, Tap
         self.stringValue = nil
         self.textField?.text = nil
         self.textField?.isEnabled = true
-        self.textField?.keyboardType = .default
 
         self.textForValue = nil
         self.valueForText = nil
     }
+    
+    open var keyboardType: UIKeyboardType = .default
 
     open var textForValue:((Value) -> String)?
     open var valueForText:((String) -> Value?)?
 
-    func exportText(_ value: Value?) -> String? {
+    open func exportText(_ value: Value?) -> String? {
         if let value = value {
             if let formatter = self.textForValue {
                 return formatter(value)
@@ -135,7 +137,7 @@ open class TextFieldInputCell<Value>: FieldCell<Value>, UITextFieldDelegate, Tap
         }
     }
     
-    func importText(_ text: String?) -> Value? {
+    open func importText(_ text: String?) -> Value? {
         if let text = text, let importer = self.valueForText {
             return importer(text)
         } else {

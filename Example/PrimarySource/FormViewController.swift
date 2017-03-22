@@ -47,6 +47,12 @@ class FormViewController: DataSourceViewController {
                     print("New value: \(cell.value)")
                 }
             }
+            section <<< CollectionItem<IntegerInputCell>(key: "count") { cell in
+                cell.title = "Count"
+                cell.onChange = { [unowned cell] in
+                    print("New value: \(cell.value)")
+                }
+            }
             section <<< CollectionItem<PhoneNumberCell>(key: "phone") { cell in
                 cell.title = "Phone number"
                 cell.value = "948AAA"
