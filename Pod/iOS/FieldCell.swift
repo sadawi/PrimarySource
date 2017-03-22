@@ -129,7 +129,7 @@ open class FieldCell<Value: Equatable>: TitleDetailsCell {
         detailContent.addConstraints(self.detailConstraints)
     }
     
-    override func update() {
+    override open func update() {
         super.update()
 
         switch self.state {

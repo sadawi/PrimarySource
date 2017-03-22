@@ -34,7 +34,7 @@ open class SegmentedSelectCell<Value:Equatable>: ValueFieldCell<Value> {
         }
     }
     
-    override func update() {
+    override open func update() {
         super.update()
         self.segmentedControl?.removeAllSegments()
         for i in 0..<self.options.count {
