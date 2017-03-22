@@ -17,7 +17,6 @@ open class PushSelectCell<Value: Equatable>: PushFieldCell<Value> {
     open override func buildNextViewController() -> UIViewController? {
         let controller = SelectViewController(options: self.options, value:self.value) { [unowned self] value in
             self.value = value
-            self.valueChanged()
             _ = self.presentationViewController?.navigationController?.popViewController(animated: true)
         }
         controller.title = self.title

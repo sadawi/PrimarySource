@@ -56,8 +56,8 @@ class AnimationsViewController: DataSourceViewController {
             section <<< CollectionItem<SwitchCell> { [weak self] cell in
                 cell.title = "Visible"
                 cell.value = self?.visible
-                cell.onChange = { [weak cell] in
-                    self?.visible = cell?.value
+                cell.onChange = { _, newValue in
+                    self?.visible = newValue
                 }
             }
             section <<< CollectionItem<TableCell>(key: "item") { cell in
@@ -66,8 +66,8 @@ class AnimationsViewController: DataSourceViewController {
             section <<< CollectionItem<SwitchCell> { [weak self] cell in
                 cell.title = "Visible 2"
                 cell.value = self?.visible2
-                cell.onChange = { [weak cell] in
-                    self?.visible2 = cell?.value
+                cell.onChange = { _, newValue in
+                    self?.visible2 = newValue
                 }
             }
             section <<< CollectionItem<TableCell> { cell in
@@ -79,8 +79,8 @@ class AnimationsViewController: DataSourceViewController {
             section <<< CollectionItem<SwitchCell> { [weak self] cell in
                 cell.title = "Section Visible"
                 cell.value = self?.sectionVisible
-                cell.onChange = { [weak cell] in
-                    self?.sectionVisible = cell?.value
+                cell.onChange = {  _, newValue in
+                    self?.sectionVisible = newValue
                 }
             }
         }

@@ -58,7 +58,6 @@ open class StepperCell: IntegerCell {
         } else {
             self.value = nil
         }
-        self.valueChanged()
     }
     
     override open func stylize() {

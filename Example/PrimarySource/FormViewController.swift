@@ -31,77 +31,77 @@ class FormViewController: DataSourceViewController {
                 cell.labelPosition = .top
                 cell.title = "Name"
                 cell.placeholderText = "Enter a full name"
-                cell.onChange = { [weak cell] in
-                    print("New value: \(cell?.value)")
+                cell.onChange = { _, newValue in
+                    print("New value: \(newValue)")
                 }
             }
             section <<< CollectionItem<SwitchCell>(key: "active") { cell in
                 cell.title = "Active"
-                cell.onChange = { [unowned cell] in
-                    print("New value: \(cell.value)")
+                cell.onChange = { _, newValue in
+                    print("New value: \(newValue)")
                 }
             }
             section <<< CollectionItem<EmailAddressCell>(key: "email") { cell in
                 cell.title = "Email address"
-                cell.onChange = { [unowned cell] in
-                    print("New value: \(cell.value)")
+                cell.onChange = { _, newValue in
+                    print("New value: \(newValue)")
                 }
             }
             section <<< CollectionItem<IntegerInputCell>(key: "count") { cell in
                 cell.title = "Count"
-                cell.onChange = { [unowned cell] in
-                    print("New value: \(cell.value)")
+                cell.onChange = { _, newValue in
+                    print("New value: \(newValue)")
                 }
             }
             section <<< CollectionItem<PhoneNumberCell>(key: "phone") { cell in
                 cell.title = "Phone number"
                 cell.value = "948AAA"
                 cell.state = FieldState.error(["Looks like this phone number is invalid!"])
-                cell.onChange = { [unowned cell] in
-                    print("New value: \(cell.value)")
+                cell.onChange = { _, newValue in
+                    print("New value: \(newValue)")
                 }
             }
             section <<< CollectionItem<DateFieldCell>(key: "birthday") { cell in
                 cell.title = "Birthday"
-                cell.onChange = { [unowned cell] in
-                    print("New value: \(cell.value)")
+                cell.onChange = { _, newValue in
+                    print("New value: \(newValue)")
                 }
             }
             section <<< CollectionItem<MonthYearPickerCell>(key: "expiration") { cell in
                 cell.title = "Expiration Date"
                 cell.value = Date()
-                cell.onChange = { [unowned cell] in
-                    print("New value: \(cell.value)")
+                cell.onChange = { _, newValue in
+                    print("New value: \(newValue)")
                 }
             }
             section <<< CollectionItem<StepperCell>(key: "problems") { cell in
                 cell.title = "Problems"
-                cell.onChange = { [unowned cell] in
-                    print("New value: \(cell.value)")
+                cell.onChange = { _, newValue in
+                    print("New value: \(newValue)")
                 }
             }
             
             section <<< CollectionItem<PushSelectCell<Gender>>(key: "gender") { cell in
                 cell.title = "Gender"
                 cell.options = Gender.all
-                cell.onChange = { [unowned cell] in
-                    print("New value: \(cell.value)")
+                cell.onChange = { _, newValue in
+                    print("New value: \(newValue)")
                 }
             }
 
             section <<< CollectionItem<SegmentedSelectCell<Gender>>(key: "gender") { cell in
                 cell.title = "Gender"
                 cell.options = Gender.all
-                cell.onChange = { [unowned cell] in
-                    print("New value: \(cell.value)")
+                cell.onChange = { _, newValue in
+                    print("New value: \(newValue)")
                 }
             }
 
             section <<< CollectionItem<PushSelectCell<String>>(key: "long") { cell in
                 cell.title = "String"
                 cell.options = ["short", "a very long string that has no hope of staying within the bounds initially created for it, but should still be displayable"]
-                cell.onChange = { [unowned cell] in
-                    print("New value: \(cell.value)")
+                cell.onChange = { _, newValue in
+                    print("New value: \(newValue)")
                 }
             }
             
@@ -109,8 +109,8 @@ class FormViewController: DataSourceViewController {
                 cell.title = "String"
                 cell.labelPosition = .top
                 cell.options = ["short", "a very long string that has no hope of staying within the bounds initially created for it, but should still be displayable"]
-                cell.onChange = { [unowned cell] in
-                    print("New value: \(cell.value)")
+                cell.onChange = { _, newValue in
+                    print("New value: \(newValue)")
                 }
             }
             
@@ -135,8 +135,8 @@ class FormViewController: DataSourceViewController {
                 cell.valueForText = { value in
                     return value.lowercased()
                 }
-                cell.onChange = { [weak cell] in
-                    print("cell value changed to: ", cell?.value as Any)
+                cell.onChange = { _, newValue in
+                    print("New value: \(newValue)")
                 }
             }
             section <<< CollectionItem<TextFieldInputCell<Int>> { cell in
@@ -147,8 +147,8 @@ class FormViewController: DataSourceViewController {
                 cell.valueForText = { value in
                     return Int(value)
                 }
-                cell.onChange = { [weak cell] in
-                    print("cell value changed to: ", cell?.value as Any)
+                cell.onChange = { _, newValue in
+                    print("New value: \(newValue)")
                 }
             }
         }

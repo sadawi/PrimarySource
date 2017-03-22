@@ -30,7 +30,6 @@ open class PickerCell<Value>: TextFieldInputCell<Value> {
     
     open override func commit() {
         self.pickerValueChanged()
-        self.valueChanged()
         super.commit()
     }
 }

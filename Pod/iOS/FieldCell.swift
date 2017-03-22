@@ -29,6 +29,7 @@ open class FieldCell<Value>: TitleDetailsCell {
     
     open var value:Value? {
         didSet {
+            self.valueChanged(from: oldValue, to: self.value)
             self.update()
         }
     }
@@ -89,7 +90,7 @@ open class FieldCell<Value>: TitleDetailsCell {
         self.update()
     }
     
-    open var onChange:((Void) -> Void)?
+    open var onChange:((Value?, Value?) -> Void)?
     
     override open func buildView() {
         super.buildView()
@@ -147,13 +148,9 @@ open class FieldCell<Value>: TitleDetailsCell {
         self.errorLabel?.font = self.valueFont
     }
     
-    func valueChanged() {
-        self.handleChange()
-    }
-    
-    func handleChange() {
+    func valueChanged(from oldValue: Value?, to newValue: Value?) {
         if let onChange = self.onChange {
-            onChange()
+            onChange(oldValue, newValue)
         }
     }
     
