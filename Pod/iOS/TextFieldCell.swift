@@ -98,7 +98,7 @@ open class TextFieldInputCell<Value: Equatable>: FieldCell<Value>, UITextFieldDe
         super.update()
         self.textField?.text = self.stringValue
         self.textField?.placeholder = self.placeholderText
-        self.textField?.isUserInteractionEnabled = !self.readonly
+        self.textField?.isUserInteractionEnabled = !self.isReadonly
         self.textField?.keyboardType = self.keyboardType
     }
     

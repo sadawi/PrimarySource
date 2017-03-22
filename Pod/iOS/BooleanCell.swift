@@ -36,7 +36,7 @@ open class SwitchCell:BooleanCell, TappableTableCell  {
     open override func update() {
         super.update()
         self.switchControl?.isOn = (self.value == true)
-        self.switchControl?.isUserInteractionEnabled = !self.readonly
+        self.switchControl?.isUserInteractionEnabled = !self.isReadonly
     }
     
     public func handleTap() {

@@ -36,7 +36,7 @@ open class FieldCell<Value: Equatable>: TitleDetailsCell {
         }
     }
     
-    open var readonly:Bool = false
+    open var isReadonly:Bool = false
     
     open var placeholderText:String? {
         didSet {
