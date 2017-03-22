@@ -14,9 +14,9 @@ public enum TextEditingMode {
 }
 
 /**
-    A cell that uses a UITextField as an input, but doesn't necessarily have a String value.  Should be subclassed.
+    A cell that uses a UITextField as an input, but doesn't necessarily have a String value.
 */
-open class TextFieldInputCell<T>: FieldCell<T>, UITextFieldDelegate, TappableTableCell {
+open class TextFieldInputCell<Value>: FieldCell<Value>, UITextFieldDelegate, TappableTableCell {
     open var textField:UITextField?
     open var editingMode:TextEditingMode = .inline
     
@@ -25,8 +25,11 @@ open class TextFieldInputCell<T>: FieldCell<T>, UITextFieldDelegate, TappableTab
         Subclasses should override this with getters and setters that translate it to their primary value type.
     */
     open var stringValue:String? {
-        didSet {
-            self.stringValueChanged()
+        get {
+            return self.exportText(self.value)
+        }
+        set {
+            self.value = self.importText(newValue)
         }
     }
     
@@ -66,10 +69,6 @@ open class TextFieldInputCell<T>: FieldCell<T>, UITextFieldDelegate, TappableTab
             // TODO: could be more accurate about this.  Maybe keep track of whether user actually changed the value
             self.valueChanged()
         }
-    }
-    
-    open func stringValueChanged() {
-        // Nothing here.
     }
     
     open func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -115,14 +114,15 @@ open class TextFieldInputCell<T>: FieldCell<T>, UITextFieldDelegate, TappableTab
         self.textField?.text = nil
         self.textField?.isEnabled = true
         self.textField?.keyboardType = .default
+
+        self.textForValue = nil
+        self.valueForText = nil
     }
-}
 
-open class TextFieldValueCell<ValueType>: TextFieldInputCell<ValueType> {
-    open var textForValue:((ValueType) -> String)?
-    open var valueForText:((String) -> ValueType?)?
+    open var textForValue:((Value) -> String)?
+    open var valueForText:((String) -> Value?)?
 
-    func formatValue(_ value: ValueType?) -> String? {
+    func exportText(_ value: Value?) -> String? {
         if let value = value {
             if let formatter = self.textForValue {
                 return formatter(value)
@@ -134,30 +134,13 @@ open class TextFieldValueCell<ValueType>: TextFieldInputCell<ValueType> {
         }
     }
     
-    func importText(_ text: String?) -> ValueType? {
+    func importText(_ text: String?) -> Value? {
         if let text = text, let importer = self.valueForText {
             return importer(text)
         } else {
             return nil
         }
     }
-    
-    open override func update() {
-        super.update()
-        self.textField?.text = self.formatValue(self.value)
-    }
-    
-    open override func stringValueChanged() {
-        super.stringValueChanged()
-        self.value = self.importText(self.stringValue)
-    }
-    
-    open override func prepareForReuse() {
-        super.prepareForReuse()
-        self.textForValue = nil
-        self.valueForText = nil
-    }
-    
 }
 
 /**
