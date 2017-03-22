@@ -23,9 +23,15 @@ public enum FieldState {
     case editing
 }
 
-open class FieldCell: TitleDetailsCell {
+open class FieldCell<Value>: TitleDetailsCell {
     var errorLabel:UILabel?
     var errorIcon:UIImageView?
+    
+    open var value:Value? {
+        didSet {
+            self.update()
+        }
+    }
     
     open var readonly:Bool = false
     
@@ -35,8 +41,8 @@ open class FieldCell: TitleDetailsCell {
         }
     }
     
-    open var blank:Bool {
-        get { return true }
+    open var isBlank:Bool {
+        get { return self.value == nil }
     }
     
     open var state:FieldState = .normal {

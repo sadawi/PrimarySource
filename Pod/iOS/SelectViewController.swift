@@ -12,20 +12,18 @@ public protocol CollectionItemViewable {
     func buildViewCollectionItem() -> CollectionItemType?
 }
 
-open class SelectViewController<T:Equatable>: DataSourceViewController {
-    public typealias ValueType = T
-    
+open class SelectViewController<Value:Equatable>: DataSourceViewController {
     // Overloading `==` for your class will not work.
-    open var valuesAreEqual:((T?, T?)->Bool)?
+    open var valuesAreEqual:((Value?, Value?)->Bool)?
     
-    open var value:ValueType?
+    open var value:Value?
     open var multiple:Bool = false
-    open var textForValue:((ValueType) -> String) = { value in
+    open var textForValue:((Value) -> String) = { value in
         return String(describing: value)
     }
     open var textForNil: String?
     open var includeNil: Bool = false
-    open var didSelectValue:((ValueType?) -> ())?
+    open var didSelectValue:((Value?) -> ())?
     
     var loading = false
     
@@ -33,9 +31,9 @@ open class SelectViewController<T:Equatable>: DataSourceViewController {
      If options need more complicated logic to load (e.g., loading from a server), that can be done with this closure.
      The closure should take a completion block that is to be called when options are ready.
      */
-    open var loadOptions: ((([ValueType])->()) -> ())?
+    open var loadOptions: ((([Value])->()) -> ())?
     
-    open var options:[ValueType] = []
+    open var options:[Value] = []
     
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -49,7 +47,7 @@ open class SelectViewController<T:Equatable>: DataSourceViewController {
         }
     }
 
-    public init(options:[ValueType], value:ValueType?, didSelectValue:((ValueType?) -> Void)?=nil) {
+    public init(options:[Value], value:Value?, didSelectValue:((Value?) -> Void)?=nil) {
         super.init(nibName: nil, bundle: nil)
         self.options = options
         self.value = value
@@ -76,7 +74,7 @@ open class SelectViewController<T:Equatable>: DataSourceViewController {
     open override func configure(_ dataSource:DataSource) {
         guard self.loading == false else { return }
         
-        var options:[ValueType?] = []
+        var options:[Value?] = []
         if self.includeNil {
             options.append(nil)
         }
@@ -109,7 +107,7 @@ open class SelectViewController<T:Equatable>: DataSourceViewController {
         self.didSelectValue?(self.value)
     }
 
-    func buildCollectionItem(option: ValueType?) -> CollectionItemType? {
+    func buildCollectionItem(option: Value?) -> CollectionItemType? {
         if let viewable = option as? CollectionItemViewable {
             return viewable.buildViewCollectionItem()
         } else {

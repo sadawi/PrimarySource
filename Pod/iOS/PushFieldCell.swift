@@ -7,7 +7,7 @@
 //
 import UIKit
 
-open class PushFieldCell<ValueType: Equatable>: ValueFieldCell<ValueType>, NavigationCell {
+open class PushFieldCell<Value: Equatable>: ValueFieldCell<Value>, NavigationCell {
     open var nextViewControllerGenerator: NavigationCell.ViewControllerGenerator?
     
     // MARK: - NavigationCell

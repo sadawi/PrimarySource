@@ -8,20 +8,7 @@
 
 import UIKit
 
-open class BooleanCell:FieldCell {
-    open var value:Bool? = false {
-        didSet {
-            self.update()
-        }
-    }
-
-    // MARK: - Observable
-    
-    public typealias ValueType = Bool
-    
-    open override func prepareForReuse() {
-        super.prepareForReuse()
-    }
+open class BooleanCell:FieldCell<Bool> {
 }
 
 open class SwitchCell:BooleanCell, TappableTableCell  {

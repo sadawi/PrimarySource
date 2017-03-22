@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class SegmentedSelectCell<ValueType:Equatable>: ValueFieldCell<ValueType> {
+open class SegmentedSelectCell<Value:Equatable>: ValueFieldCell<Value> {
     open var segmentedControl:UISegmentedControl?
     
     override open func buildView() {

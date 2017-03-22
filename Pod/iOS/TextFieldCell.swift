@@ -14,9 +14,9 @@ public enum TextEditingMode {
 }
 
 /**
-    A cell that uses a UITextField as an input, but doesn't necessarily have a String value.  Should be subclassed.
+    A cell that uses a UITextField as an input, but doesn't necessarily have a String value.
 */
-open class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCell {
+open class TextFieldInputCell<Value>: FieldCell<Value>, UITextFieldDelegate, TappableTableCell {
     open var textField:UITextField?
     open var editingMode:TextEditingMode = .inline
     
@@ -25,8 +25,11 @@ open class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCell
         Subclasses should override this with getters and setters that translate it to their primary value type.
     */
     open var stringValue:String? {
-        didSet {
-            self.stringValueChanged()
+        get {
+            return self.exportText(self.value)
+        }
+        set {
+            self.value = self.importText(newValue)
         }
     }
     
@@ -68,10 +71,6 @@ open class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCell
         }
     }
     
-    open func stringValueChanged() {
-        // Nothing here.
-    }
-    
     open func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         self.textField?.inputAccessoryView = self.accessoryToolbar
         return true
@@ -91,9 +90,10 @@ open class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCell
         super.clear()
     }
     
-    override open var blank:Bool {
+    override open var isBlank:Bool {
         get {
-            return self.stringValue == nil
+            let string = self.stringValue
+            return string == nil || string?.characters.count == 0
         }
     }
     
@@ -102,6 +102,7 @@ open class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCell
         self.textField?.text = self.stringValue
         self.textField?.placeholder = self.placeholderText
         self.textField?.isUserInteractionEnabled = !self.readonly
+        self.textField?.keyboardType = self.keyboardType
     }
     
     public func handleTap() {
@@ -114,21 +115,17 @@ open class TextFieldInputCell: FieldCell, UITextFieldDelegate, TappableTableCell
         self.stringValue = nil
         self.textField?.text = nil
         self.textField?.isEnabled = true
-        self.textField?.keyboardType = .default
-    }
-}
 
-open class TextFieldValueCell<ValueType>: TextFieldInputCell {
-    open var value: ValueType? {
-        didSet {
-            self.update()
-        }
+        self.textForValue = nil
+        self.valueForText = nil
     }
     
-    open var textForValue:((ValueType) -> String)?
-    open var valueForText:((String) -> ValueType?)?
+    open var keyboardType: UIKeyboardType = .default
 
-    func formatValue(_ value: ValueType?) -> String? {
+    open var textForValue:((Value) -> String)?
+    open var valueForText:((String) -> Value?)?
+
+    open func exportText(_ value: Value?) -> String? {
         if let value = value {
             if let formatter = self.textForValue {
                 return formatter(value)
@@ -140,36 +137,19 @@ open class TextFieldValueCell<ValueType>: TextFieldInputCell {
         }
     }
     
-    func importText(_ text: String?) -> ValueType? {
+    open func importText(_ text: String?) -> Value? {
         if let text = text, let importer = self.valueForText {
             return importer(text)
         } else {
             return nil
         }
     }
-    
-    open override func update() {
-        super.update()
-        self.textField?.text = self.formatValue(self.value)
-    }
-    
-    open override func stringValueChanged() {
-        super.stringValueChanged()
-        self.value = self.importText(self.stringValue)
-    }
-    
-    open override func prepareForReuse() {
-        super.prepareForReuse()
-        self.textForValue = nil
-        self.valueForText = nil
-    }
-    
 }
 
 /**
     A cell that uses a UITextField as an input and has a String value
 */
-open class TextFieldCell: TextFieldInputCell {
+open class TextFieldCell: TextFieldInputCell<String> {
     open override var stringValue:String? {
         get {
             return self.value
@@ -177,20 +157,6 @@ open class TextFieldCell: TextFieldInputCell {
         set {
             self.value = newValue
         }
-    }
-    
-    open var value:String? {
-        didSet {
-            self.update()
-        }
-    }
-
-    // MARK: - Observable
-    
-    public typealias ValueType = String
-    
-    open override func prepareForReuse() {
-        super.prepareForReuse()
     }
 }
 

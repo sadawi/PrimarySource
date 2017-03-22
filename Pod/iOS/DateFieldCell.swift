@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class DateFieldCell: TextFieldInputCell {
+open class DateFieldCell: TextFieldInputCell<Date> {
     open override var stringValue:String? {
         get {
             if let date = self.value {
@@ -23,11 +23,6 @@ open class DateFieldCell: TextFieldInputCell {
         }
     }
     
-    open var value:Date? {
-        didSet {
-            self.update()
-        }
-    }
     open var dateFormatter:DateFormatter = DateFormatter()
     open var datePicker:UIDatePicker?
     

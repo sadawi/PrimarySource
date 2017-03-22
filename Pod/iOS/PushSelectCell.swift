@@ -8,11 +8,11 @@
 
 import UIKit
 
-open class PushSelectCell<ValueType: Equatable>: PushFieldCell<ValueType> {
+open class PushSelectCell<Value: Equatable>: PushFieldCell<Value> {
     
     open var includeNil:Bool = false
     
-    open var configureSelectViewController: ((SelectViewController<ValueType>) -> ())?
+    open var configureSelectViewController: ((SelectViewController<Value>) -> ())?
     
     open override func buildNextViewController() -> UIViewController? {
         let controller = SelectViewController(options: self.options, value:self.value) { [unowned self] value in
