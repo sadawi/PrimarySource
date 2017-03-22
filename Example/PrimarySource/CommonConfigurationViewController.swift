@@ -40,7 +40,7 @@ class CommonConfigurationViewController: DataSourceViewController {
                 cell.backgroundColor = .clear
                 cell.onChange = { _, newValue in
                     self?.style = newValue
-//                    self?.reloadData()
+                    self?.reloadData()
                 }
             }
         }

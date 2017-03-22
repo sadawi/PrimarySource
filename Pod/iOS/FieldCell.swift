@@ -23,13 +23,15 @@ public enum FieldState {
     case editing
 }
 
-open class FieldCell<Value>: TitleDetailsCell {
+open class FieldCell<Value: Equatable>: TitleDetailsCell {
     var errorLabel:UILabel?
     var errorIcon:UIImageView?
     
     open var value:Value? {
         didSet {
-            self.valueChanged(from: oldValue, to: self.value)
+            if oldValue != self.value {
+                self.valueChanged(from: oldValue, to: self.value)
+            }
             self.update()
         }
     }

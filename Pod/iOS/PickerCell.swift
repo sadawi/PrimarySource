@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-open class PickerCell<Value>: TextFieldInputCell<Value> {
+open class PickerCell<Value: Equatable>: TextFieldInputCell<Value> {
     var picker: UIPickerView?
     
     open func buildPicker() -> UIPickerView? {

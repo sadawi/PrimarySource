@@ -16,7 +16,7 @@ public enum TextEditingMode {
 /**
     A cell that uses a UITextField as an input, but doesn't necessarily have a String value.
 */
-open class TextFieldInputCell<Value>: FieldCell<Value>, UITextFieldDelegate, TappableTableCell {
+open class TextFieldInputCell<Value: Equatable>: FieldCell<Value>, UITextFieldDelegate, TappableTableCell {
     open var textField:UITextField?
     open var editingMode:TextEditingMode = .inline
     
