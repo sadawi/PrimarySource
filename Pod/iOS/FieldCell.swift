@@ -41,8 +41,8 @@ open class FieldCell<Value>: TitleDetailsCell {
         }
     }
     
-    open var blank:Bool {
-        get { return true }
+    open var isBlank:Bool {
+        get { return self.value == nil }
     }
     
     open var state:FieldState = .normal {

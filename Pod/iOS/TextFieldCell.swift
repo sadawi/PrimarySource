@@ -90,9 +90,10 @@ open class TextFieldInputCell<Value>: FieldCell<Value>, UITextFieldDelegate, Tap
         super.clear()
     }
     
-    override open var blank:Bool {
+    override open var isBlank:Bool {
         get {
-            return self.stringValue == nil
+            let string = self.stringValue
+            return string == nil || string?.characters.count == 0
         }
     }
     
