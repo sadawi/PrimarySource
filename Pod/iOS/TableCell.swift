@@ -202,6 +202,7 @@ open class TableCell: UITableViewCell, ListMember {
         self.borderStyle = BorderStyle(top: .never, bottom: .never)
         self.accessoryType = .none
         self.willReuse?()
+        self.willReuse = nil
     }
     
     open override var frame:CGRect {
