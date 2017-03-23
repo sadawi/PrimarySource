@@ -158,7 +158,7 @@ open class FieldCell<Value: Equatable>: TitleDetailsCell {
     
     open override func prepareForReuse() {
         super.prepareForReuse()
-        
+        self.onChange = nil
         self.accessoryType = .none
         self.placeholderText = nil
     }
